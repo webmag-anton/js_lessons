@@ -161,3 +161,29 @@
 // 	alert(result);
 // }
 // pow(3,4);
+
+
+
+
+/* Любая рекурсия может быть переделана в цикл. Как правило, вариант с циклом будет эффективнее */
+// function sumTo(n) {
+// 	var result = n;
+// 	for ( i = n-1; i > 0; i-- ) {
+// 		result += i;
+// 	}
+// 	return result;
+// }
+
+// function sumTo(n) {
+//   if (n == 1) return 1;
+//   return n + sumTo(n - 1);
+// }
+
+// alert( sumTo(100) );
+
+
+
+
+
+
+
