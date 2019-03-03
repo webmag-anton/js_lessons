@@ -146,3 +146,18 @@
 // function checkAge(age) {
 //   return (age > 18) || confirm('Родители разрешили?');
 // }
+
+
+
+
+
+// function pow(x,n) {
+// 	var result = x;
+
+// 	for (i = 1; i < n; i++) {
+// 		result *= x; 
+// 	}
+
+// 	alert(result);
+// }
+// pow(3,4);
