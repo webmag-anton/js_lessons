@@ -1,3 +1,8 @@
+
+																/*** Основы ***/
+
+																
+
 /* null - значение неизвестно;   undefined - значение не присвоено */
 // alert(null == null);  //true
 // alert(undefined == undefined);  //true
