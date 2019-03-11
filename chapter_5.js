@@ -2,8 +2,10 @@
 																					/*** Замыкания, область видимости ***/
 
 
+// // var currentCount = 1;  // глобальный счетчик
+
 // function first() {
-// 	var currentCount = 1;                       
+// 	var currentCount = 1;  // локальный счетчик                     
 
 // 	return function() {
 // 		return currentCount++
@@ -11,16 +13,87 @@
 // }
 
 // var counter = first();
+// var counter2 = first();
 
 // alert( counter() );
 // alert( counter() );
+// alert( counter() );
+
+// // Счетчики независимы, потому что при каждом запуске first создаётся свой объект 
+// // переменных LexicalEnvironment, со своим свойством currentCount!!!
+// alert( counter2() ); 
 
 
 
 
 
+// Счетчик использует св-во функции (т.к. функции являются объектами). 
+// Сва-ва ф-ии не связаны с аргументами и переменными.
+// function makeCounter() {
+//   function counter() {
+//     return counter.currentCount++;
+//   };
+//   counter.currentCount = 1;
 
-// // Чтобы добавить счётчику возможностей – перейдём с функции на полноценный объект:
+//   return counter;
+// }
+
+// var counter = makeCounter();
+// alert( counter() ); // 1
+// alert( counter() ); // 2
+// counter.currentCount = 5;
+// alert( counter() ); // 5
+
+
+
+
+
+// say('Вася'); // к моменту вызова в глоб-м объекте window пер-я phrase undefined (window.phrase === undefined ) 
+// var phrase = 'Привет';
+// say('Вася');
+
+// function say(name) {
+//   alert( name + ", " + phrase );
+// }
+
+
+
+
+
+// var value = 0;
+
+// function f() {
+//   if (1) {
+//     value = true;
+//   } else {
+//     var value = false;
+//   }
+
+//   alert( value );
+// }
+
+// f();
+// // внешняя переменная не изменится, т.к lexicalEnviroment( внутренний объект ф-ии f ) увидет переменную
+// // внутри else, а в if присвоет ей значение true. А если бы в else отсутствовала 'var', то ф-я f 
+// // нашла внешнюю переменную value и перезаписала бы ее !!!
+// alert( value );
+
+
+
+
+
+// Вызов на месте
+// var a = 5;
+// (function() {
+//   alert(a)
+// }) ()
+
+
+
+
+
+// Чтобы добавить счётчику возможностей – перейдём с функции на полноценный объект:
+
 // function makeCounter() {
 //   var currentCount = 1;
 
@@ -53,43 +126,6 @@
 
 
 
-
-
-// function makeCounter() {
-//   var currentCount = 1;
-
-//   // возвращаемся к функции
-//   function counter() {
-//     return currentCount++;
-//   }
-
-//   // ...и добавляем ей методы!
-//   counter.set = function(value) {
-//     currentCount = value;
-//   };
-
-//   counter.reset = function() {
-//     currentCount = 1;
-//   };
-
-//   return counter;
-// }
-
-// var counter = makeCounter();
-
-// alert( counter() ); // 1
-// alert( counter() ); // 2
-
-// counter.set(5);
-// alert( counter() ); // 5
-
-
-
-
-
-
-
-
 // function sum(a) {
 // 	return function(b) {
 // 		return a+b;
@@ -101,15 +137,13 @@
 
 
 
-
-
 // function makeBuffer() { 
 
 // 	var string = '';
 
 // 	function concatination(value) {
 
-// 		if (value !== undefined) {
+// 		if (arguments.length != 0) {
 // 			string += value;
 // 		} else {
 // 			return string;
@@ -146,7 +180,6 @@
 
 
 
-
 // var users = [{
 //   name: "Вася",
 //   surname: 'Иванов',
@@ -177,15 +210,12 @@
 
 
 
-
-
-
 // function filter(arr, func) {
 //   var result = [];
 
 //   for (var i = 0; i < arr.length; i++) {
 //     var val = arr[i];
-//     if (func(val)) {
+//     if ( func(val) ) {
 //       result.push(val);
 //     }
 //   }
@@ -198,8 +228,6 @@
 // alert( filter(arr, function(a) {
 //   return a % 2 == 0;
 // }) ); // 2, 4, 6
-
-
 
 
 
@@ -226,51 +254,6 @@
 
 // var arr = [1, 2, 3, 4, 5, 6, 7];
 // alert( filter(arr, inBetween(3, 6)) ); // 3,4,5,6
-
-
-
-
-
-
-
-
-
-// // Функция добавляет объекту LexicalEnvironment св-ва и присваевает переменные только при запуске!!! 
-// // И когда не видет переменную внутри - ищет во внешнем объекте LexicalEnvironment, который  
-// // на момент вызова i-го  стрелка army[..]()  имеет var i = 10 (после счетчика)
-
-// function makeArmy() {
-
-//   var shooters = [];
-
-//   for (var i = 0; i < 10; i++) {
-//     var shooter = function() { // функция-стрелок
-//       alert( i );
-//     };
-//     shooters.push(shooter); // делает массив из функций (без их запуска)
-//   }
-
-//   return shooters;
-
-//   // shooters = [
-
-//   // 	function() { alert( i ) },
-//   // 	function() { alert( i ) },
-//   // 	function() { alert( i ) },
-//   // 	function() { alert( i ) }...
-
-//   // ]
-
-// }
-
-// var army = makeArmy();
-
-// army[0](); // стрелок выводит 10, т.к. при запуске army[..]() LexicalEnvironment для makeArmy() имеет var i = 10
-// army[5](); // стрелок выводит 10...
-// // .. все стрелки выводят 10 вместо 0,1,2...9
-
-
-
 
 
 
@@ -306,6 +289,34 @@
 // }
 
 // var army = makeArmy();
-
 // army[0](); // 0
 // army[7](); // 7
+
+
+
+											// или так 
+
+
+
+// function makeArmy() {
+
+//   var shooters = [];
+
+//   for (var i = 0; i < 10; i++) {
+
+//     var shooter = function me() { 
+//       alert( me.num ); // самообращение внутри себя - только с помощью NFE !
+//     };
+
+//     shooter.num = i;
+
+//     shooters.push(shooter);
+
+//   }
+
+//   return shooters;
+// }
+
+// var army = makeArmy();
+// army[0](); 
+// army[5](); 

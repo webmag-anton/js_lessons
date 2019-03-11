@@ -7,6 +7,8 @@ function bankomat(question) {
 		return;
 	}
 
+	var text = 'Вы ввели ' + question + ' грн: \n\n';
+
 	var banknotes = [1, 2, 5, 10, 20, 50, 100, 200, 500];
 	var banknotesRevese = banknotes.reverse();
 	var amountArray = []; 
@@ -31,8 +33,6 @@ function bankomat(question) {
 
 		}
 	}
-
-	var text = '';
 
 	if(amountArray[0]) text = text + 'Купюр номиналом 500 грн - ' + amountArray[0] + ' штук(а); \n'; 
 	if(amountArray[1]) text = text + 'Купюр номиналом 200 грн - ' + amountArray[1] + ' штук(а); \n';
