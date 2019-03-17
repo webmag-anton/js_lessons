@@ -183,5 +183,54 @@
 
 
 
+// Конструкторы
+
+// function Calculator() {
+// 	this.read = function() {
+// 		var question1 = prompt('Введите первое значение', 3);
+// 		var question2 = prompt('Введите второе значение', 6);
+// 		this.value1 = question1;
+// 		this.value2 = question2;
+// 	};
+
+// 	this.sum = function() {
+// 		return this.value1 + this.value2;
+// 	};
+
+// 	this.mul = function() {
+// 		return this.value1 * this.value2;
+// 	};
+// }
+
+// var calculator = new Calculator();
+// calculator.read();
+
+// alert( "Сумма=" + calculator.sum() );
+// alert( "Произведение=" + calculator.mul() );
+
+
+
+
+
+
+// function Accumulator(val) {
+
+// 	this.currentValue = val;
+
+// 	this.read = function() {
+// 		this.currentValue += +prompt('Введите значение для суммы', 2);
+// 	};
+
+// 	this.toString = function() {
+// 		return 'Текущее значение: ' + this.currentValue;
+// 	};
+
+// };
+
+
+// var accumulator = new Accumulator(3); // начальное значение 3
+// accumulator.read(); // прибавит ввод prompt к текущему значению
+// accumulator.read(); // прибавит ввод prompt к текущему значению
+// alert( accumulator ); // выведет текущее значение
 
 
