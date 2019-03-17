@@ -1,6 +1,6 @@
 
 
-																					/*** Методы объектов и контекст вызова ***/
+																		/*** Методы объектов и контекст вызова ***/
 
 
 									
@@ -183,7 +183,7 @@
 
 
 
-// Конструкторы
+																// Конструкторы
 
 // function Calculator() {
 // 	this.read = function() {
@@ -234,3 +234,127 @@
 // alert( accumulator ); // выведет текущее значение
 
 
+
+
+
+																	// Дескрипторы
+
+// var user = {
+//   firstName: "Вася",
+//   surname: "Петров"
+// }
+
+// Object.defineProperty(user, "fullName", {
+//   get: function() {
+//     return this.firstName + ' ' + this.surname;
+//   }
+// });
+
+// alert(user.fullName); // Вася Петров
+
+
+
+
+
+
+// var user = {
+//   firstName: "Вася",
+//   surname: "Петров"
+// }
+
+// Object.defineProperty(user, "fullName", {
+
+// 	// Возвращает значение prop (fullName)
+//   get: function() {
+//     return this.firstName + ' ' + this.surname;
+//   },
+
+//   // Устанавливаем значение свойств объекта, при получении prop (fullName)
+//   // Ничего не возвращает
+//   set: function(value) {
+//     var split = value.split(' ');
+//     this.firstName = split[0];
+//     this.surname = 'SET';
+//   }
+
+// });
+
+// alert( user.fullName ); // Вася Петров
+
+// user.fullName = "Маша Бро";
+// alert( user.firstName ); // Маша
+// alert( user.surname ); // SET
+// alert( user.fullName ); // Маша SET
+
+
+
+
+
+
+// function User(name, birthday) {
+//   this.name = name;
+//   this.birthday = birthday;
+
+//   // age будет высчитывать возраст по birthday
+//   Object.defineProperty(this, "age", {
+//     get: function() {
+//       var today = new Date();
+//       var yearDelta = today.getFullYear() - this.birthday.getFullYear();
+
+//       if ( today.getMonth() > this.birthday.getMonth() ||
+//            (today.getMonth() === this.birthday.getMonth() && today.getDate() >= this.birthday.getDate()) ) {
+//         return yearDelta;
+//       }
+
+//       return yearDelta - 1;
+//     }
+//   });
+// }
+
+// var pete = new User("Петя", new Date(1987, 6, 1));
+
+// alert( pete.birthday ); // и дата рождения доступна
+// alert( pete.age );      // и возраст
+
+
+
+
+
+
+
+// function User(fullName) {
+//   this.fullName = fullName;
+
+//   Object.defineProperty(this, 'firstName', {
+//   	get: function() {
+//   		var split = this.fullName.split(' ');
+//   		return split[0];
+//   	},
+//   	set: function(val) {
+//   		this.fullName = val + ' ' + this.lastName;
+//   	}
+//   });
+
+//   Object.defineProperty(this, 'lastName', {
+//   	get: function() {
+//   		var split = this.fullName.split(' ');
+//   		return split[1];
+//   	},
+//   	set: function(val) {
+//   		this.fullName = this.firstName + ' ' + val;
+//   	}
+//   });
+// }
+
+// var vasya = new User("Василий Попкин");
+
+
+
+// // чтение firstName/lastName
+// alert( vasya.firstName ); // Василий
+// alert( vasya.lastName ); // Попкин
+
+// // запись в lastName
+// vasya.lastName = 'Макаров';
+
+// alert( vasya.fullName ); // Василий Сидоров
