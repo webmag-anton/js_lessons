@@ -311,7 +311,7 @@
 //   });
 // }
 
-// var pete = new User("Петя", new Date(1987, 6, 1));
+// var pete = new User("Петя", new Date(1985, 6, 1));
 
 // alert( pete.birthday ); // и дата рождения доступна
 // alert( pete.age );      // и возраст
@@ -357,7 +357,7 @@
 // // запись в lastName
 // vasya.lastName = 'Макаров';
 
-// alert( vasya.fullName ); // Василий Сидоров
+// alert( vasya.fullName ); // Василий Макаров
 
 
 
@@ -385,3 +385,154 @@
 // new Article();
 
 // Article.showStats(); // Всего: 3, Последняя: (дата)
+
+
+
+
+
+
+
+
+// function showFullName() {
+//   alert( this.firstName + " " + this.lastName );
+// }
+
+// var user = {
+//   firstName: "Василий",
+//   lastName: "Петров"
+// };
+
+// // функция вызовется с this=user
+// showFullName.call(user) // "Василий Петров"
+
+
+
+
+
+
+
+// function printArgs() {
+//   arguments.join = [].join; // одолжили метод (1)
+
+//   var argStr = arguments.join(':'); // (2)
+
+//   alert( argStr ); // сработает и выведет 1:2:3
+// }
+
+// printArgs(1, 2, 3);
+
+
+
+
+
+
+
+// var obj = { // обычный объект с числовыми индексами и length
+//   0: "А",
+//   1: "Б",
+//   2: "В",
+//   length: 3
+// };
+
+// obj.join = [].join;
+// alert( obj.join(';') ); // "A;Б;В"
+
+
+
+
+
+
+
+
+// function printArgs() {
+//   var join = [].join; // скопируем ссылку на функцию в переменную
+
+//   // вызовем join с this=arguments,
+//   // этот вызов эквивалентен arguments.join(':') из примера выше
+//   var argStr = join.call(arguments, ':');
+
+//   alert( argStr ); // сработает и выведет 1:2:3
+// }
+
+// printArgs(1, 2, 3);
+
+
+
+
+
+
+
+// // такой вызов технически возможен потому, что slice для работы требует только 
+// // нумерованные свойства и length. Всё это в arguments есть.
+// function printArgs() {
+//   // вызов arr.slice() скопирует все элементы из this в новый массив
+//   var args = [].slice.call(arguments);
+//   alert( args.join(', ') ); // args - полноценный массив из аргументов
+// }
+
+// printArgs('Привет', 'мой', 'мир'); // Привет, мой, мир
+
+
+
+
+
+
+
+// alert( Math.max(1, 5, 2) ); // 5
+
+// var arr = [];
+// arr.push(2);
+// arr.push(7);
+// arr.push(5);
+
+// // получить максимум из элементов arr 
+// alert( Math.max.apply(Math, arr) ); // 7
+
+
+
+
+
+
+
+// function sumArgs() {
+  
+// 	// arguments.reduce = [].reduce;
+// 	// return arguments.reduce(function(sum, current) {
+// 	// 	return sum + current;
+// 	// });
+
+// 				// или
+
+// 	// var borringReduce = [].reduce;
+// 	// var funcReduce = function(sum, current) { return sum + current }
+// 	// return borringReduce.call(arguments, funcReduce);
+
+// }
+
+// alert( sumArgs(1, 2, 3) ); // 6, аргументы переданы через запятую, без массива
+
+
+
+
+
+
+
+// function applyAll() {
+
+// 	arguments.slice = [].slice;
+// 	var argArr = arguments.slice(1);
+
+// 	// используем apply, т.к нужно передать массив с любым кол-вом 
+// 	// параметров, начиная со 2-го (1-й - фун-я)
+// 	// В качестве контекста можно указать null - не важно, т.к фун-я не содержит this
+// 	return arguments[0].apply(null, argArr)
+
+// }
+
+// function mul() { // перемножает аргументы: mul(2,3,4) = 24
+//   return [].reduce.call(arguments, function(a, b) {
+//     return a * b;
+//   });
+// }
+
+// alert( applyAll(mul, 2, 3, 4) ); // -> mul(2, 3, 4) = 24
