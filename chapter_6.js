@@ -529,10 +529,68 @@
 
 // }
 
-// function mul() { // перемножает аргументы: mul(2,3,4) = 24
+// function mul() { // перемножает аргументы
 //   return [].reduce.call(arguments, function(a, b) {
 //     return a * b;
 //   });
 // }
 
 // alert( applyAll(mul, 2, 3, 4) ); // -> mul(2, 3, 4) = 24
+
+
+
+
+
+
+													// Привязка контекста и карринг: "bind"
+
+
+// var user = {
+//   firstName: "Вася",
+//   sayHi: function() {
+//     alert( this.firstName );
+//   }
+// };
+
+// setTimeout(user.sayHi, 500); // undefined (не Вася!) - утерян контекст
+
+
+
+
+
+// // call/apply привязывают к контексту и вызавают, а bind только привязывает!!!! 
+
+// var user = {
+//   firstName: "Вася",
+//   sayHi: function() {
+//     alert( this.firstName );
+//   }
+// };
+
+// //привязка без вызова
+// user.sayHi.bind(user);
+
+// // т.е. user.sayHi.call(user) = user.sayHi.bind(user)();
+
+// setTimeout( user.sayHi.bind(user), 1000);
+
+// // не верно работает, т.к. сразу вызывается
+// setTimeout( user.sayHi.call(user), 1000);
+
+
+
+
+			// Карринг
+
+// function mul(a, b) {
+//   return a * b;
+// };
+
+
+// // фиксируем первый аргумент ф-ии mul
+// var triple = mul.bind(null, 3); // контекст фиксируем null, он не используется
+
+// // т.к. первый аргумент ф-ии mul зафиксирован, то передача начинается со второго
+// alert( triple(3) ); // = mul(3, 3) = 9
+// alert( triple(4) ); // = mul(3, 4) = 12
+// alert( triple(5) ); // = mul(3, 5) = 15
