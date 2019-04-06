@@ -594,3 +594,219 @@
 // alert( triple(3) ); // = mul(3, 3) = 9
 // alert( triple(4) ); // = mul(3, 4) = 12
 // alert( triple(5) ); // = mul(3, 5) = 15
+
+
+
+
+
+
+
+
+// function mul(a, b) {
+//   return a * b;
+// };
+
+// function bind(func, context /*, args*/) {
+//   var bindArgs = [].slice.call(arguments, 2); // (1)
+//   function wrapper() {                        // (2)
+//     var args = [].slice.call(arguments);
+//     var unshiftArgs = bindArgs.concat(args);  // (3)
+//     return func.apply(context, unshiftArgs);  // (4)
+//   }
+//   return wrapper;
+// };
+
+
+// var doing = bind(mul, null, 2);
+
+// alert( doing(8, 15) ); // 8 * 2
+
+
+
+
+
+
+
+
+// "use strict";
+
+// function ask(question, answer, ok, fail) {
+//   var result = prompt(question, '');
+//   if (result.toLowerCase() == answer.toLowerCase()) ok();
+//   else fail();
+// }
+
+// var user = {
+//   login: 'Василий',
+//   password: '12345',
+
+//   loginOk: function() {
+//     alert( this.login + ' вошёл в сайт' );
+//   },
+
+//   loginFail: function() {
+//     alert( this.login + ': ошибка входа' );
+//   },
+
+//   checkPassword: function() {
+//     ask("Ваш пароль?", this.password, this.loginOk.bind(this), this.loginFail.bind(this));
+//   }
+// };
+
+// user.checkPassword();
+// // Работает после перезаписи
+// var vasya = user;
+// user = null;
+// vasya.checkPassword();
+
+
+
+
+
+
+
+
+// "use strict";
+
+// function ask(question, answer, ok, fail) {
+//   var result = prompt(question, '');
+//   if (result.toLowerCase() == answer.toLowerCase()) ok();
+//   else fail();
+// }
+
+// var user = {
+//   login: 'Василий',
+//   password: '12345',
+
+//   // метод для вызова из ask
+//   loginDone: function(result) {
+//     alert( this.login + (result ? ' вошёл в сайт' : ' ошибка входа') );
+//   },
+
+//   checkPassword: function() {
+
+//   	ask( "Ваш пароль?", this.password, this.loginDone.bind(this, true), this.loginDone.bind(this, false) );
+
+//   }
+// };
+
+// var vasya = user;
+// user = null;
+// vasya.checkPassword();
+
+
+
+
+
+
+
+
+			// Декорирование
+
+
+// var timers = {};
+
+// // прибавит время выполнения f к таймеру timers[timer]
+// function timingDecorator(f, timer) {
+//   return function() {
+//     var start = performance.now();
+
+//     var result = f.apply(null, arguments);
+
+//     if (!timers[timer]) timers[timer] = 0;
+//     timers[timer] += performance.now() - start;
+
+//     return result;
+//   }
+// }
+
+// // функция может быть произвольной, например такой:
+// var fibonacci = function f(n) {
+//   return (n > 2) ? f(n - 1) + f(n - 2) : 1;
+// }
+
+// // использование: завернём fibonacci в декоратор
+// fibonacci = timingDecorator(fibonacci, "fibo");
+
+// // неоднократные вызовы...
+// alert( fibonacci(10) ); // 55
+// alert( fibonacci(20) ); // 6765
+// // ...
+
+// // в любой момент можно получить общее количество времени на вызовы
+// alert( timers.fibo + 'мс' );
+
+
+
+
+
+
+
+
+// // вспомогательная функция для проверки на число
+// function checkNumber(value) {
+//   return typeof value == 'number';
+// }
+
+// // декоратор, проверяющий типы для f
+// // второй аргумент checks - массив с функциями для проверки
+// function typeCheck(f, checks) {
+
+//   return function() {
+//     for (var i = 0; i < arguments.length; i++) {
+//       if (!checks[i](arguments[i])) {
+//         alert( "Некорректный тип аргумента номер " + i );
+//         return;
+//       }
+//     }
+
+//     return f.apply(this, arguments);
+//   }
+
+// }
+
+// function sum(a, b) {
+//   return a + b;
+// }
+
+// // обернём декоратор для проверки
+// sum = typeCheck(sum, [checkNumber, checkNumber]); // оба аргумента - числа
+
+// // пользуемся функцией как обычно
+// alert( sum(1, 2) ); // 3, все хорошо
+
+// // а вот так - будет ошибка
+// sum(true, null); // некорректный аргумент номер 0
+// sum(1, ["array", "in", "sum?!?"]); // некорректный аргумент номер 1
+
+
+
+
+
+
+
+
+// function work(a, b) {
+//   alert( a + b ); // work - произвольная функция
+// }
+
+// function makeLogging(f, log) {
+
+// 	return function() {
+// 		log.push( [].slice.apply(arguments) );
+
+// 		return f.apply(this, arguments);
+// 	}
+
+// }
+
+// var log = [];
+// work = makeLogging(work, log);
+
+// work(1, 2); // 3
+// work(4, 5); // 9
+
+// for (var i = 0; i < log.length; i++) {
+//   var args = log[i]; // массив из аргументов i-го вызова
+//   alert( 'Лог:' + args.join() ); // "Лог:1,2", "Лог:4,5"
+// }
