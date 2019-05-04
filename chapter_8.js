@@ -493,8 +493,6 @@
 
 
 
-
-
 // function Machine(power) {
 //   this._power = power;
 
@@ -524,8 +522,7 @@
 
 
 
-
-
+		// задачи
 
 
 // function Machine(power) {
@@ -578,60 +575,302 @@
 
 
 
+// function Machine(power) {
+//   this._enabled = false;
+
+//   var self = this;
+
+//   this.enable = function() {
+//     self._enabled = true;
+//   };
+
+//   this.disable = function() {
+//     self._enabled = false;
+//   };
+
+// }
+
+// function CoffeeMachine(power) {
+//   Machine.apply(this, arguments);
+
+//   var waterAmount = 0;
+
+//   var timeoutId;
+
+//   this.setWaterAmount = function(amount) {
+//     waterAmount = amount;
+//   };
+
+//   function onReady() {
+//     alert( 'Кофе готово!' );
+//   }
+
+//   this.run = function() {
+//   	if (!this._enabled) {
+//   		throw new Error('ошибка, кофеварка выключена!');
+//   	}
+
+//     timeoutId = setTimeout(onReady, 1000);
+//   };
+
+//   // переопределяем метод
+//   var oldDisable = this.disable;
+//   this.disable = function() {
+//   	oldDisable();
+
+//   	clearInterval(timeoutId);
+//   }
+
+// }
+
+// var coffeeMachine = new CoffeeMachine(10000);
+// coffeeMachine.enable();
+// coffeeMachine.run();
+// coffeeMachine.disable(); // остановит работу, ничего не выведет
 
 
 
 
 
-function Machine(power) {
-  this._enabled = false;
 
-  var self = this;
 
-  this.enable = function() {
-    self._enabled = true;
-  };
 
-  this.disable = function() {
-    self._enabled = false;
-  };
 
-}
+// function Machine(power) {
+// 	this._power = power;
+//   this._enabled = false;
 
-function CoffeeMachine(power) {
-  Machine.apply(this, arguments);
+//   var self = this;
 
-  var waterAmount = 0;
+//   this.enable = function() {
+//     self._enabled = true;
+//   };
 
-  var timeoutId;
+//   this.disable = function() {
+//     self._enabled = false;
+//   };
 
-  this.setWaterAmount = function(amount) {
-    waterAmount = amount;
-  };
+// };
 
-  function onReady() {
-    alert( 'Кофе готово!' );
-  }
+// // если в методе getFood не применять метод slice, то присвоив переменной fridgeFood
+// // метод fridge.getFood(), мы получаем доступ к приватной переменной food из fridgeFood.
+// // А т.к. food - массив (объект), то применяя .push() к fridgeFood .push() применится и 
+// // для food (это 2 ссылки на один м тот же массив) и перезапишит его извне !!!
 
-  this.run = function() {
-  	if (!this._enabled) {
-  		throw new Error('ошибка, кофеварка выключена!');
-  	}
+// function Fridge(power) {
+// 	Machine.apply(this, arguments);
 
-    timeoutId = setTimeout(onReady, 1000);
-  };
+// 	var food = [];
 
-  // переопределяем метод
-  var oldDisable = this.disable;
-  this.disable = function() {
-  	oldDisable();
+// 	this.addFood = function() {
+// 		if (!this._enabled) {
+// 			throw new Error('добавить еду нельзя - холодильник выключен');
+// 		};
 
-  	clearInterval(timeoutId);
-  }
+// 		if (food.length + arguments.length > this._power / 100) {
+// 			throw new Error('максимально допустимое количество еды - ' + power / 100 + ' штук');
+// 		}
+		
+// 		for (i = 0; i < arguments.length; i++) {
+// 			food.push(arguments[i]);
+// 		}
+// 	};
 
-}
+// 	this.getFood = function() {
+// 		return food.slice();
+// 	};
 
-var coffeeMachine = new CoffeeMachine(10000);
-coffeeMachine.enable();
-coffeeMachine.run();
-coffeeMachine.disable(); // остановит работу, ничего не выведет
+// };
+
+// var fridge = new Fridge(500);
+// fridge.enable();
+// fridge.addFood("котлета");
+// fridge.addFood("сок", "варенье");
+
+
+// var fridgeFood = fridge.getFood();
+// alert( fridgeFood ); // котлета, сок, варенье
+
+// //добавление элементов не влияет на еду в холодильнике
+// fridgeFood.push("вилка", "ложка");
+
+// alert( fridge.getFood() ); // внутри по-прежнему: котлета, сок, варенье
+
+
+
+
+
+
+
+
+
+
+
+// function Machine(power) {
+// 	this._power = power;
+//   this._enabled = false;
+
+//   var self = this;
+
+//   this.enable = function() {
+//     self._enabled = true;
+//   };
+
+//   this.disable = function() {
+//     self._enabled = false;
+//   };
+
+// };
+
+// function Fridge(power) {
+// 	Machine.apply(this, arguments);
+
+// 	var food = [];
+
+// 	this.addFood = function() {
+// 		if (!this._enabled) {
+// 			throw new Error('добавить еду нельзя - холодильник выключен');
+// 		};
+
+// 		if (food.length + arguments.length > this._power / 100) {
+// 			throw new Error('максимально допустимое количество еды - ' + power / 100 + ' штук');
+// 		}
+		
+// 		for (i = 0; i < arguments.length; i++) {
+// 			food.push(arguments[i]);
+// 		}
+// 	};
+
+// 	this.getFood = function() {
+// 		return food.slice();
+// 	};
+
+// 	this.filterFood = function(func) {
+// 		return food.filter(filter);
+
+// 		// // или
+
+// 		// // var newFood = [];
+
+// 		// // for (i = 0; i < food.length; i++) {
+
+// 		// // 	if (func(food[i]) == true) {
+// 		// // 		newFood.push(food[i]);
+// 		// // 	};
+
+// 		// // };
+
+// 		// // return newFood;
+// 	};
+
+// 	this.removeFood = function(item) {
+// 		var index = food.indexOf(item);
+
+// 		if (index != -1) {
+// 			food.splice(index, 1);
+// 		}
+// 	};
+
+// };
+
+
+// var fridge = new Fridge(500);
+// fridge.enable();
+// fridge.addFood({
+//   title: "котлета",
+//   calories: 100
+// });
+// fridge.addFood({
+//   title: "сок",
+//   calories: 30
+// });
+// fridge.addFood({
+//   title: "зелень",
+//   calories: 10
+// });
+// fridge.addFood({
+//   title: "варенье",
+//   calories: 150
+// });
+
+// alert( fridge.getFood().length );
+
+// fridge.removeFood("нет такой еды"); // без эффекта
+// alert( fridge.getFood().length ); // 4
+
+// var dietItems = fridge.filterFood(function(item) {
+//   return item.calories < 50;
+// });
+
+// dietItems.forEach(function(item) {
+//   alert( item.title ); // сок, зелень
+//   fridge.removeFood(item);
+// });
+
+// alert( fridge.getFood().length ); // 2
+
+
+
+
+
+
+
+
+
+
+
+// function Machine(power) {
+// 	this._power = power;
+//   this._enabled = false;
+
+//   var self = this;
+
+//   this.enable = function() {
+//     self._enabled = true;
+//   };
+
+//   this.disable = function() {
+//     self._enabled = false;
+//   };
+
+// };
+
+// function Fridge(power) {
+// 	Machine.apply(this, arguments);
+
+// 	var food = [];
+
+// 	this.addFood = function() {
+// 		if (!this._enabled) {
+// 			throw new Error('добавить еду нельзя - холодильник выключен');
+// 		};
+
+// 		if (food.length + arguments.length > this._power / 100) {
+// 			throw new Error('максимально допустимое количество еды - ' + power / 100 + ' штук');
+// 		}
+		
+// 		for (i = 0; i < arguments.length; i++) {
+// 			food.push(arguments[i]);
+// 		}
+// 	};
+
+// 	this.getFood = function() {
+// 		return food.slice();
+// 	};
+
+// 	var parentDisable = this.disable;
+	
+//   this.disable = function() {
+//     if (food.length) {
+//       throw new Error("Нельзя выключить: внутри еда");
+//     }
+//     parentDisable();
+//   };
+
+// };
+
+
+// var fridge = new Fridge(500);
+// fridge.enable();
+// fridge.addFood("кус-кус");
+// fridge.disable(); // ошибка, в холодильнике есть еда
