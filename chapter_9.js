@@ -299,8 +299,7 @@
 
 
 
-
-
+// // задачи
 
 
 
@@ -313,9 +312,6 @@
 // };
 
 // f.defer(2000);
-
-
-
 
 
 
@@ -341,3 +337,267 @@
 // }
 
 // f.defer(1500)(1, 2);
+
+
+
+
+
+
+
+
+
+		// 9.4  Свои классы на прототипах
+
+
+
+// // функциональный стиль 
+
+// function CoffeeMachine(power) {
+//   var waterAmount = 0;
+
+//   var WATER_HEAT_CAPACITY = 4200;
+
+//   function getTimeToBoil() {
+//     return waterAmount * WATER_HEAT_CAPACITY * 80 / power;
+//   }
+
+//   this.run = function() {
+//     setTimeout(function() {
+//       alert( 'Кофе готов!' );
+//     }, getTimeToBoil());
+//   };
+
+//   this.setWaterAmount = function(amount) {
+//     waterAmount = amount;
+//   };
+
+// }
+
+// var coffeeMachine = new CoffeeMachine(10000);
+// coffeeMachine.setWaterAmount(50);
+// coffeeMachine.run();
+
+
+
+
+
+
+// // прототипный стиль ( в виде класса )
+
+// function CoffeeMachine(power) {
+//   // свойства конкретной кофеварки
+//   this._power = power;
+//   this._waterAmount = 0;
+// }
+
+// // свойства и методы для всех объектов класса
+// CoffeeMachine.prototype.WATER_HEAT_CAPACITY = 4200;
+
+// CoffeeMachine.prototype._getTimeToBoil = function() {
+//   return this._waterAmount * this.WATER_HEAT_CAPACITY * 80 / this._power;
+// };
+
+// CoffeeMachine.prototype.run = function() {
+//   setTimeout(function() {
+//     alert( 'Кофе готов!' );
+//   }, this._getTimeToBoil());
+// };
+
+// CoffeeMachine.prototype.setWaterAmount = function(amount) {
+//   this._waterAmount = amount;
+// };
+
+// var coffeeMachine = new CoffeeMachine(10000);
+// coffeeMachine.setWaterAmount(50);
+// coffeeMachine.run();
+
+
+
+
+
+
+
+
+// function Hamster() {
+// 	this.food = [];
+// }
+
+// Hamster.prototype.found = function(something) {
+//   this.food.push(something);
+// };
+
+// // Создаём двух хомяков и кормим первого
+// var speedy = new Hamster();
+// var lazy = new Hamster();
+
+// speedy.found("яблоко");
+// speedy.found("орех");
+
+// alert( speedy.food.length );
+// alert( lazy.food.length ); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // 9.5  Наследование классов в JavaScript
+
+
+
+
+
+// // 1. Конструктор Animal
+// function Animal(name) {
+//   this.name = name;
+//   this.speed = 0;
+// }
+
+// // 1.1. Методы -- в прототип
+
+// Animal.prototype.stop = function() {
+//   this.speed = 0;
+//   alert( this.name + ' стоит' );
+// }
+
+// Animal.prototype.run = function(speed) {
+//   this.speed += speed;
+//   alert( this.name + ' бежит, скорость ' + this.speed );
+// };
+
+// // 2. Конструктор Rabbit
+// function Rabbit(name) {
+//   this.name = name;
+//   this.speed = 0;
+// }
+
+// // 2.1. Наследование
+// Rabbit.prototype = Object.create(Animal.prototype);
+// Rabbit.prototype.constructor = Rabbit;
+
+// // 2.2. Методы Rabbit
+// Rabbit.prototype.jump = function() {
+//   this.speed++;
+//   alert( this.name + ' прыгает, скорость ' + this.speed );
+// }
+
+
+
+
+
+
+// // Т.к. св-ва у конструкторов одинвковы, то можно копировать
+// // их в Rabbit
+
+// function Rabbit(name) {
+//   Animal.apply(this, arguments);
+// }
+
+
+
+
+// // Переопределение метода
+
+// // Вызов rabbit.run() теперь будет брать run из своего прототипа:
+// Rabbit.prototype.run = function(speed) {
+//   this.speed++;
+//   this.jump();
+// };
+
+
+// // Вызов метода родителя внутри своего
+// Rabbit.prototype.run = function() {
+//   // вызвать метод родителя, передав ему текущие аргументы
+//   // Если вызвать просто Animal.prototype.run(), то в 
+//   // качестве this функция run получит Animal.prototype
+//   Animal.prototype.run.apply(this, arguments);
+//   this.jump();
+// }
+
+
+
+
+
+
+
+// // задачи
+
+
+
+
+
+
+
+// function Clock(options) {
+//   this._template = options.template;
+// }
+
+// Clock.prototype._render = function() {
+//   var date = new Date();
+
+//   var hours = date.getHours();
+//   if (hours < 10) hours = '0' + hours;
+
+//   var min = date.getMinutes();
+//   if (min < 10) min = '0' + min;
+
+//   var sec = date.getSeconds();
+//   if (sec < 10) sec = '0' + sec;
+
+//   var output = this._template.replace('h', hours).replace('m', min).replace('s', sec);
+
+//   console.log(output);
+// };
+
+// Clock.prototype.stop = function() {
+//   clearInterval(this._timer);
+// };
+
+// Clock.prototype.start = function() {
+//   this._render();
+
+//   // 	Если просто this._render - будет потеря конткста
+//   this._timer = setInterval( this._render.bind(this), 1000);
+// };
+
+
+// // var clock = new Clock({
+// // 	template: 'h:m:s'
+// // });
+// // clock.start();
+
+
+
+
+
+
+
+// function ClockExtended(options) {
+// 	Clock.apply(this, arguments);
+
+// 	this._precision = +options.precision || 2000;
+// };
+
+// ClockExtended.prototype = Object.create(Clock.prototype);
+// ClockExtended.prototype.constructor = ClockExtended;
+
+// ClockExtended.prototype.precision = function(precision) {
+// 	this._render();
+
+// 	// 	Если просто this._render - будет потеря конткста
+//   this._timer = setInterval( this._render.bind(this), this._precision);
+// };
+
+
+// var clockPrecision = new ClockExtended({
+// 	template: 'h:m:s'
+// });
+// clockPrecision.precision();
