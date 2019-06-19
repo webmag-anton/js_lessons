@@ -19,17 +19,14 @@
 	width: 40px;
 	height: 40px;
 	background-color: black;
+	-webkit-transition: .2s ease;
+	-o-transition: .2s ease;
+	transition: .2s ease;
+	cursor: pointer;
 }
 
 .desk-item.white{
 	background-color: white;
-}
-
-.desk-item:hover{
-	background-color: orange;
-	-webkit-transition: .2s ease;
-	-o-transition: .2s ease;
-	transition: .2s ease;
 }
 
 .desk-item.active{
@@ -42,4 +39,8 @@
 
 .desk-item.hovered{
 	background-color: green;
+}
+
+.desk-item:hover{
+	background-color: orange !important;
 }
