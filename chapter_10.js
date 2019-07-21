@@ -235,7 +235,26 @@
 
 
 
-			// 10.5   Объекты и прототипы
+			// 10.6   Объекты и прототипы
+
+
+
+
+
+// // Если имя свойства находится в переменной или задано 
+// // выражением expr, то его можно указать в квадратных скобках [expr].
+
+// let propName = "firstName";
+
+// let user = {
+//   [propName]: "Вася"
+// };
+
+// alert( user.firstName ); // Вася
+
+
+
+
 
 
 
@@ -343,7 +362,7 @@
 
 
 // // super - из метода объекта получает свойство его прототипа.
-// // Действует долько в методе объекта, не в свойстве-функции! 
+// // Действует только в методе объекта, не в свойстве-функции! 
 
 // let animal = {
 //   walk() {
@@ -381,3 +400,340 @@
 // let walk = rabbit.walk; // скопируем метод в переменную
 // walk(); // вызовет animal.walk()
 // // I'm walking
+
+
+
+
+
+
+
+
+
+					// 10.7  Классы
+
+
+
+
+// // Функция constructor запускается при создании new User, 
+// // остальные методы записываются в User.prototype. 
+// // Параметры задаются в constructor
+
+// class User {
+
+//   constructor(name) {
+//     this.name = name;
+//   }
+
+//   sayHi() {
+//     alert(this.name);
+//   }
+
+// }
+
+// let user = new User("Вася");
+// user.sayHi(); // Вася
+
+
+
+
+
+
+
+
+
+// let allModels = {};
+
+// function createModel(Model, ...args) {
+//   let model = new Model(...args);
+
+//   model._id = Math.random().toString(36).slice(2);
+//   allModels[model._id] = model;
+
+//   return model;
+// }
+
+// let user = createModel(class User {
+//   constructor(name) {
+//     this.name = name;
+//   }
+//   sayHi() {
+//     alert(this.name);
+//   }
+// }, "Вася");
+
+// user.sayHi(); // Вася
+
+// alert( allModels[user._id].name ); // Вася
+
+
+
+
+
+
+
+
+
+// // В классах, как и в обычных объектах, можно объявлять геттеры и сеттеры 
+// // через get/set, а также использовать […] для свойств с вычисляемыми именами:
+
+// class User {
+//   constructor(firstName, lastName) {
+//     this.firstName = firstName;
+//     this.lastName = lastName;
+//   }
+
+//   // геттер
+//   get fullName() {
+//     return `${this.firstName} ${this.lastName}`;
+//   }
+
+//   // сеттер ( с деструктуризацией )
+//   set fullName(newValue) {
+//     [this.firstName, this.lastName] = newValue.split(' ');
+//   }
+
+//   // вычисляемое название метода
+//   ["test".toUpperCase()]() {
+//     alert("PASSED!");
+//   }
+
+// };
+
+// let user = new User("Вася", "Пупков");
+// alert( user.fullName ); // Вася Пупков
+// user.fullName = "Иван Петров";
+// alert( user.lastName ); // Петров
+// user.TEST(); // PASSED!
+
+
+
+
+
+
+
+
+// // Статические свойства
+
+// class User {
+//   constructor(firstName, lastName) {
+//     this.firstName = firstName;
+//     this.lastName = lastName;
+//   }
+
+//   static createGuest() {
+//     return new User("Гость", "Сайта");
+//   }
+// };
+
+// let user = User.createGuest();
+
+// alert( user.firstName ); // Гость
+// alert( User.createGuest ); // createGuest ... (функция)
+
+
+
+
+
+
+
+
+
+// class Animal {
+//   constructor(name) {
+//     this.name = name;
+//   }
+
+//   walk() {
+//     alert("I walk: " + this.name);
+//   }
+// }
+
+// class Rabbit extends Animal {
+
+// }
+
+// new Rabbit("Вася").walk();
+// // I walk: Вася
+
+
+
+
+// class Rabbit_two extends Animal {
+//   walk() {
+//     super.walk();
+//     alert("...and jump!");
+//   }
+// }
+
+
+// new Rabbit_two("Маша").walk();
+// // I walk: Маша
+// // and jump!
+
+
+
+
+
+
+
+
+// // Если же у потомка свой constructor, то, чтобы в нём вызвать конструктор 
+// // родителя – используется синтаксис super() с аргументами для родителя.
+
+// class Animal {
+//   constructor(name) {
+//     this.name = name;
+//   }
+
+//   walk() {
+//     alert("I walk: " + this.name);
+//   }
+// }
+
+// class Rabbit extends Animal {
+//   constructor() {
+//     // вызвать конструктор Animal с аргументом "Кроль"
+//     super("Кроль"); // то же, что и Animal.call(this, "Кроль")
+//   }
+// }
+
+// new Rabbit().walk(); // I walk: Кроль
+
+
+
+
+
+
+
+
+
+
+					// 10.8  Примитивный тип данных Symbol
+
+
+
+
+// let sym = Symbol();
+// alert( typeof sym ); // symbol
+
+
+
+
+
+
+// let sym = Symbol("name");
+// alert( sym.toString() ); // Symbol(name)
+
+
+
+
+
+// // если у двух символов одинаковое имя, то это не значит, что они равны:
+// alert( Symbol("name") == Symbol("name") ); // false
+
+
+
+
+
+
+// // Если хочется из разных частей программы использовать именно одинаковый
+// // символ, то можно передавать между ними объект символа или 
+// // же – использовать «глобальные символы» и «реестр глобальных символов»
+
+
+// // создание символа в реестре
+// let name = Symbol.for("name");
+
+// // символ уже есть, чтение из реестра
+// alert( Symbol.for("name") == name ); // true
+
+
+
+
+
+
+// // У вызова Symbol.for, который возвращает символ по имени, есть обратный 
+// // вызов – Symbol.keyFor(sym). Он позволяет получить по глобальному символу его имя:
+
+// // создание символа в реестре
+// let test = Symbol.for("name");
+
+// // получение имени символа
+// alert( Symbol.keyFor(test) ); // name
+
+
+
+
+
+
+
+
+					// 10.9  Итераторы
+
+
+
+
+// Для перебора итерируемых объектов добавлен новый синтаксис цикла: for..of
+
+// let arr = [1, 2, 3]; // массив — пример итерируемого объекта
+// for (let value of arr) {
+//   alert(value); // 1, затем 2, затем 3
+// }
+
+
+
+
+
+// Также итерируемой является строка:
+// for (let char of "Привет") {
+//   alert(char); // Выведет по одной букве: П, р, и, в, е, т
+// }
+
+
+
+
+
+// Свой итератор
+
+
+// // Для возможности использовать объект в for..of нужно создать в 
+// // нём метод с названием Symbol.iterator (системный символ).
+
+let range = {
+  from: 1,
+  to: 5
+}
+
+// сделаем объект range итерируемым
+range[Symbol.iterator] = function() {
+
+  let current = this.from;
+  let last = this.to;
+
+  // метод должен вернуть объект с методом next()
+  return {
+    next() {
+      if (current <= last) {
+        return {
+          done: false,
+          value: current++
+        };
+      } else {
+        return {
+          done: true
+        };
+      }
+    }
+
+  }
+};
+
+
+// Конструкция for..of в начале своего выполнения 
+// автоматически вызывает Symbol.iterator()
+for (let num of range) {
+  alert(num); // 1, затем 2, 3, 4, 5
+}
+
+// ...spread так же использует итератор
+alert( Math.max(...range) );
