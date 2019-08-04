@@ -699,41 +699,77 @@
 // // Для возможности использовать объект в for..of нужно создать в 
 // // нём метод с названием Symbol.iterator (системный символ).
 
-let range = {
-  from: 1,
-  to: 5
-}
+// let range = {
+//   from: 1,
+//   to: 5
+// }
 
-// сделаем объект range итерируемым
-range[Symbol.iterator] = function() {
+// // сделаем объект range итерируемым
+// range[Symbol.iterator] = function() {
 
-  let current = this.from;
-  let last = this.to;
+//   let current = this.from;
+//   let last = this.to;
 
-  // метод должен вернуть объект с методом next()
-  return {
-    next() {
-      if (current <= last) {
-        return {
-          done: false,
-          value: current++
-        };
-      } else {
-        return {
-          done: true
-        };
-      }
-    }
+//   // метод должен вернуть объект с методом next()
+//   return {
+//     next() {
+//       if (current <= last) {
+//         return {
+//           done: false,
+//           value: current++
+//         };
+//       } else {
+//         return {
+//           done: true
+//         };
+//       }
+//     }
 
-  }
-};
+//   }
+// };
 
 
-// Конструкция for..of в начале своего выполнения 
-// автоматически вызывает Symbol.iterator()
-for (let num of range) {
-  alert(num); // 1, затем 2, 3, 4, 5
-}
+// // Конструкция for..of в начале своего выполнения 
+// // автоматически вызывает Symbol.iterator()
+// for (let num of range) {
+//   alert(num); // 1, затем 2, 3, 4, 5
+// }
 
-// ...spread так же использует итератор
-alert( Math.max(...range) );
+// // ...spread так же использует итератор
+// alert( Math.max(...range) );
+
+
+
+
+
+
+					// 10.10  Set, Map, WeakSet и WeakMap
+
+
+
+
+
+// let recipeMap = new Map([
+//   ['огурцов',   '500 гр'],
+//   ['помидоров', '350 гр'],
+//   ['сметаны',   '50 гр']
+// ]);
+
+// recipeMap.forEach( (value, key, map) => {
+//   alert(`${key}: ${value}`); // огурцов: 500 гр, и т.д.
+// });
+
+
+
+
+// let set = new Set(["апельсины", "яблоки", "бананы"]);
+
+// // то же, что: for(let value of set)
+// set.forEach((value, valueAgain, set) => {
+//   alert(value); // апельсины, затем яблоки, затем бананы
+// });
+
+
+
+
+
