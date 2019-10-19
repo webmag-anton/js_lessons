@@ -22,7 +22,17 @@
 - for ;; - общий
 - for let key in object - для объектов
 // в массивах доступ только к значениям элементов (к индексам нет доступа)
-- for let fruit of fruits - общий
+- for let fruit of fruits - общий, используется в итерируемых объектах, 
+то есть в объектах с методом [Symbol.iterator](); В строках, массивах и map 
+изначально встроен, в объектах - нет  
+
+
+
+// Деструктуризация
+
+-  для объекта - let {prop : varName = default, ...rest} = object
+-  для массива - let [item1 = default, item2, ...rest] = array
+
 
 
 
@@ -122,6 +132,7 @@ Object.assign(dest, [src1, src2, src3...])
 Object.keys(obj) – возвращает массив ключей
 Object.values(obj) – возвращает массив значений
 Object.entries(obj) – возвращает массив пар [ключ, значение]
+Object.fromEntries(iterable) - преобразует массив пар [ключ, значение] в объект
 
 Object.getOwnPropertySymbols() - возвращает массив только символьных ключей
 
@@ -172,7 +183,7 @@ arr.filter(function(item, index, array) {
 
 								//	Преобразование массива
 
-let result = arr.map(function(item, index, array) {
+arr.map(function(item, index, array) {
   возвращается новое значение вместо элемента, например return item.length
 });
 
