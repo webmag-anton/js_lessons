@@ -147,7 +147,8 @@ Object.defineProperties(obj, { prop1: descriptor1, prop2: descriptor2 })
 //клонирование объекта вместе с его флагами
 let clone = Object.defineProperties({}, Object.getOwnPropertyDescriptors(obj));
 
-Свойства-аксессоры представлены методами «геттер» и «сеттер»
+Помимо обычных свойств-данных у объектов есть свойства-аксессоры; 
+Они представлены методами «геттер» и «сеттер»
 let obj = {
   get propName() {
     // геттер, срабатывает при чтении obj.propName
@@ -172,13 +173,19 @@ let obj = {
 Если мы вызываем метод obj.method(), взятый из прототипа, то this в нем ссылается на obj
 
 Свойство функции-конструктора F.prototype устанавливает [[Prototype]] для новых экземпляров 
-при вызове new F(); По умолчанию все функции имеют F.prototype = { constructor: F }
+при вызове new F(); По умолчанию все функции имеют F.prototype = { constructor: F };
+
+Прототип это объект, а значит его дефолтное значение св-ва [[Prototype]] 
+равно Object.prototype , потому что объекты создаются встроенным конструктором Object;
 
 __proto__ - это самый короткий и интуитивно понятный способ установки и чтения прототипа; 
 __proto__ находится в Object.prototype, как и другие методы; В современном языке его заменяют
 Object.create(proto, [descriptors])
 Object.getPrototypeOf(obj)
-Object.setPrototypeOf(obj, proto);
+Object.setPrototypeOf(obj, proto)
+// Если установить F.prototype = null, то вновь созданный объект наследует от Object.prototype
+// Мы можем создать "простейший" объект без прототипов, т.е без встроенных методов
+Object.create(null)
 // точная копия obj c тем же прототипом - «продвинутое» клонирование объекта 
 let clone = Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj));
 
