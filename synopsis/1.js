@@ -191,6 +191,20 @@ let clone = Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescr
 
 
 
+		/* Классы */
+
+class MyClass {
+  prop = value; // свойство объекта (value статично, в отличае от св-в из constructor)
+  constructor(...) { // конструктор
+    // ...
+  }
+  method(...) {} // метод
+  get something(...) {} // геттер
+  set something(...) {} // сеттер
+}
+
+
+
 		/* Методы массивов: */
 
 самый простой способ очистить массив – это arr.length = 0;
