@@ -184,7 +184,7 @@ Object.create(proto, [descriptors])
 Object.getPrototypeOf(obj)
 Object.setPrototypeOf(obj, proto)
 // Если установить F.prototype = null, то вновь созданный объект наследует от Object.prototype
-// Мы можем создать "простейший" объект без прототипов, т.е без встроенных методов
+// Мы можем создать "простейший" объект без прототипов, т.е без наследования встроенных методов
 Object.create(null)
 // точная копия obj c тем же прототипом - «продвинутое» клонирование объекта 
 let clone = Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj));
