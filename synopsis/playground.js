@@ -363,19 +363,41 @@
 
 // Если ошибка из промиса не обработана в методе then, то она
 // будет обработана дальше (или выпадет наружу)
-// const p = new Promise((resolve, reject) => {
+// const p = new Promise( (resolve, reject) => {
 // 	setTimeout( () => reject( new Error('error_1') ), 2000 )
 // }).then( () => console.log('success') )  // не обрабатывает ошибку (нет 2 параметра)
 // 	.finally( console.log('ошибка обработается дальше') )
+// 	.catch( (data) => alert(data.message) );
+
+
+
+
+
+// new Promise( (resolve, reject) => {
+// 	setTimeout( () => resolve( 'well done' ), 2000 )
+// }).then( result => {
+// 		result += ', congradulate!';
+// 		return result; // можно вернуть любой тип данных ( будет обработано дальше )
+// 	}) 
+// 	.finally( console.log(`вернувшийся результат обработается в следующем then, 
+// 												 а catch проигнорируется`) )
 // 	.catch( (data) => alert(data.message) )
+// 	.then( val => alert(val) );
 
 
 
 
 
-
-new Promise((resolve, reject) => {
-	setTimeout( () => reject( new Error('error_1') ), 2000 )
-}).then( () => console.log('success') ) 
-	.finally( console.log('ошибка обработается дальше') )
-	.catch( (data) => alert(data.message) )
+/*new Promise( (resolve, reject) => {
+	setTimeout( () => reject( "server's eror 300" ), 2000 )
+})
+	.catch( (data) => {
+		// обработка ошибки
+		data += ', try again';
+		console.log(data);
+		// возврат промиса, который вызовет resolve, а тот обработается следующим then
+		return new Promise( (resolve, reject) => {
+			setTimeout( () => resolve('new request has received well'), 1500 )
+		});
+	})
+	.then( val => alert(val), () => alert('error for the secons time') ); */
