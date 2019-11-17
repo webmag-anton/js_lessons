@@ -314,3 +314,37 @@
 // let clock = new ExtendedClock({template: 'h:m:s', precision: 3000});
 // clock.start();
 
+
+
+
+
+
+
+
+
+// function func() {
+//   try {
+//     return 1;
+//   } catch (e) {
+//     /* ... */
+//   } finally {
+//     alert( 'finally' );
+//   }
+// }
+// alert( func() ); // сначала срабатывает alert из finally, а затем этот код
+
+
+
+// try{
+// 	alert(some) 
+// } catch (e) {
+// 	console.log(e.name); 
+// }
+// alert("test")
+
+
+
+
+
+
+
