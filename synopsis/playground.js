@@ -318,9 +318,7 @@
 
 
 
-
-
-
+			/* обработка ошибок */
 
 // function func() {
 //   try {
@@ -346,5 +344,38 @@
 
 
 
+			/* 11.2 */
+
+// function delay(ms) {
+//   return new Promise((resolve, reject) => {
+//   	setTimeout( () => resolve('готово'), ms)
+//   })
+// }
+
+// delay(2000).then((val) => alert(val + ' =)'));
+
+// console.log('сначала синхронный код');
 
 
+
+
+
+
+// Если ошибка из промиса не обработана в методе then, то она
+// будет обработана дальше (или выпадет наружу)
+// const p = new Promise((resolve, reject) => {
+// 	setTimeout( () => reject( new Error('error_1') ), 2000 )
+// }).then( () => console.log('success') )  // не обрабатывает ошибку (нет 2 параметра)
+// 	.finally( console.log('ошибка обработается дальше') )
+// 	.catch( (data) => alert(data.message) )
+
+
+
+
+
+
+new Promise((resolve, reject) => {
+	setTimeout( () => reject( new Error('error_1') ), 2000 )
+}).then( () => console.log('success') ) 
+	.finally( console.log('ошибка обработается дальше') )
+	.catch( (data) => alert(data.message) )
