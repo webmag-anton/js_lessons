@@ -372,7 +372,6 @@
 
 
 
-
 // new Promise( (resolve, reject) => {
 // 	setTimeout( () => resolve( 'well done' ), 2000 )
 // }).then( result => {
@@ -383,7 +382,6 @@
 // 												 а catch проигнорируется`) )
 // 	.catch( (data) => alert(data.message) )
 // 	.then( val => alert(val) );
-
 
 
 
@@ -401,3 +399,15 @@
 		});
 	})
 	.then( val => alert(val), () => alert('error for the secons time') ); */
+
+
+
+
+// // Ошибка не отловится из-за броска/допущения ошибки в промисе/then из-за setTimeout
+// new Promise( (resolve, reject) => {
+//   setTimeout( () => throw new Error('error_test'), 2000 )
+//   // setTimeout( () => reject (new Error('error_test')), 2000 ) // - так бы cработало
+// })
+//   .catch( (data) => {
+//     console.log(data.message)
+//   })
