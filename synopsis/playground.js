@@ -411,3 +411,28 @@
 //   .catch( (data) => {
 //     console.log(data.message)
 //   })
+
+
+
+
+
+// console.log('start');
+
+// // Т.к промисы асинхронны, то выполняются после синхронных скриптов и в порядке очереди
+// const promise_200 = new Promise( (resolve,  reject) => {
+// 	setTimeout( () => { resolve('resolve_200') } , 200)
+// })
+// .then( (val) => console.log(val) );
+
+// const promise_100 = new Promise( (resolve,  reject) => {
+// 	setTimeout( () => { resolve('resolve_100') } , 100)
+// })
+// .then( (val) => console.log(val) );
+
+// // тяжёлая функция
+// function f() {
+//   for (let i = 0; i < 1e9; i++) f[i % 2] = i;
+// }
+// f();
+
+// console.log('finish');
