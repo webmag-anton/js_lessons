@@ -344,7 +344,7 @@
 
 
 
-			/* 11.2 */
+			/* 11.2  промисы */
 
 // function delay(ms) {
 //   return new Promise((resolve, reject) => {
@@ -357,6 +357,29 @@
 // console.log('сначала синхронный код');
 
 
+
+
+// console.log('start');
+
+// // Т.к обработчики промисов then, catch, finally асинхронны, то
+// // они выполняются после синхронных скриптов и в порядке очереди
+// const promise_200 = new Promise ((resolve,  reject) => {
+// 	setTimeout( () => { resolve('resolve_200') }, 200)
+// })
+// .then( (val) => console.log(val) );
+
+// const promise_100 = new Promise ((resolve,  reject) => {
+// 	setTimeout( () => { resolve('resolve_100') }, 100)
+// })
+// .then( (val) => console.log(val) );
+
+// // тяжёлая функция
+// function f() {
+//   for (let i = 0; i < 1e9; i++) f[i % 2] = i;
+// }
+// f();
+
+// console.log('finish');
 
 
 
@@ -386,19 +409,19 @@
 
 
 
-/*new Promise( (resolve, reject) => {
-	setTimeout( () => reject( "server's eror 300" ), 2000 )
-})
-	.catch( (data) => {
-		// обработка ошибки
-		data += ', try again';
-		console.log(data);
-		// возврат промиса, который вызовет resolve, а тот обработается следующим then
-		return new Promise( (resolve, reject) => {
-			setTimeout( () => resolve('new request has received well'), 1500 )
-		});
-	})
-	.then( val => alert(val), () => alert('error for the secons time') ); */
+// new Promise( (resolve, reject) => {
+// 	setTimeout( () => reject( "server's eror 300" ), 2000 )
+// })
+// 	.catch( (data) => {
+// 		// обработка ошибки
+// 		data += ', try again';
+// 		console.log(data);
+// 		// возврат промиса, который вызовет resolve, а тот обработается следующим then
+// 		return new Promise( (resolve, reject) => {
+// 			setTimeout( () => resolve('new request has received well'), 1500 )
+// 		});
+// 	})
+// 	.then( val => alert(val), () => alert('error for the second time') ); 
 
 
 
@@ -416,23 +439,3 @@
 
 
 
-// console.log('start');
-
-// // Т.к промисы асинхронны, то выполняются после синхронных скриптов и в порядке очереди
-// const promise_200 = new Promise( (resolve,  reject) => {
-// 	setTimeout( () => { resolve('resolve_200') } , 200)
-// })
-// .then( (val) => console.log(val) );
-
-// const promise_100 = new Promise( (resolve,  reject) => {
-// 	setTimeout( () => { resolve('resolve_100') } , 100)
-// })
-// .then( (val) => console.log(val) );
-
-// // тяжёлая функция
-// function f() {
-//   for (let i = 0; i < 1e9; i++) f[i % 2] = i;
-// }
-// f();
-
-// console.log('finish');
