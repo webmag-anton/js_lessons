@@ -409,6 +409,21 @@
 
 
 
+// // метод then вернет промис (можно в нем вернуть промис или любой тип данных), 
+// // который вернется при вызове ф-ии и обработается дальше
+// function loadSome (name) {
+// 	return new Promise(res => {
+// 		setTimeout(() => res(`done ${name}`), 1000)
+// 	// }).then(res => new Promise(resolve => resolve(res + ' !!!!')))
+// 	}).then(res => res + ', test (any type)' ) // возвращаемое обернется в выполненный промис 
+// }
+
+// loadSome('anton')
+// 	.then(res => console.log(res))
+
+
+
+
 // new Promise( (resolve, reject) => {
 // 	setTimeout( () => reject( "server's eror 300" ), 2000 )
 // })
