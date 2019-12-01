@@ -458,6 +458,7 @@
 
 			/* 11.8  async/await */
 
+
 // async function loadJson(url) {
 // 	try{
 // 		let response = await fetch(url);
@@ -471,10 +472,6 @@
 // 	}
 // }
 // loadJson('no-such-user.json')
-
-
-
-
 
 
 
@@ -498,8 +495,8 @@
 
 // // Запрашивать логин, пока github не вернёт существующего пользователя.
 // async function demoGithubUser() {
-
 //   let user;
+
 //   while(true) {
 //     let name = prompt("Введите логин?", "webmag-anton");
 
@@ -520,7 +517,6 @@
 //   alert(`Полное имя: ${user.name}.`);
 //   return user;
 // }
-
 // demoGithubUser();
 
 
@@ -528,8 +524,71 @@
 
 
 
+			/* 11.8  Генераторы */
+
+
+// function* gen() {
+// 	yield 'H'
+// 	yield 'e'
+// 	yield 'l'
+// 	yield 'l'
+// 	yield 'o'
+// }
+
+// const generator = gen();
+
+// console.log(generator.next())
+// console.log(generator.next())
+// console.log(generator.next())
+// console.log(generator.next())
+// console.log(generator.next())
+// console.log(generator.next())
 
 
 
 
+// let range = {
+//   from: 1,
+//   to: 5,
 
+//   *[Symbol.iterator]() { // краткая запись для [Symbol.iterator]: function*()
+//     for(let value = this.from; value <= this.to; value++) {
+//       yield value;
+//     }
+//   }
+// };
+
+// alert( [...range] ); // 1,2,3,4,5
+
+
+
+
+// function* generateSequence(start, end) {
+//   for (let i = start; i <= end; i++) {
+//     yield i;
+//   }
+// }
+
+// for(let value of generateSequence(1, 5)) {
+//   alert(value); // 1, потом 2, потом 3, потом 4, потом 5
+// }
+
+
+
+
+// // Асинхронный генератор
+// async function* generateSequence(start, end) {
+
+//   for (let i = start; i <= end; i++) {
+//     // ура, можно использовать await!
+//     await new Promise(resolve => setTimeout(resolve, 1000));
+//     yield i;
+//   }
+// }
+
+// (async () => {
+//   let generator = generateSequence(1, 5);
+//   for await (let value of generator) {
+//     alert(value); // 1, потом 2, потом 3, потом 4, потом 5
+//   }
+// })();
