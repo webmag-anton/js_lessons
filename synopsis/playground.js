@@ -592,3 +592,84 @@
 //     alert(value); // 1, потом 2, потом 3, потом 4, потом 5
 //   }
 // })();
+
+
+
+
+
+
+
+
+// let user = {
+//   name: "John"
+// };
+
+// function wrap(target) {
+//   return new Proxy(target, {
+//       get(tar, prop) {
+//       	if (prop in tar) {
+//       		return tar[prop]
+//       	} else {
+//       		throw new ReferenceError('Ошибка: такого свойства не существует')
+//       	}	
+//       }
+//   });
+// }
+
+// user = wrap(user);
+
+// alert(user.name); // John
+// alert(user.age); // Ошибка: такого свойства не существует
+
+
+
+
+
+
+// let array = [1, 2, 3];
+
+// array = new Proxy(array, {
+// 	get(tar, prop) {
+// 		if ( prop < 0 ) {
+// 			let N = +prop + tar.length;
+// 			return tar[N]
+// 		} else {
+// 			return tar[prop]
+// 		}
+// 	}
+// });
+
+// alert( array[-1] ); // 3
+// alert( array[-2] ); // 2
+
+
+
+
+
+
+
+
+
+function makeObservable(target) {
+  /* ваш код */
+  return new Proxy(target, {
+  	// Ловушки
+  	set(tar, prop, val) {
+  		this.observe(prop, val)
+  		tar[prop] = val;
+  		return true;
+  	},
+  	observe(key, value) {
+  		alert(`SET ${key}=${value}`);
+  	}
+  })
+}
+
+let user = {};
+user = makeObservable(user);
+
+// user.observe((key, value) => {
+//   alert(`SET ${key}=${value}`);
+// });
+
+user.age = 25; // выводит: SET name=John

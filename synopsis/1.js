@@ -118,10 +118,11 @@ parseFloat('str') - возвращает дробное число из стро
 
 		/* Строки: */
 
-str.indexOf(substr, pos) - <number or -1> - поиск подстроки
-str.includes(substr, pos) - <boolean>
+str.indexOf(start [, pos]) - <number or -1> - поиск подстроки
+str.includes(start [, pos]) - <boolean>
 str.slice(start [, end]) - получение подстроки без вырезания
 str.codePointAt(pos) - возвращает код символа на позиции pos
+str.startsWith(substr [, pos]) - <boolean>
 String.fromCodePoint(code) - создаёт символ по его коду code
 
 
@@ -585,7 +586,7 @@ Promise.reject(error)
 
 // можно использовать атрибут src="./path/some.js"
 <script type="module">
-	// импотируемая переменная/функция внутри {} через запятую
+	// импотируемая переменная/функция/класс внутри {} через запятую
   import {sayHi} from './say.js';
   document.body.innerHTML = sayHi('John');
 <script>
@@ -596,7 +597,7 @@ Promise.reject(error)
 //  - export [default] class/function/variable ...
 // Отдельный экспорт:
 //  - export {x [as y], ...}.
-// Реэкспорт:
+// Реэкспорт (импорт и затем экспорт):
 //  - export {x [as y], ...} from "module"
 //  - export * from "module" (не реэкспортирует export default).
 //  - export {default [as y]} from "module" (реэкспортирует только export default).
@@ -629,7 +630,7 @@ Promise.reject(error)
 // - вешние скрипты с одинаковым атрибутом src запускаются только один раз
 // - внешний скрипт, который загружается с другого домена, требует указания заголовков CORS.
 
-// В статических нструкциях экспорта и импорта мы не можем делать импорт в зависимости от
+// В статических инструкциях экспорта и импорта мы не можем делать импорт в зависимости от
 // условий ( внутри блока - {} ) или в процессе выполнения
 
 
