@@ -598,6 +598,7 @@
 
 
 
+			/* 14.1  Proxy */
 
 
 // let user = {
@@ -625,7 +626,6 @@
 
 
 
-
 // let array = [1, 2, 3];
 
 // array = new Proxy(array, {
@@ -641,35 +641,3 @@
 
 // alert( array[-1] ); // 3
 // alert( array[-2] ); // 2
-
-
-
-
-
-
-
-
-
-function makeObservable(target) {
-  /* ваш код */
-  return new Proxy(target, {
-  	// Ловушки
-  	set(tar, prop, val) {
-  		this.observe(prop, val)
-  		tar[prop] = val;
-  		return true;
-  	},
-  	observe(key, value) {
-  		alert(`SET ${key}=${value}`);
-  	}
-  })
-}
-
-let user = {};
-user = makeObservable(user);
-
-// user.observe((key, value) => {
-//   alert(`SET ${key}=${value}`);
-// });
-
-user.age = 25; // выводит: SET name=John
