@@ -119,7 +119,7 @@ parseFloat('str') - возвращает дробное число из стро
 		/* Строки: */
 
 str.indexOf(start [, pos]) - <number or -1> - поиск подстроки
-str.includes(start [, pos]) - <boolean>
+str.includes(substr [, pos]) - <boolean>
 str.slice(start [, end]) - получение подстроки без вырезания
 str.codePointAt(pos) - возвращает код символа на позиции pos
 str.startsWith(substr [, pos]) - <boolean>
