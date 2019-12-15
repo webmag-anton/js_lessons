@@ -346,6 +346,7 @@
 
 			/* 11.2  промисы */
 
+
 // function delay(ms) {
 //   return new Promise((resolve, reject) => {
 //   	setTimeout( () => resolve('готово'), ms)
@@ -457,6 +458,31 @@
 
 
 			/* 11.8  async/await */
+
+
+// Сначала  выполнится синхронный код, потом асинхронный
+// console.log('start')
+// async function f() {
+
+//   let promise = new Promise((resolve, reject) => {
+//     setTimeout(() => resolve("готово!"), 1000)
+//   });
+
+//   let result = await promise; // будет ждать, пока промис не выполнится
+
+//   alert(result); // "готово!"
+// }
+
+// f();
+
+// // тяжёлая функция
+// function q() {
+//   for (let i = 0; i < 1e9; i++) f[i % 2] = i;
+// }
+// q();
+// console.log('finish')
+
+
 
 
 // async function loadJson(url) {
