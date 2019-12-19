@@ -220,3 +220,35 @@
 // }
 
 // createCalendar(calendar, 2019, 11)
+
+
+
+
+
+/* 1.8 */
+
+
+// function showNotification(options) {
+// 	let notif = document.createElement('div');
+// 	notif.className = `notification ${options.className}`;
+// 	notif.textContent = `${options.html}`;
+// 	notif.style.cssText = ` 
+// 												position: fixed;
+// 												top: ${options.top}px;
+// 												right: ${options.right}px;
+// 												width: 250px;
+// 												background-color: green;
+// 												color: #fff;
+// 												`
+// 	document.body.append(notif);
+
+// 	setInterval(() => notif.remove(), 1500)
+// }
+
+// // показывает элемент с текстом "Hello" рядом с правой верхней частью окна.
+// showNotification({
+//   top: 10, // 10px от верхней границы окна (по умолчанию 0px)
+//   right: 10, // 10px от правого края окна (по умолчанию 0px)
+//   html: "Hello!", // HTML-уведомление
+//   className: "welcome" // дополнительный класс для div (необязательно)
+// });

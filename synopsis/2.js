@@ -75,7 +75,6 @@ elem.dataset.about - доступно чтение и запись
 
 
 
-
 		// Методы для создания узлов:
 
 document.createElement(tag) – создаёт элемент с заданным тегом
@@ -107,3 +106,38 @@ parentElem.removeChild(node) - удаляет node из parentElem
 parentElem.replaceChild(newElem, oldChild) - заменяет oldChild на node
 
 
+
+		// Стили и классы
+
+// Для управления классами существуют два DOM-свойства:
+elem.className – строковое значение, удобно для управления всем набором классов
+elem.classList – объект с методами add/remove/toggle/contains, 
+								 для управления отдельными классами; classList является перебираемым
+
+// Для управления стилями существует объект elem.style, все св-ва с дефисом через camelCase: 
+elem.style.width = "5px"
+document.body.style.display = "" - для удаления стиля присваивается пустая строка
+
+// Для задания нескольких стилей в одной строке используется 
+// специальное свойство style.cssText:
+div.style.cssText = `color: red !important;
+								     width: 100px;`
+
+// Для чтения окончательных стилей (после применения всех CSS-правил и 
+// CSS-наследования) используется метод:
+let computedObj = getComputedStyle(elem, [pseudo]) - только для чтения
+
+
+
+		// Размеры и прокрутка элементов
+
+offsetParent – ближайший CSS-позиционированный родитель или ближайший td, th, table, body
+offsetLeft/offsetTop – позиция в пикселях верхнего левого угла относительно offsetParent
+offsetWidth/offsetHeight – «внешняя» ширина/высота элемента; <clientWidth + padding + boder>
+clientLeft/clientTop – расстояние от верхнего левого внешнего угла до 
+											 внутренного; <offsetWidth - clientWidth>
+clientWidth/clientHeight – ширина/высота содержимого вместе с внутренними отступами padding, 
+													 но без scrollbar; <content + padding - scrollbar>
+scrollLeft/scrollTop – ширина/высота прокрученной части элемента от верхнего левого угла
+scrollWidth/scrollHeight – ширины/высота содержимого, аналогично clientWidth/Height, 
+													 но учитывают прокрученную, невидимую область элемента
