@@ -252,3 +252,113 @@
 //   html: "Hello!", // HTML-уведомление
 //   className: "welcome" // дополнительный класс для div (необязательно)
 // });
+
+
+
+
+/* 1.9 */
+
+// 1
+// let scrollBottom = elem.scrollHeight - elem.scrollTop - elem.clientHeight;
+
+// 2 (без border)
+// let scrollBarWidth = elem.offsetWidth - elem.clientWidth;
+
+
+// document.documentElement.style.color = 'red'
+// let computedObj = getComputedStyle(document.body)
+// // style.display для body не покажет ничего, т.к не задан явно, но  
+// // вычислится с помощью getComputedStyle
+// console.log(document.documentElement.style.color, computedObj.display, computedObj.color)
+
+
+
+/* 1.10 */
+
+// 1
+// elem.getBoundingClientRect().left
+// elem.getBoundingClientRect().top
+
+// elem.getBoundingClientRect().right
+// elem.getBoundingClientRect().bottom
+
+// elem.getBoundingClientRect().left + elem.clientLeft
+// elem.getBoundingClientRect().top + elem.clientTop
+
+// elem.getBoundingClientRect().right - elem.clientLeft
+// elem.getBoundingClientRect().bottom - elem.clientTop
+
+
+// 2
+// function positionAt(anchor, position, elem) {
+// 	document.body.style.position = 'relative';
+// 	elem.style.position = 'absolute';
+
+// 	if (position == 'top') {
+// 		elem.style.left = getBoundingClientRect().left + window.pageXOffset;
+// 		elem.style.top = getBoundingClientRect().top + window.pageYOffset - elem.offsetHeight;
+// 	} else if (position == 'right') {
+// 		elem.style.left = getBoundingClientRect().left + window.pageXOffset + elem.offsetWidth;
+// 		elem.style.top = getBoundingClientRect().top + window.pageYOffset;
+// 	} else if (position == 'bottom') {
+// 		elem.style.left = getBoundingClientRect().left + window.pageXOffset;
+// 		elem.style.top = getBoundingClientRect().bottom + window.pageYOffset;
+// 	}
+// }
+
+
+
+/* 2.1 */
+
+// 1
+// const button = document.querySelector('#button')
+// const text = document.querySelector('#text')
+// button.addEventListener('click', function() {
+// 	text.style.display = 'none'
+// })
+
+// 4
+document.body.style.minHeight = '150vh'
+const field = document.querySelector('#field')
+const ball = document.querySelector('#ball')
+const ballRadius = parseInt(getComputedStyle(ball).width) / 2
+
+field.addEventListener('click', function(event) {
+	if (event.clientX < (this.getBoundingClientRect().left + this.clientLeft + ballRadius)) { 
+		ball.style.left = `0`
+	} else if (event.clientX > (this.getBoundingClientRect().right - this.clientLeft - ballRadius)){
+		ball.style.left = `calc(100% - ${ballRadius*2}px)`
+	} else {
+		ball.style.left = `${event.clientX - this.getBoundingClientRect().left -
+										  this.clientLeft - ballRadius}px`
+	}
+	if (event.clientY < (this.getBoundingClientRect().top + this.clientTop + ballRadius)) {
+		ball.style.top = `0`
+	} else if (event.clientY > (this.getBoundingClientRect().bottom - this.clientTop - ballRadius)){
+		ball.style.top = `calc(100% - ${ballRadius*2}px)`
+	} else {
+		ball.style.top =  `${event.clientY - this.getBoundingClientRect().top -
+										  this.clientTop - ballRadius}px`
+	}
+})
+
+// 7
+const carouselList = document.querySelector('.Carousel-list')
+const carouselItem = document.querySelectorAll('.Carousel-item')
+const carouselBtnLeft = document.querySelector('.Carousel-left')
+const carouselBtnRight = document.querySelector('.Carousel-right')
+
+const itemWidth = 200
+const itemsPerClick = 3
+let carouselPosition = 0
+
+carouselBtnLeft.addEventListener('click', () => {
+	carouselPosition += itemWidth*itemsPerClick
+	carouselPosition = Math.min(carouselPosition, 0)	
+	carouselList.style.marginLeft = `${carouselPosition}px`
+})
+carouselBtnRight.addEventListener('click', () => {
+	carouselPosition -= itemWidth*itemsPerClick
+	carouselPosition = Math.max( carouselPosition, -itemWidth*(carouselItem.length - itemsPerClick) )	
+	carouselList.style.marginLeft = `${carouselPosition}px`
+})
