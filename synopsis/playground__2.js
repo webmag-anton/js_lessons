@@ -362,3 +362,15 @@ carouselBtnRight.addEventListener('click', () => {
 	carouselPosition = Math.max( carouselPosition, -itemWidth*(carouselItem.length - itemsPerClick) )	
 	carouselList.style.marginLeft = `${carouselPosition}px`
 })
+
+
+
+/* 2.2 */
+
+// 1
+let container = document.getElementById('container')
+container.addEventListener('click', function(event){
+	let elem = event.target
+	if(!elem.classList.contains('remove-button')) return;
+	elem.closest('.pane').hidden = true
+})

@@ -52,7 +52,9 @@
 // Взаимодействие: alert(message), 
 //                 prompt(title, [default]), 
 //                 confirm(question)
-alert()   - преобразует к строке и выводит
+// alert() приостановит дальнейшее выполнение скриптов до тех пор, 
+// пока пользователь не нажмёт кнопку «OK»
+alert()   - преобразует к строке и выводит 
 prompt()  - <string or null>
 confirm() - <boolean>
 
