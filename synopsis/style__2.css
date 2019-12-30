@@ -1,4 +1,10 @@
-/*2.1*/
+b{
+	display: block;
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+/* 2.1 */
 
 #field{
 	position: relative;
@@ -64,4 +70,24 @@
 }
 .Carousel-right{
 	right: 20px;
+}
+
+
+
+/* 2.3 */
+
+#grid {
+	width: 250px;
+	margin: 0 auto;
+	border-collapse: collapse;
+}
+#grid th, #grid td {
+	border: 1px solid black;
+	padding: 4px;
+}
+#grid th {
+	cursor: pointer;
+}
+#grid th:hover {
+	background: yellow;
 }

@@ -1,7 +1,7 @@
 'use strict';
 
 
-/* 1.3 Навигация по DOM-элементам */
+/* 1.3  Навигация по DOM-элементам */
 
 // document.body.firstElementChild
 // document.body.lastElementChild или document.body.children[1]
@@ -25,7 +25,7 @@
 
 
 
-/* 1.4 */
+/* 1.4  Поиск: getElement*, querySelector* */
 
 // let table = document.getElementById('age-table');
 // table.getElementsByTagName('label');
@@ -37,7 +37,7 @@
 
 
 
-/* 1.5 */
+/* 1.5  Свойства узлов: тип, тег и содержимое */
 
 // let list = document.body.querySelectorAll('ul > li')
 
@@ -58,7 +58,7 @@
 
 
 
-/* 1.6 */
+/* 1.6  Атрибуты и свойства */
 
 // document.querySelector('[data-widget-name]').dataset.widgetName
 
@@ -77,7 +77,7 @@
 
 
 
-/* 1.7 */
+/* 1.7  Изменение документа */
 
 
 // let listPrompt = document.createElement('ul');
@@ -225,7 +225,7 @@
 
 
 
-/* 1.8 */
+/* 1.8  Стили и классы */
 
 
 // function showNotification(options) {
@@ -256,7 +256,7 @@
 
 
 
-/* 1.9 */
+/* 1.9  Размеры и прокрутка элементов */
 
 // 1
 // let scrollBottom = elem.scrollHeight - elem.scrollTop - elem.clientHeight;
@@ -359,18 +359,63 @@ carouselBtnLeft.addEventListener('click', () => {
 })
 carouselBtnRight.addEventListener('click', () => {
 	carouselPosition -= itemWidth*itemsPerClick
-	carouselPosition = Math.max( carouselPosition, -itemWidth*(carouselItem.length - itemsPerClick) )	
+	carouselPosition = Math.max( carouselPosition, 
+															 -itemWidth*(carouselItem.length - itemsPerClick) )	
 	carouselList.style.marginLeft = `${carouselPosition}px`
 })
 
 
 
-/* 2.2 */
+/* 2.3 */
 
 // 1
-let container = document.getElementById('container')
-container.addEventListener('click', function(event){
-	let elem = event.target
-	if(!elem.classList.contains('remove-button')) return;
-	elem.closest('.pane').hidden = true
+// let container = document.getElementById('container')
+// container.addEventListener('click', function(event){
+// 	let elem = event.target
+// 	if(!elem.classList.contains('remove-button')) return;
+// 	elem.closest('.pane').hidden = true
+// })
+
+
+// 3
+let grid = document.getElementById('grid')
+let gridTbody = document.querySelector('#grid tbody')
+let gridTh = document.querySelectorAll('#grid tr th')
+let gridRows = document.querySelectorAll('#grid tbody tr')
+
+grid.addEventListener('click', function(event) {
+	// Если кликнули не по th - выходим
+	if( event.target.tagName != 'TH' ) return
+
+	// Определяем тип сортировки и индекс колонки для 
+	// сортировки и затем сортируем
+	let numIndex, strIndex;
+
+	if( event.target.dataset.type == 'number' ) {
+		// cellIndex – номер ячейки в строке <tr>
+		numIndex = event.target.cellIndex
+
+		console.log(`числовая сортировка по столбцу номер: ${numIndex}`)
+		// Сортируем массив элементов, получив его из псевдомассива
+		let sortedRows = Array.from(gridRows).sort( (a,b) => {
+			return a.querySelectorAll('td')[numIndex].textContent - 
+						 b.querySelectorAll('td')[numIndex].textContent 
+		})
+		// Вставляем отсортированный массив оператором spread (можно не удалять
+		// содержимое tbody, т.к если добавить существующий элемент, то он вырежется)
+		gridTbody.append(...sortedRows)
+	}
+
+
+	if( event.target.dataset.type == 'string' ) {
+		strIndex = event.target.cellIndex
+
+		console.log(`строковая сортировка по столбцу номер: ${strIndex}`)
+		let sortedRows = Array.from(gridRows).sort( (a,b) => {
+			return  a.querySelectorAll('td')[strIndex].textContent > 
+							b.querySelectorAll('td')[strIndex].textContent ? 1 : -1;
+		})
+		gridTbody.append(...sortedRows)
+	}
+
 })
