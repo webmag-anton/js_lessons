@@ -1,6 +1,10 @@
+body{
+	padding-bottom: 200px;
+}
+
 b{
 	display: block;
-	margin-bottom: 20px;
+	margin: 20px 0;
 	text-align: center;
 }
 
@@ -90,4 +94,28 @@ b{
 }
 #grid th:hover {
 	background: yellow;
+}
+
+
+/* 2.4 */
+
+.photorama{
+	margin: 20px 100px;
+}
+
+.photorama-imgLarge{
+	display: block;
+	width: 500px;
+	height: 400px;
+	object-fit: cover;
+}
+
+.photorama-thumbsBox{
+	display: flex;
+	margin-top: 10px;
+}
+.photorama-thumb{
+	width: 100px;
+	height: 80px;
+	cursor: pointer;
 }

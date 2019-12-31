@@ -457,3 +457,31 @@ grid.addEventListener('click', function(event) {
 // 		tooltipElem = null;
 // 	}
 // };
+
+
+/* 2.4 */
+
+// 2
+let contents = document.querySelector('#contents')
+
+contents.addEventListener('click', event => {
+	// если клик не по ссылке, иле не по элементу внутри ссылки - отмена обработки
+	if (!event.target.closest('a')) return;
+
+	let question = confirm('Хотите покинуть страницу и перейти по ссылке?')
+	if (!question) event.preventDefault()
+	// если не нажмли на отмена, то произойдет дефолтное действие
+})
+
+// 3
+let photorama = document.querySelector('.photorama')
+let photorama_imgLarge = document.querySelector('.photorama-imgLarge')
+
+photorama.addEventListener('click', event => {
+	if ( event.target.tagName == 'IMG' && 
+		   event.target.closest('.photorama-thumbsBox')) {
+
+		let currentImg = event.target.getAttribute('src')
+		photorama_imgLarge.setAttribute('src', currentImg)
+	}
+})
