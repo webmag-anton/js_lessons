@@ -485,3 +485,29 @@ photorama.addEventListener('click', event => {
 		photorama_imgLarge.setAttribute('src', currentImg)
 	}
 })
+
+
+/* 3.1 */
+
+let ul_mouse = document.querySelector('#ul_mouse')
+let ul_mouseItems = document.querySelectorAll('#ul_mouse li')
+
+ul_mouse.addEventListener('mousedown', e => {
+	// отключаем выделение текста при зажатой кнопке с перемещением, а так же 
+	// это предотвратит выделение при даблклике - это связанное событие
+	e.preventDefault() 
+})
+
+ul_mouse.addEventListener('click', e => {
+	if (e.target.tagName != 'LI') return;
+
+	if ( e.ctrlKey || e.metaKey ) { // если зажата ctrl или Cmd (для macOS)
+		e.target.classList.toggle('selected')
+	} else {
+		// у коллекции-псевдомассива элементов есть метод forEach()
+		ul_mouseItems.forEach(function(item) {
+			item.classList.remove('selected')
+		})  
+		e.target.classList.add('selected')
+	}
+})

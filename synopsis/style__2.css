@@ -102,14 +102,12 @@ b{
 .photorama{
 	margin: 20px 100px;
 }
-
 .photorama-imgLarge{
 	display: block;
 	width: 500px;
 	height: 400px;
 	object-fit: cover;
 }
-
 .photorama-thumbsBox{
 	display: flex;
 	margin-top: 10px;
@@ -119,3 +117,15 @@ b{
 	height: 80px;
 	cursor: pointer;
 }
+
+
+/* 3.1 */
+
+#ul_mouse {
+	display: inline-block;
+	margin-left: 300px;
+	padding: 30px;
+  border: 1px solid #000;
+}
+#ul_mouse .selected {background: #0f0;}
+#ul_mouse li {cursor: pointer; list-style-type: square;}
