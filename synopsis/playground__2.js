@@ -518,21 +518,56 @@ ul_mouse.addEventListener('click', e => {
 
 /* 3.2 */
 
+// 1
 let house = document.querySelector('#house')
-let tooltip = document.createElement('div')
-tooltip.className = 'tooltip'
+let tooltip;
+
+let current;
 
 house.addEventListener('mouseover', e => {
-	if (!e.target.dataset.tooltip) return;
+	let tooltipElem = e.target.closest('[data-tooltip]')
+	// если навели на элемент без подсказки (или на его предка) - выходим
+	if (!tooltipElem) return;
 
-	document.body.prepend(tooltip)
-	tooltip.innerHTML = e.target.dataset.tooltip
+	// если предок элемента с подсказкой (на который мы навели последний раз) и 
+	// предок вновь наведенного элемента являются одним и тем же элементом - выходим
+	if (tooltipElem == current) return
 
-	console.log(1)
+	// записываем элемент на который навели
+	current = tooltipElem;
+
+	createTooltip(tooltipElem)
 })
 
 house.addEventListener('mouseout', e => {
-	// if (!e.target.dataset.tooltip) return;
+	// если вывели курсор из элемента без подсказки (или из его предка) - выходим
+	if (!e.target.closest('[data-tooltip]')) return;
+	// если указатель не ушел за пределы окна браузера (e.relatedTarget != null) и 
+	// если предок элемента с подсказкой (из которого мы выводим курсор) и предок
+	// элемента на который наводим являются одним и тем же элементом - выходим
+	if ( e.relatedTarget && e.target.closest('[data-tooltip]') == 
+		   e.relatedTarget.closest('[data-tooltip]') ) return;
 
-	console.log(2)
+	tooltip.remove() // удаляем подсказку
+	// очищаем текщий элемент (что б при вовторном наведении на тот же элемент 
+	// создавалась подсказка (например после повторного наведения на дом) )
+	current = null
 })
+
+
+function createTooltip(tooltipElem) {
+	tooltip = document.createElement('div')
+	tooltip.className = 'tooltip-house'
+	tooltip.innerHTML = tooltipElem.dataset.tooltip
+	document.body.prepend(tooltip)
+
+	let coords = tooltipElem.getBoundingClientRect();
+
+	let top = coords.top - tooltip.offsetHeight - 5;
+	if (coords.top < tooltip.offsetHeight + 5) top = coords.bottom + 5;
+	let left =  coords.left + (coords.width - tooltip.offsetWidth) / 2;
+	if (left < 0) left = 0
+
+	tooltip.style.top = top + 'px';
+	tooltip.style.left = left + 'px';
+}
