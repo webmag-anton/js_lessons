@@ -459,6 +459,7 @@ grid.addEventListener('click', function(event) {
 // };
 
 
+
 /* 2.4 */
 
 // 2
@@ -487,6 +488,7 @@ photorama.addEventListener('click', event => {
 })
 
 
+
 /* 3.1 */
 
 let ul_mouse = document.querySelector('#ul_mouse')
@@ -510,4 +512,27 @@ ul_mouse.addEventListener('click', e => {
 		})  
 		e.target.classList.add('selected')
 	}
+})
+
+
+
+/* 3.2 */
+
+let house = document.querySelector('#house')
+let tooltip = document.createElement('div')
+tooltip.className = 'tooltip'
+
+house.addEventListener('mouseover', e => {
+	if (!e.target.dataset.tooltip) return;
+
+	document.body.prepend(tooltip)
+	tooltip.innerHTML = e.target.dataset.tooltip
+
+	console.log(1)
+})
+
+house.addEventListener('mouseout', e => {
+	// if (!e.target.dataset.tooltip) return;
+
+	console.log(2)
 })
