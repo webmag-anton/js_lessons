@@ -571,3 +571,64 @@ function createTooltip(tooltipElem) {
 	tooltip.style.top = top + 'px';
 	tooltip.style.left = left + 'px';
 }
+
+
+// 2
+let clock = document.querySelector('.clock')
+let tooltip_smart = document.createElement('div')
+tooltip_smart.className = 'tooltip_smart'
+tooltip_smart.innerHTML = 'tooltip_smart'
+document.body.prepend(tooltip_smart)
+
+let coords = clock.getBoundingClientRect();
+tooltip_smart.style.top = coords.bottom + 5 + 'px'
+tooltip_smart.style.left = coords.left + 'px'
+
+
+
+tooltip_smart.hidden = true
+let interval
+
+clock.addEventListener('mouseover', e => {
+	// tooltip_smart.hidden = false
+
+	// начальные координаты при наведении курсора
+	let startX = e.clientX
+	let startY = e.clientY
+
+	let lastX, lastY
+
+	clock.addEventListener('mousemove', event => {
+		lastX = event.clientX			
+		lastY = event.clientY			
+	})
+
+	interval = setInterval(function() {
+		// расчитаем расстояние от стартовых координат, пройденное за 1000 мс
+		// гипотенуза (расстояние) равна корню от суммы квадратов катетов
+		let deltaX = lastX - startX;
+		let deltaY = lastY - startY;
+		let catetsSum = Math.pow(deltaX, 2) + Math.pow(deltaY, 2)
+		let hipotenoose = Math.pow(catetsSum, 0.5).toFixed(1) 
+
+		console.log(`Скорость: ${hipotenoose}px/100ms`)
+
+		// если скорость перемещения меньше 10px/100ms, то показываем 
+		// подсказку и останавливаем вычисления 
+		if(hipotenoose < 10) {
+			tooltip_smart.hidden = false
+			clearInterval(interval) // останавливаем вычисления 
+		}
+
+		// записываем последние координаты как стартовые
+		startX = lastX
+		startY = lastY
+
+	}, 100)
+
+})
+
+clock.addEventListener('mouseout', e => {
+	clearInterval(interval)
+	tooltip_smart.hidden = true
+})
