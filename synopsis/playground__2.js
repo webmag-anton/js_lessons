@@ -583,39 +583,35 @@ document.body.prepend(tooltip_smart)
 let coords = clock.getBoundingClientRect();
 tooltip_smart.style.top = coords.bottom + 5 + 'px'
 tooltip_smart.style.left = coords.left + 'px'
-
-
-
 tooltip_smart.hidden = true
+
 let interval
 
 clock.addEventListener('mouseover', e => {
-	// tooltip_smart.hidden = false
-
 	// начальные координаты при наведении курсора
 	let startX = e.clientX
 	let startY = e.clientY
-
+	// последние координаты, вычисляемые каждые 100 мс
 	let lastX, lastY
 
+	// после наведения на элемент следим за движением мыши
 	clock.addEventListener('mousemove', event => {
 		lastX = event.clientX			
 		lastY = event.clientY			
 	})
 
+	// каждые 100 мс проверяем пройденное расстояние
 	interval = setInterval(function() {
-		// расчитаем расстояние от стартовых координат, пройденное за 1000 мс
 		// гипотенуза (расстояние) равна корню от суммы квадратов катетов
 		let deltaX = lastX - startX;
 		let deltaY = lastY - startY;
 		let catetsSum = Math.pow(deltaX, 2) + Math.pow(deltaY, 2)
-		let hipotenoose = Math.pow(catetsSum, 0.5).toFixed(1) 
-
-		console.log(`Скорость: ${hipotenoose}px/100ms`)
+		let hypotenuse = Math.pow(catetsSum, 0.5).toFixed(1) 
+		console.log(`Скорость:  ${hypotenuse} px/100ms`)
 
 		// если скорость перемещения меньше 10px/100ms, то показываем 
 		// подсказку и останавливаем вычисления 
-		if(hipotenoose < 10) {
+		if(hypotenuse < 10) {
 			tooltip_smart.hidden = false
 			clearInterval(interval) // останавливаем вычисления 
 		}
@@ -630,5 +626,9 @@ clock.addEventListener('mouseover', e => {
 
 clock.addEventListener('mouseout', e => {
 	clearInterval(interval)
-	tooltip_smart.hidden = true
+	// если была показана подсказка - прячем
+	if (!tooltip_smart.hidden) {
+		tooltip_smart.hidden = true
+	}
+	
 })
