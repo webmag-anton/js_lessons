@@ -587,7 +587,9 @@ tooltip_smart.hidden = true
 
 let interval
 
-clock.addEventListener('mouseover', e => {
+// т.к нам не нужно обрабатывать переход на внутренние элементы часов, а только
+// движение курсора над часами вцелом, то удобней использовать mouseenter/mouseleave
+clock.addEventListener('mouseenter', e => {
 	// начальные координаты при наведении курсора
 	let startX = e.clientX
 	let startY = e.clientY
@@ -624,11 +626,10 @@ clock.addEventListener('mouseover', e => {
 
 })
 
-clock.addEventListener('mouseout', e => {
+clock.addEventListener('mouseleave', e => {
 	clearInterval(interval)
 	// если была показана подсказка - прячем
 	if (!tooltip_smart.hidden) {
 		tooltip_smart.hidden = true
 	}
-	
 })
