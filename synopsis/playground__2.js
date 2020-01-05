@@ -633,3 +633,26 @@ clock.addEventListener('mouseleave', e => {
 		tooltip_smart.hidden = true
 	}
 })
+
+
+
+/* 3.3 */
+
+// 1
+let range = document.querySelector('.range')
+let rangeBar = document.querySelector('.range-bar')
+
+rangeBar.addEventListener('mousedown', e => {
+
+	function rangeBarMove(clientX) {
+		rangeBar.style.left = `${clientX - range.getBoundingClientRect().left - 
+														(clientX - rangeBar.getBoundingClientRect().left)}px`
+	}
+	rangeBarMove(e.clientX)
+
+	document.addEventListener('mousemove', e => {
+		rangeBarMove(e.clientX)
+	})
+
+
+})
