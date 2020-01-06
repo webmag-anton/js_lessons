@@ -195,7 +195,7 @@ b{
 	position: relative;
 	width: 300px;
 	height: 10px;
-	margin: 30px 200px;
+	margin: 30px 300px;
 	border-radius: 6px;
 	background-color: #ccc;
 }
@@ -209,4 +209,42 @@ b{
 	border-radius: 4px;
 	background-color: blue;
 	cursor: pointer;
+}
+
+.soccer_DnD{
+	padding: 50px;
+}
+#field_DnD {
+  background: url(https://js.cx/drag-heroes/field.png);
+  width: 800px;
+  height: 600px;
+  float: left;
+}
+/* герои и мяч (переносимые элементы) */
+.hero_DnD {
+  background: url(https://js.cx/drag-heroes/heroes.png);
+  width: 130px;
+  height: 128px;
+  float: left;
+}
+#hero1_DnD {
+  background-position: 0 0;
+}
+#hero2_DnD {
+  background-position: 0 -128px;
+}
+#hero3_DnD {
+  background-position: -120px 0;
+}
+#hero4_DnD {
+  background-position: -125px -128px;
+}
+#hero5_DnD {
+  background-position: -248px -128px;
+}
+#hero6_DnD {
+  background-position: -244px 0;
+}
+.draggable {
+  cursor: pointer;
 }

@@ -642,17 +642,39 @@ clock.addEventListener('mouseleave', e => {
 let range = document.querySelector('.range')
 let rangeBar = document.querySelector('.range-bar')
 
+rangeBar.ondragstart = function() {
+  return false; // отмена браузерного ondragstart
+};
+
 rangeBar.addEventListener('mousedown', e => {
+	event.preventDefault(); // предотвратить запуск выделения (действие браузера)
+	// вычисляем изначальный сдвиг относительно указателя мыши
+	let shiftX = e.clientX - rangeBar.getBoundingClientRect().left
 
-	function rangeBarMove(clientX) {
-		rangeBar.style.left = `${clientX - range.getBoundingClientRect().left - 
-														(clientX - rangeBar.getBoundingClientRect().left)}px`
+	function rangeBarBase(clientX) {
+		rangeBar.style.left = `${clientX - range.getBoundingClientRect().left - shiftX}px`
+
+		if (rangeBar.getBoundingClientRect().left < range.getBoundingClientRect().left) {
+			rangeBar.style.left = '0'
+		}
+		if (rangeBar.getBoundingClientRect().right > range.getBoundingClientRect().right) {
+			rangeBar.style.left = `calc(100% - ${rangeBar.getBoundingClientRect().width}px)`
+		}
 	}
-	rangeBarMove(e.clientX)
 
-	document.addEventListener('mousemove', e => {
-		rangeBarMove(e.clientX)
-	})
+	function rangeBarMove(e) {
+		rangeBarBase(e.clientX)
+	}
+	document.addEventListener('mousemove', rangeBarMove)
 
+	// удаляем обработчик отпускания мышки после отпускания
+	function onMouseUp() {
+		document.removeEventListener('mousemove', rangeBarMove)
+		document.removeEventListener('mouseup', onMouseUp)
+		console.log('up!')
+	}
+	document.addEventListener('mouseup', onMouseUp)
 
 })
+
+// 2
