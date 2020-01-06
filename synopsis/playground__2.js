@@ -647,7 +647,7 @@ rangeBar.ondragstart = function() {
 };
 
 rangeBar.addEventListener('mousedown', e => {
-	event.preventDefault(); // предотвратить запуск выделения (действие браузера)
+	e.preventDefault(); // предотвратить запуск выделения (действие браузера)
 	// вычисляем изначальный сдвиг относительно указателя мыши
 	let shiftX = e.clientX - rangeBar.getBoundingClientRect().left
 
@@ -678,3 +678,41 @@ rangeBar.addEventListener('mousedown', e => {
 })
 
 // 2
+document.addEventListener('mousedown', e => {
+	if (!e.target.classList.contains('draggable')) return;
+
+	let hero = e.target
+
+	e.preventDefault(); // предотвратить запуск выделения (действие браузера)
+	hero.ondragstart = function(e) {
+		hero.preventDefault(); // отмена браузерного ondragstart
+	}
+
+	// вычисляем изначальный сдвиг относительно указателя мыши
+	let shiftX = e.clientX - hero.getBoundingClientRect().left
+	let shiftY = e.clientY - hero.getBoundingClientRect().top
+
+	let scrollBarWidth = window.innerWidth - document.documentElement.clientWidth
+
+	function heroMove(e) {
+		hero.style.left = `${e.clientX - shiftX}px`
+		hero.style.top = `${e.clientY - shiftY}px`
+		hero.style.position = 'fixed'
+
+		if (hero.getBoundingClientRect().left < 0) hero.style.left = '0'
+		if (hero.getBoundingClientRect().left > 
+				window.innerWidth - hero.getBoundingClientRect().width - scrollBarWidth) {
+			hero.style.left = `${window.innerWidth - hero.getBoundingClientRect().width 
+												 - scrollBarWidth}px`
+		} 
+		if (hero.getBoundingClientRect().top < 0) hero.style.top = '0'
+	}
+	document.addEventListener('mousemove', heroMove)
+
+	function mouseUp() {
+		document.removeEventListener('mousemove', heroMove)
+		document.removeEventListener('mouseup', mouseUp)
+		hero.ondragstart = null
+	}
+	document.addEventListener('mouseup', mouseUp)
+})

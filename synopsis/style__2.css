@@ -214,18 +214,22 @@ b{
 .soccer_DnD{
 	padding: 50px;
 }
+.soccer_DnD-box{
+	font-size: 0;
+}
 #field_DnD {
+	display: inline-block;
+	vertical-align: top;
   background: url(https://js.cx/drag-heroes/field.png);
   width: 800px;
   height: 600px;
-  float: left;
 }
 /* герои и мяч (переносимые элементы) */
 .hero_DnD {
+	display: inline-block;
   background: url(https://js.cx/drag-heroes/heroes.png);
   width: 130px;
   height: 128px;
-  float: left;
 }
 #hero1_DnD {
   background-position: 0 0;
