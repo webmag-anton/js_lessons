@@ -692,7 +692,8 @@ document.addEventListener('mousedown', e => {
 	let shiftX = e.clientX - hero.getBoundingClientRect().left
 	let shiftY = e.clientY - hero.getBoundingClientRect().top
 
-	let scrollBarWidth = window.innerWidth - document.documentElement.clientWidth
+	let scrollbarRightWidth = window.innerWidth - document.documentElement.clientWidth
+	let scrollbarBottomHeight = window.innerHeight - document.documentElement.clientHeight
 
 	function heroMove(e) {
 		hero.style.left = `${e.clientX - shiftX}px`
@@ -701,11 +702,20 @@ document.addEventListener('mousedown', e => {
 
 		if (hero.getBoundingClientRect().left < 0) hero.style.left = '0'
 		if (hero.getBoundingClientRect().left > 
-				window.innerWidth - hero.getBoundingClientRect().width - scrollBarWidth) {
+				window.innerWidth - hero.getBoundingClientRect().width - scrollbarRightWidth) {
 			hero.style.left = `${window.innerWidth - hero.getBoundingClientRect().width 
-												 - scrollBarWidth}px`
+												 - scrollbarRightWidth}px`
 		} 
-		if (hero.getBoundingClientRect().top < 0) hero.style.top = '0'
+		if (hero.getBoundingClientRect().top < 0) {
+			window.scrollBy(0, -20) // прокрутка страницы вверх
+			hero.style.top = '0'
+		} 
+		if (hero.getBoundingClientRect().top > 
+				window.innerHeight - hero.getBoundingClientRect().height - scrollbarBottomHeight) {
+			window.scrollBy(0, 20) // прокрутка страницы вниз
+			hero.style.top = `${window.innerHeight - hero.getBoundingClientRect().height
+											  - scrollbarBottomHeight}px`
+		}
 	}
 	document.addEventListener('mousemove', heroMove)
 
