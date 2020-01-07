@@ -707,14 +707,14 @@ document.addEventListener('mousedown', e => {
 												 - scrollbarRightWidth}px`
 		} 
 		if (hero.getBoundingClientRect().top < 0) {
-			window.scrollBy(0, -20) // прокрутка страницы вверх
 			hero.style.top = '0'
+			window.scrollBy(0, -20) // прокрутка страницы вверх
 		} 
 		if (hero.getBoundingClientRect().top > 
 				window.innerHeight - hero.getBoundingClientRect().height - scrollbarBottomHeight) {
-			window.scrollBy(0, 20) // прокрутка страницы вниз
 			hero.style.top = `${window.innerHeight - hero.getBoundingClientRect().height
 											  - scrollbarBottomHeight}px`
+			window.scrollBy(0, 20) // прокрутка страницы вниз
 		}
 	}
 	document.addEventListener('mousemove', heroMove)
@@ -726,3 +726,38 @@ document.addEventListener('mousedown', e => {
 	}
 	document.addEventListener('mouseup', mouseUp)
 })
+
+
+/* 3.4 */
+
+function runOnKeys(func, ...codes) {
+	let pressed = new Set();
+
+	document.addEventListener('keydown', function(event) {
+		pressed.add(event.code);
+
+    for (let code of codes) { // все ли клавиши из набора нажаты?
+    	if (!pressed.has(code)) {
+    		return;
+    	}
+    }
+
+    // во время показа alert, если посетитель отпустит клавиши - не возникнет keyup
+    // при этом JavaScript "пропустит" факт отпускания клавиш, а pressed[keyCode] останется true
+    // чтобы избежать "залипания" клавиши -- обнуляем статус всех клавиш, пусть нажимает всё заново
+    pressed.clear();
+
+    func();
+  });
+
+	document.addEventListener('keyup', function(event) {
+		pressed.delete(event.code);
+	});
+
+}
+
+function welcome() {
+	alert('welcome')
+}
+
+runOnKeys(welcome, 'KeyZ', 'KeyX')
