@@ -728,6 +728,7 @@ document.addEventListener('mousedown', e => {
 })
 
 
+
 /* 3.4 */
 
 function runOnKeys(func, ...codes) {
@@ -753,11 +754,30 @@ function runOnKeys(func, ...codes) {
 	document.addEventListener('keyup', function(event) {
 		pressed.delete(event.code);
 	});
-
 }
 
-function welcome() {
-	alert('welcome')
-}
+runOnKeys( () => alert('welcome'), 'KeyZ', 'KeyX' )
 
-runOnKeys(welcome, 'KeyZ', 'KeyX')
+
+
+/* 3.5 */
+
+// 1
+// window.addEventListener('scroll', (e) => {
+// 	let scrollHeight = Math.max(
+// 		document.body.scrollHeight, document.documentElement.scrollHeight,
+// 		document.body.offsetHeight, document.documentElement.offsetHeight,
+// 		document.body.clientHeight, document.documentElement.clientHeight
+// 	)
+
+// 	if (window.pageYOffset >= scrollHeight - window.innerHeight - 30) {
+// 		let scrollTime = document.createElement('div')
+// 		document.body.append(scrollTime)
+// 		let currentDate = new Date();
+
+// 		scrollTime.innerHTML = `${currentDate.getHours()} : 
+// 														${currentDate.getMinutes()} : 
+// 														${currentDate.getSeconds()}`
+// 	}
+// })
+
