@@ -797,22 +797,27 @@ runOnKeys( () => alert('welcome'), 'KeyZ', 'KeyX' )
 /* 4.2 */
 
 let divView = document.querySelector('.view')
+
 let textareaEdit = document.createElement('textarea')
 textareaEdit.className = 'edit'
 
-divView.addEventListener('click', function() {
+let handleViewClick = function() {
 	textareaEdit.value = this.textContent
-	this.before(textareaEdit)
+	this.replaceWith(textareaEdit) // replaceWith не удаляет this => querySelector находит .view
 	textareaEdit.focus()
-	this.remove()
-})
 
-textareaEdit.addEventListener('blur', function() {
-	let newDivView = document.createElement('div')
-	newDivView.className = 'view'
+	textareaEdit.addEventListener('blur', function() {
+		divView.textContent = this.value
+		this.replaceWith(divView)
+		divView.focus()
+	})
 
-	newDivView.textContent = this.value
-	this.before(newDivView)
-	newDivView.focus()
-	this.remove()
-})
+	textareaEdit.addEventListener('keydown', function(e) {
+		if (e.code == 'Enter') {
+			this.blur()
+		}
+	})
+}
+
+divView.addEventListener('click', handleViewClick)
+
