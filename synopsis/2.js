@@ -349,6 +349,42 @@ key – символ {"A", "a" ...}
 repeat - для событий вызванных автоповтором свойство repeat равно true
 
 
-				// Прокрутка
+		// Прокрутка
 
 scroll - событие позволяет реагировать на прокрутку страницы или элемента
+
+
+
+
+
+		/*--- Формы, элементы управления ---*/	
+
+
+		// Свойства и методы формы
+
+document.forms - «именованная» кол-я форм {document.forms.my (name='my') или document.forms[0]}
+
+// получаем элемент формы <input name="one">
+// если несколько элементов с одним и тем же именем (radio), то form.elements[name] - коллекция
+let form = document.forms.my;   let elem = form.elements.one;
+// cокращённая форма записи
+form.elements.login == form.login
+// для любого элемента форма доступна через element.form (элементы хранят ссылку на свою форму)
+
+input.value = "Новое значение";
+textarea.value = "Новый текст";
+input.checked = <boolean>; // для чекбоксов и переключателей
+
+// элемент <select> имеет 3 важных свойства:
+select.options – коллекция из подэлементов <option>
+select.value – значение выбранного в данный момент <option>
+select.selectedIndex – номер выбранного <option>
+// свойства элемента <option>:
+option.selected - <boolean>
+option.index - номер опции среди других в списке 
+option.text - содержимое опции
+
+// создания элемента <option>: 
+new Option(text, value, defaultSelected, selected)
+// defaultSelected – если true, то ставится HTML-атрибут selected
+// selected – если true, то элемент <option> будет выбранным

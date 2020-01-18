@@ -781,3 +781,13 @@ runOnKeys( () => alert('welcome'), 'KeyZ', 'KeyX' )
 // 	}
 // })
 
+
+
+/* 4.1 */
+
+let selectGenres = document.querySelector('#genres')
+let optionSelected = selectGenres.options[selectGenres.selectedIndex]
+console.log(selectGenres.value, optionSelected.text)
+
+let aditionalOption = new Option('Классика', 'classic', true, true)
+selectGenres.append(aditionalOption)
