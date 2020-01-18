@@ -785,9 +785,34 @@ runOnKeys( () => alert('welcome'), 'KeyZ', 'KeyX' )
 
 /* 4.1 */
 
-let selectGenres = document.querySelector('#genres')
-let optionSelected = selectGenres.options[selectGenres.selectedIndex]
-console.log(selectGenres.value, optionSelected.text)
+// let selectGenres = document.querySelector('#genres')
+// let optionSelected = selectGenres.options[selectGenres.selectedIndex]
+// console.log(selectGenres.value, optionSelected.text)
 
-let aditionalOption = new Option('Классика', 'classic', true, true)
-selectGenres.append(aditionalOption)
+// let aditionalOption = new Option('Классика', 'classic', true, true)
+// selectGenres.append(aditionalOption)
+
+
+
+/* 4.2 */
+
+let divView = document.querySelector('.view')
+let textareaEdit = document.createElement('textarea')
+textareaEdit.className = 'edit'
+
+divView.addEventListener('click', function() {
+	textareaEdit.value = this.textContent
+	this.before(textareaEdit)
+	textareaEdit.focus()
+	this.remove()
+})
+
+textareaEdit.addEventListener('blur', function() {
+	let newDivView = document.createElement('div')
+	newDivView.className = 'view'
+
+	newDivView.textContent = this.value
+	this.before(newDivView)
+	newDivView.focus()
+	this.remove()
+})
