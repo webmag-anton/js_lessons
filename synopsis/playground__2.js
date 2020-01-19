@@ -796,6 +796,7 @@ runOnKeys( () => alert('welcome'), 'KeyZ', 'KeyX' )
 
 /* 4.2 */
 
+// 1
 let divView = document.querySelector('.view')
 
 let textareaEdit = document.createElement('textarea')
@@ -821,3 +822,9 @@ let handleViewClick = function() {
 
 divView.addEventListener('click', handleViewClick)
 
+// 2
+let baguaTable = document.querySelector('#bagua-table')
+
+baguaTable.addEventListener('click', function(e) {
+	if (e.target.tagName == 'TD') 
+})
