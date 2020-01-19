@@ -822,9 +822,169 @@ let handleViewClick = function() {
 
 divView.addEventListener('click', handleViewClick)
 
+
 // 2
+
+// my version
 let baguaTable = document.querySelector('#bagua-table')
 
-baguaTable.addEventListener('click', function(e) {
-	if (e.target.tagName == 'TD') 
+let handlerTableClick = function(e) {
+
+		let currentTarget = e.target
+		let currentTD = currentTarget.closest('td')
+
+		// если кликнули по ячейке или по вложенному в нее тегу (кроме textarea и кнопок)
+		if ( currentTD && currentTarget.tagName != 'TEXTAREA' && 
+				 !currentTarget.closest('.bagua-buttons') ) {
+
+			// запоминаем текущее содержимое, до редактирования
+			let currentHTML = currentTD.innerHTML
+
+			// создаем textarea с содержимым как у ячейки и кладем внутрь пустого td
+			let textarea = document.createElement('textarea')
+			textarea.className = 'bagua-textarea'
+			textarea.value = currentTD.innerHTML
+			textarea.style.cssText = `position: absolute;
+																left: 0;
+																top: 0;
+																width: 100%;
+																height: 100%;`
+			currentTD.innerHTML = ''
+			currentTD.append(textarea)
+			textarea.focus()
+
+			// добавляем кнопки внутрь ячейки (за textarea) и позиционируем под ячейкой
+			let bagua_buttons = document.createElement('div')
+			bagua_buttons.className = 'bagua-buttons'
+			bagua_buttons.style.cssText = `position: absolute;
+																		left: 0;
+																		top: 100%;
+																		z-index: 1`
+
+			let bagua_button_ok = document.createElement('button')
+			bagua_button_ok.className = 'bagua-button-ok'
+			bagua_button_ok.textContent = 'OK'
+			let bagua_button_cancel = document.createElement('button')
+			bagua_button_cancel.className = 'bagua-button-cancel'
+			bagua_button_cancel.textContent = 'CANCEL'
+
+			bagua_buttons.append(bagua_button_ok)
+			bagua_buttons.append(bagua_button_cancel)
+
+			currentTD.append(bagua_buttons)
+
+			// удаляем обработчик, что б во время редактирования textarea не редактировать др ячейки
+			baguaTable.removeEventListener('click', handlerTableClick)
+
+			
+			let handlerOkClick = function() {
+					currentTD.innerHTML = textarea.value
+					// восстанавливаем обработчик таблицы
+					baguaTable.addEventListener('click', handlerTableClick)
+					// удаляем обработчик кнопки OK
+					bagua_button_ok.removeEventListener('click', handlerOkClick)
+				}
+			// если кликаем по кнопке OK
+			bagua_button_ok.addEventListener('click', handlerOkClick)
+
+			let handlerCancelClick = function() {
+					currentTD.innerHTML = currentHTML
+					// восстанавливаем обработчик таблицы
+					baguaTable.addEventListener('click', handlerTableClick)
+					// удаляем обработчик кнопки CANCEL
+					bagua_button_cancel.removeEventListener('click', handlerCancelClick)
+				}
+			// если кликаем по кнопке CANCEL
+			bagua_button_cancel.addEventListener('click', handlerCancelClick)
+
+		}
+	}
+
+baguaTable.addEventListener('click', handlerTableClick)
+
+															// Или
+
+// let table = document.getElementById('bagua-table');
+
+// let editingTd;
+
+// table.onclick = function(event) {
+
+//   // 3 возможных цели
+//   let target = event.target.closest('.edit-cancel,.edit-ok,td');
+
+//   if (!table.contains(target)) return;
+
+//   if (target.className == 'edit-cancel') {
+//     finishTdEdit(editingTd.elem, false);
+//   } else if (target.className == 'edit-ok') {
+//     finishTdEdit(editingTd.elem, true);
+//   } else if (target.nodeName == 'TD') {
+//     if (editingTd) return; // уже редактируется
+
+//     makeTdEditable(target);
+//   }
+
+// };
+
+// function makeTdEditable(td) {
+//   editingTd = {
+//     elem: td,
+//     data: td.innerHTML
+//   };
+
+//   td.classList.add('edit-td'); // td в состоянии редактирования, CSS применятся к textarea внутри ячейки
+
+//   let textArea = document.createElement('textarea');
+//   textArea.style.width = td.clientWidth + 'px';
+//   textArea.style.height = td.clientHeight + 'px';
+//   textArea.className = 'edit-area';
+
+//   textArea.value = td.innerHTML;
+//   td.innerHTML = '';
+//   td.appendChild(textArea);
+//   textArea.focus();
+
+//   td.insertAdjacentHTML("beforeEnd",
+//     '<div class="edit-controls"><button class="edit-ok">OK</button><button class="edit-cancel">CANCEL</button></div>'
+//   );
+// }
+
+// function finishTdEdit(td, isOk) {
+//   if (isOk) {
+//     td.innerHTML = td.firstChild.value;
+//   } else {
+//     td.innerHTML = editingTd.data;
+//   }
+//   td.classList.remove('edit-td');
+//   editingTd = null;
+// }
+
+
+
+// 3
+let mouse = document.querySelector('#mouse')
+mouse.style.cssText = `position: relative;
+											 display: inline-block;`
+mouse.tabIndex = 0
+
+mouse.addEventListener('focus', function() {
+	mouse.addEventListener('keydown', e => {
+		if (e.code == 'ArrowUp') {
+			e.preventDefault() // отменяем прокрутку страницы
+			this.style.top = `${(parseInt(this.style.top) || 0) - 30}px`
+		}
+		if (e.code == 'ArrowDown') {
+			e.preventDefault() // отменяем прокрутку страницы
+			this.style.top = `${(parseInt(this.style.top) || 0) + 30}px`
+		}
+		if (e.code == 'ArrowLeft') {
+			e.preventDefault() // отменяем прокрутку страницы
+			this.style.left = `${(parseInt(this.style.left) || 0) - 30}px`
+		}
+		if (e.code == 'ArrowRight') {
+			e.preventDefault() // отменяем прокрутку страницы
+			this.style.left = `${(parseInt(this.style.left) || 0) + 30}px`
+		}
+	})
 })
