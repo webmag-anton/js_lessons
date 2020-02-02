@@ -3,7 +3,8 @@
 
 // В браузере глобальные ф-ии и переменные, объявленные с помощью var (не let/const!), становятся 
 // свойствами глобального объекта (window, в Nodejs — global, универсальный новый - globalThis) 
-					
+setTimeout(), setInterval(), alert(), prompt(), confirm() - методы глобального объекта window
+console - объект глобального объекта window ( console.log(window.console) ) 					
 
 
 

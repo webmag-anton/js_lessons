@@ -237,3 +237,31 @@
 // counter()
 // counter()
 // console.log(a) // a не видно, вызов ф-ии counter не меняет область видимости
+
+
+
+	
+
+
+
+
+								// this у стрелочных функций
+
+// у стрелочных функций нет своего контекста (this); если мы используем this внутри 
+// стрелочной функции, то его значение берётся из внешней «нормальной» функции
+// let group = {
+//   title: "Our Group",
+//   students: ["John", "Pete", "Alice"],
+
+//   showList() {
+//     this.students.forEach(
+//       student => alert(this.title + ': ' + student)
+
+//       // не сработает, т.к. this указывает на window, у которого вызывается 
+//       // метод alert ( alert это сокращение от window.alert() ), а для глобального
+//       // объекта мы не объявляли св-во title и не создавали var title в глобальной области
+//       // function(student) { alert(this.title + ': ' + student) } 
+//     );
+//   }
+// };
+// group.showList();
