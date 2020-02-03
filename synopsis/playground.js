@@ -1,20 +1,12 @@
 'use strict';
 
 
-
 				/***** intresting moments *****/
 
 
-
-// for (var i = 0; i < 10; i++) {
-// }
+// // при встроенном объявлении переменной var видна снаружи, а let нет
+// for (var i = 0; i < 10; i++) {}
 // console.log(i)
-
-
-// console.log(false == []) // true  - пустой массив преобразуется к 0
-// console.log(false == {}) // false - пустой объект преобразуется к 1
-// console.log(0 == null) // false - null равно или undefined или само себе
-// console.log(0 == undefined) // false - undefined равно или null или само себе
 
 
 // function doNothing() {};  
@@ -58,35 +50,81 @@
 // console.log(arr);
 
 
+// for (var i = 0; i < 3; i++) {
+// 	setTimeout(function () {
+// 		console.log(i);
+// 	}, 900);
+// }
+// // 2 решения
+// for (let i = 0; i < 3; i++) { // у каждого цикла своё собственное  
+// 	setTimeout(function () {    // лексическое окружение со своей переменной 
+// 		console.log(i);
+// 	}, 900);
+// }
+// // или
+// for (var i = 0; i < 3; i++) {
+// 	(function(j) { // ф-я замыкает в себе переменную
+// 		setTimeout( function() {
+// 			console.log(j);
+// 		}, 900)
+// 	})(i) // immediately-invoked function expressions 
+// }
 
-for (var i = 0; i < 3; i++) {
-	setTimeout(function () {
-		console.log(i);
-	}, 900);
-}
-// 2 решения
-for (let i = 0; i < 3; i++) { // у каждого цикла своё собственное  
-	setTimeout(function () {    // лексическое окружение со своей переменной 
-		console.log(i);
-	}, 900);
-}
-// или
-for (var i = 0; i < 3; i++) {
-	(function(j) { // ф-я замыкает в себе переменную
-		setTimeout( function() {
-			console.log(j);
-		}, 900)
-	})(i) // immediately-invoked function expressions 
-}
 
+
+								// заметка 1
+
+// // Функция навсегда запоминает ссылку на лексическое окружение, где она была создана
+// function Counter() {
+//   let count = 0;
+//   this.up = function() {
+//     return ++count;
+//   };
+// }
+// let counter = new Counter(); // в экземпляре нет св-ва count
+// console.log( counter.up() ); // 1
+
+
+
+								// заметка 2 - Замыкание (closure)
+
+// // ф-я closure замыкает в себе переменную a
+// function closure(a) {
+//   // возвращаемая ф-я замыкается на переменную а, и наоборот (никто  
+//   // кроме нее не имеет доступа к переменной)
+//   return function() { 
+//     a++;
+//     console.log(a)
+//   }
+// }
+// let counter = closure(0); // каждый новый вызов создает свое lexical enviroment
+// counter() // 1
+// counter() // 2
+// console.log(a) // a не видно, вызов ф-ии counter не меняет область видимости
+
+
+
+								// заметка 3 - у стрелочных функций нет своего контекста (this)
+
+// // значение this внутри стрелочной функции берётся из внешней «нормальной» функции
+// let group = {
+//   title: "Our Group",
+//   students: ["John", "Pete", "Alice"],
+//   showList() {
+//     this.students.forEach(
+//       student => alert(this.title + ': ' + student) // в node.js нет alert
+
+//       // обычная ф-я не сработает, т.к. this указывает на window, у которого вызывается 
+//       // метод alert ( alert это сокращение от window.alert() ), а для глобального
+//       // объекта мы не объявляли св-во title и не создавали var title в глобальной области
+//       // function(student) { alert(this.title + ': ' + student) } 
+//     );
+//   }
+// };
+// group.showList();
 
 
 				/***** intresting moments END *****/
-
-
-
-
-
 
 
 
