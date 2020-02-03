@@ -2,6 +2,96 @@
 
 
 
+				/***** intresting moments *****/
+
+
+
+// for (var i = 0; i < 10; i++) {
+// }
+// console.log(i)
+
+
+// console.log(false == []) // true  - пустой массив преобразуется к 0
+// console.log(false == {}) // false - пустой объект преобразуется к 1
+// console.log(0 == null) // false - null равно или undefined или само себе
+// console.log(0 == undefined) // false - undefined равно или null или само себе
+
+
+// function doNothing() {};  
+// console.log( doNothing() ); // undefined
+
+
+// var a = {
+// 	name : 'test'
+// }
+// var b = { 
+// 	name : 'test'
+// }
+// console.log( a == b, a === b ); // false false
+
+
+// console.log( '1' + 2,  1 + '2' ); // '12' '12'
+
+
+// let s = 'Hello';
+// const F = a => {   
+//   a = 'Ura-a-a-h';
+// };
+// F(s);
+// console.log(s); // Hello
+
+
+// const o = { s: 'Hello' };
+// const G = obj => {  
+//    obj.s = 'Ura-a-a-h';
+// };
+// G(o);
+// console.log(o.s); // Ura-a-a-h
+
+
+// // Развернуть одномерный массив без создания дополнительного массива
+// const arr = [-2, 10, 8, 1];
+// for (let i = arr.length - 1; i >= 0; i--) {
+// 	arr.push(arr[i]);
+// };
+// arr.splice(0, arr.length / 2);
+// console.log(arr);
+
+
+
+for (var i = 0; i < 3; i++) {
+	setTimeout(function () {
+		console.log(i);
+	}, 900);
+}
+// 2 решения
+for (let i = 0; i < 3; i++) { // у каждого цикла своё собственное  
+	setTimeout(function () {    // лексическое окружение со своей переменной 
+		console.log(i);
+	}, 900);
+}
+// или
+for (var i = 0; i < 3; i++) {
+	(function(j) { // ф-я замыкает в себе переменную
+		setTimeout( function() {
+			console.log(j);
+		}, 900)
+	})(i) // immediately-invoked function expressions 
+}
+
+
+
+				/***** intresting moments END *****/
+
+
+
+
+
+
+
+
+
+
 
 // let user = {
 //   name: "John",
