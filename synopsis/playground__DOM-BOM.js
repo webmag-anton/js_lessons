@@ -205,12 +205,12 @@
 // 	// проходимся по рядам таблицы
 // 	outer: for (let i = 0; i < table.tBodies[0].rows.length; i++){
 // 		let j = firstDay;
-// 		if(i > 0) j = 0; // для 2го ряда начинаем запись с понедельника
+// 		if (i > 0) j = 0; // для 2го ряда начинаем запись с понедельника
 		
 // 		// проходимся по ячейкам таблицы, начиная с дня недели для 1 числа месяца
 // 		for (j; j < table.tBodies[0].rows[i].cells.length; j++) {
 // 			table.tBodies[0].rows[i].cells[j].textContent = one++;
-// 			if (one > last) break outer; // выходим из внешнего счетчика после последнего месяца
+// 			if (one > last) break outer; // выходим из внешнего счетчика после последнего дня месяца
 // 		}
 // 	}
 // 	// Если нужно, удаляем последний пустой ряд
@@ -219,7 +219,7 @@
 // 	elem.append(table);
 // }
 
-// createCalendar(calendar, 2019, 11)
+// createCalendar(calendar, 2020, 1)
 
 
 
@@ -308,7 +308,7 @@
 
 
 
-/* 2.1 */
+/* 2.1  Введение в браузерные события */
 
 // 1
 // const button = document.querySelector('#button')
@@ -355,18 +355,18 @@ let carouselPosition = 0
 carouselBtnLeft.addEventListener('click', () => {
 	carouselPosition += itemWidth*itemsPerClick
 	carouselPosition = Math.min(carouselPosition, 0)	
-	carouselList.style.marginLeft = `${carouselPosition}px`
+	carouselList.style.transform = `translateX(${carouselPosition}px)`
 })
 carouselBtnRight.addEventListener('click', () => {
 	carouselPosition -= itemWidth*itemsPerClick
 	carouselPosition = Math.max( carouselPosition, 
 															 -itemWidth*(carouselItem.length - itemsPerClick) )	
-	carouselList.style.marginLeft = `${carouselPosition}px`
+	carouselList.style.transform = `translateX(${carouselPosition}px)`
 })
 
 
 
-/* 2.3 */
+/* 2.3  Делегирование событий */
 
 // 1
 // let container = document.getElementById('container')
@@ -385,7 +385,7 @@ let gridRows = document.querySelectorAll('#grid tbody tr')
 
 grid.addEventListener('click', function(event) {
 	// Если кликнули не по th - выходим
-	if( event.target.tagName != 'TH' ) return
+	if( event.target.tagName != 'TH' ) return;
 
 	// Определяем тип сортировки и индекс колонки для 
 	// сортировки и затем сортируем
@@ -460,7 +460,7 @@ grid.addEventListener('click', function(event) {
 
 
 
-/* 2.4 */
+/* 2.4  Действия браузера по умолчанию */
 
 // 2
 let contents = document.querySelector('#contents')
@@ -489,7 +489,7 @@ photorama.addEventListener('click', event => {
 
 
 
-/* 3.1 */
+/* 3.1  Основы событий мыши */
 
 let ul_mouse = document.querySelector('#ul_mouse')
 let ul_mouseItems = document.querySelectorAll('#ul_mouse li')
@@ -505,6 +505,24 @@ ul_mouse.addEventListener('click', e => {
 
 	if ( e.ctrlKey || e.metaKey ) { // если зажата ctrl или Cmd (для macOS)
 		e.target.classList.toggle('selected')
+	} else if ( e.shiftKey ) { // если зажата shift
+		e.target.classList.toggle('selected')
+
+		// если выделено больше 1 элемента...
+		if (ul_mouse.querySelectorAll('li.selected').length > 1) {
+			// ... то добавляем индексируем элементы: data-index
+			ul_mouseItems.forEach( (item, ind) => item.dataset.index = ind )
+			// затем находим индексы первого и последнего выделенного 
+			let selectedItems = ul_mouse.querySelectorAll('li.selected')
+			let firstSelectedInd = selectedItems[0].dataset.index
+			let lastSelectedInd = selectedItems[selectedItems.length - 1].dataset.index
+			// проходимся по массиву элементов от первого до последнего выделенного и
+			// если промежуточные элементы не выделенны - выделяем
+			let ul_mouseItemsArray = Array.from(ul_mouseItems) 
+			for (let i = firstSelectedInd; i < lastSelectedInd; i++) {
+				ul_mouseItems[i].classList.add('selected')
+			}
+		}
 	} else {
 		// у коллекции-псевдомассива элементов есть метод forEach()
 		ul_mouseItems.forEach(function(item) {
@@ -516,7 +534,7 @@ ul_mouse.addEventListener('click', e => {
 
 
 
-/* 3.2 */
+/* 3.2  Движение мыши: mouseover/out, mouseenter/leave */
 
 // 1
 let house = document.querySelector('#house')
@@ -636,7 +654,7 @@ clock.addEventListener('mouseleave', e => {
 
 
 
-/* 3.3 */
+/* 3.3  Drag'n'Drop с событиями мыши */
 
 // 1
 let range = document.querySelector('.range')
@@ -685,7 +703,7 @@ document.addEventListener('mousedown', e => {
 
 	e.preventDefault(); // предотвратить запуск выделения (действие браузера)
 	hero.ondragstart = function(e) {
-		hero.preventDefault(); // отмена браузерного ondragstart
+		e.preventDefault(); // отмена браузерного ondragstart
 	}
 
 	// вычисляем изначальный сдвиг относительно указателя мыши
@@ -729,7 +747,7 @@ document.addEventListener('mousedown', e => {
 
 
 
-/* 3.4 */
+/* 3.4  Клавиатура: keydown и keyup */
 
 function runOnKeys(func, ...codes) {
 	let pressed = new Set();
@@ -738,7 +756,7 @@ function runOnKeys(func, ...codes) {
 		pressed.add(event.code);
 
     for (let code of codes) { // все ли клавиши из набора нажаты?
-    	if (!pressed.has(code)) {
+    	if (!pressed.has(code)) { // если не все - выходим
     		return;
     	}
     }
@@ -760,10 +778,10 @@ runOnKeys( () => alert('welcome'), 'KeyZ', 'KeyX' )
 
 
 
-/* 3.5 */
+/* 3.5  Прокрутка */
 
 // 1
-// window.addEventListener('scroll', (e) => {
+// window.addEventListener('scroll', e => {
 // 	let scrollHeight = Math.max(
 // 		document.body.scrollHeight, document.documentElement.scrollHeight,
 // 		document.body.offsetHeight, document.documentElement.offsetHeight,
@@ -783,7 +801,7 @@ runOnKeys( () => alert('welcome'), 'KeyZ', 'KeyX' )
 
 
 
-/* 4.1 */
+/* 4.1  Свойства и методы формы */
 
 // let selectGenres = document.querySelector('#genres')
 // let optionSelected = selectGenres.options[selectGenres.selectedIndex]
@@ -794,7 +812,7 @@ runOnKeys( () => alert('welcome'), 'KeyZ', 'KeyX' )
 
 
 
-/* 4.2 */
+/* 4.2  Фокусировка: focus/blur */
 
 // 1
 let divView = document.querySelector('.view')
