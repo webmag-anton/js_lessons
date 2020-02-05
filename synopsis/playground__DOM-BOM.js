@@ -822,7 +822,7 @@ textareaEdit.className = 'edit'
 
 function handleViewClick() {
 	textareaEdit.value = this.textContent
-	this.replaceWith(textareaEdit) // replaceWith не удаляет this => querySelector находит .view
+	this.replaceWith(textareaEdit) // replaceWith не удаляет this
 	textareaEdit.focus()
 
 	textareaEdit.addEventListener('blur', function() {
@@ -846,77 +846,76 @@ divView.addEventListener('click', handleViewClick)
 // my version
 let baguaTable = document.querySelector('#bagua-table')
 
-let handlerTableClick = function(e) {
+function handlerTableClick(e) {
 
-		let currentTarget = e.target
-		let currentTD = currentTarget.closest('td')
+	let target = e.target
+	let currentTD = target.closest('td')
 
-		// если кликнули по ячейке или по вложенному в нее тегу (кроме textarea и кнопок)
-		if ( currentTD && currentTarget.tagName != 'TEXTAREA' && 
-				 !currentTarget.closest('.bagua-buttons') ) {
+	// если кликнули по ячейке или по вложенному в нее тегу (кроме textarea и кнопок)
+	if ( currentTD && target.tagName != 'TEXTAREA' && 
+			 !target.closest('.bagua-buttons') ) {
 
-			// запоминаем текущее содержимое, до редактирования
-			let currentHTML = currentTD.innerHTML
+		// запоминаем текущее содержимое, до редактирования
+		let currentHTML = currentTD.innerHTML
 
-			// создаем textarea с содержимым как у ячейки и кладем внутрь пустого td
-			let textarea = document.createElement('textarea')
-			textarea.className = 'bagua-textarea'
-			textarea.value = currentTD.innerHTML
-			textarea.style.cssText = `position: absolute;
-																left: 0;
-																top: 0;
-																width: 100%;
-																height: 100%;`
-			currentTD.innerHTML = ''
-			currentTD.append(textarea)
-			textarea.focus()
+		// создаем textarea с содержимым как у ячейки и кладем внутрь пустого td
+		let textarea = document.createElement('textarea')
+		textarea.className = 'bagua-textarea'
+		textarea.value = currentTD.innerHTML
+		textarea.style.cssText = `position: absolute;
+															left: 0;
+															top: 0;
+															width: 100%;
+															height: 100%;`
+		currentTD.innerHTML = ''
+		currentTD.append(textarea)
+		textarea.focus()
 
-			// добавляем кнопки внутрь ячейки (за textarea) и позиционируем под ячейкой
-			let bagua_buttons = document.createElement('div')
-			bagua_buttons.className = 'bagua-buttons'
-			bagua_buttons.style.cssText = `position: absolute;
-																		left: 0;
-																		top: 100%;
-																		z-index: 1`
+		// добавляем кнопки внутрь ячейки (за textarea) и позиционируем под ячейкой
+		let bagua_buttons = document.createElement('div')
+		bagua_buttons.className = 'bagua-buttons'
+		bagua_buttons.style.cssText = `position: absolute;
+																	left: 0;
+																	top: 100%;
+																	z-index: 1`
 
-			let bagua_button_ok = document.createElement('button')
-			bagua_button_ok.className = 'bagua-button-ok'
-			bagua_button_ok.textContent = 'OK'
-			let bagua_button_cancel = document.createElement('button')
-			bagua_button_cancel.className = 'bagua-button-cancel'
-			bagua_button_cancel.textContent = 'CANCEL'
+		let bagua_button_ok = document.createElement('button')
+		bagua_button_ok.className = 'bagua-button-ok'
+		bagua_button_ok.textContent = 'OK'
+		let bagua_button_cancel = document.createElement('button')
+		bagua_button_cancel.className = 'bagua-button-cancel'
+		bagua_button_cancel.textContent = 'CANCEL'
 
-			bagua_buttons.append(bagua_button_ok)
-			bagua_buttons.append(bagua_button_cancel)
+		bagua_buttons.append(bagua_button_ok, bagua_button_cancel)
+		
+		currentTD.append(bagua_buttons)
 
-			currentTD.append(bagua_buttons)
+		// удаляем обработчик, что б во время редактирования textarea не редактировать др ячейки
+		baguaTable.removeEventListener('click', handlerTableClick)
 
-			// удаляем обработчик, что б во время редактирования textarea не редактировать др ячейки
-			baguaTable.removeEventListener('click', handlerTableClick)
+		
+		let handlerOkClick = function() {
+				currentTD.innerHTML = textarea.value
+				// восстанавливаем обработчик таблицы
+				baguaTable.addEventListener('click', handlerTableClick)
+				// удаляем обработчик кнопки OK
+				bagua_button_ok.removeEventListener('click', handlerOkClick)
+			}
+		// если кликаем по кнопке OK
+		bagua_button_ok.addEventListener('click', handlerOkClick)
 
-			
-			let handlerOkClick = function() {
-					currentTD.innerHTML = textarea.value
-					// восстанавливаем обработчик таблицы
-					baguaTable.addEventListener('click', handlerTableClick)
-					// удаляем обработчик кнопки OK
-					bagua_button_ok.removeEventListener('click', handlerOkClick)
-				}
-			// если кликаем по кнопке OK
-			bagua_button_ok.addEventListener('click', handlerOkClick)
+		let handlerCancelClick = function() {
+				currentTD.innerHTML = currentHTML
+				// восстанавливаем обработчик таблицы
+				baguaTable.addEventListener('click', handlerTableClick)
+				// удаляем обработчик кнопки CANCEL
+				bagua_button_cancel.removeEventListener('click', handlerCancelClick)
+			}
+		// если кликаем по кнопке CANCEL
+		bagua_button_cancel.addEventListener('click', handlerCancelClick)
 
-			let handlerCancelClick = function() {
-					currentTD.innerHTML = currentHTML
-					// восстанавливаем обработчик таблицы
-					baguaTable.addEventListener('click', handlerTableClick)
-					// удаляем обработчик кнопки CANCEL
-					bagua_button_cancel.removeEventListener('click', handlerCancelClick)
-				}
-			// если кликаем по кнопке CANCEL
-			bagua_button_cancel.addEventListener('click', handlerCancelClick)
-
-		}
 	}
+}
 
 baguaTable.addEventListener('click', handlerTableClick)
 
