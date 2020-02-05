@@ -136,7 +136,8 @@
 
 													// заметка 4
 
-// console.log(this === window.console) - почему то this из метода log ссылается не на объект console, а на window
+// console.log(this === window.console) - почему то this из метода log ссылается не на 
+// 																				объект console, а на window
 
 
 				/***** intresting moments END *****/
