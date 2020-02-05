@@ -104,7 +104,7 @@
 
 
 
-								// заметка 3 - у стрелочных функций нет своего контекста (this)
+								// заметка 3 - у стрелочных функций нет своего контекста (значения this)
 
 // // значение this внутри стрелочной функции берётся из внешней «нормальной» функции
 // let group = {
@@ -122,6 +122,21 @@
 //   }
 // };
 // group.showList();
+
+
+// arr.forEach( function() { console.log(this) } )  // undefined, в callback this не определен
+// arr.forEach( () => { console.log(this) } )  // значение this родительской ф-ии (в глобальной 
+// 																						// области видимости - window) 
+// elem.addEventListener('click', function() { console.log(this) } ) // внутри обработчика события 
+// 																																	// this всегда ссылается на elem
+// elem.addEventListener('click', e => { console.log(this) } )  // значение this родительской ф-ии (в 
+// 																														 // глобальной области - window)
+
+
+
+													// заметка 4
+
+// console.log(this === window.console) - почему то this из метода log ссылается не на объект console, а на window
 
 
 				/***** intresting moments END *****/

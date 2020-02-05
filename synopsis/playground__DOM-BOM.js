@@ -820,7 +820,7 @@ let divView = document.querySelector('.view')
 let textareaEdit = document.createElement('textarea')
 textareaEdit.className = 'edit'
 
-let handleViewClick = function() {
+function handleViewClick() {
 	textareaEdit.value = this.textContent
 	this.replaceWith(textareaEdit) // replaceWith не удаляет this => querySelector находит .view
 	textareaEdit.focus()
