@@ -319,6 +319,65 @@
 </pre>
 
 
+<b>--4.3--</b>
+
+<h3>Депозитный калькулятор:</h3>
+<form name="calculatorPercents">
+  <table>
+    <tbody>
+      <tr>
+        <td>Первоначальный депозит</td>
+        <td>
+          <input name="money" type="number" value="1000" required>
+        </td>
+      </tr>
+      <tr>
+        <td>Срок вклада?</td>
+        <td>
+          <select name="months">
+            <option value="3">3 (минимум)</option>
+            <option value="6" selected>6 (полгода)</option>
+            <option value="12" >12 (год)</option>
+            <option value="18">18 (1.5 года)</option>
+            <option value="24">24 (2 года)</option>
+            <option value="30">30 (2.5 года)</option>
+            <option value="36">36 (3 года)</option>
+            <option value="60">60 (5 лет)</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Годовая процентная ставка?</td>
+        <td>
+          <input name="interest" type="number" value="5" required="">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</form>
+
+<table id="calculatorPercents__diagram">
+  <tbody>
+    <tr>
+      <th>Было:</th>
+      <th>Станет:</th>
+    </tr>
+    <tr> 
+      <th id="money-before"></th>
+      <th id="money-after"></th>
+    </tr>
+    <tr style='vertical-align: bottom;'>
+      <td>
+        <div style="background: red; width:40px; height:100px"></div>
+      </td>
+      <td>
+        <div style="background: green; width:40px; height:0" id="height-after"></div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
 
 	<script src='./playground__DOM-BOM.js'></script>
 </body>

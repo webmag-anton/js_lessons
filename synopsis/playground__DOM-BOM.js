@@ -887,7 +887,7 @@ function handlerTableClick(e) {
 		bagua_button_cancel.textContent = 'CANCEL'
 
 		bagua_buttons.append(bagua_button_ok, bagua_button_cancel)
-		
+
 		currentTD.append(bagua_buttons)
 
 		// удаляем обработчик, что б во время редактирования textarea не редактировать др ячейки
@@ -1005,3 +1005,44 @@ mouse.addEventListener('focus', function() {
 		}
 	})
 })
+
+
+
+/* 4.3  События: change, input, cut, copy, paste */
+
+let formPercents = document.forms.calculatorPercents
+let perecentsDiagram = document.querySelector('#calculatorPercents__diagram')
+let perecentsDiagram_before = document.querySelector('#money-before')
+let perecentsDiagram_after = document.querySelector('#money-after')
+let perecentsHeight_after = document.querySelector('#height-after')
+
+// первоначальный депозит
+perecentsDiagram_before.innerHTML = formPercents.money.value
+// изменение первоначального депозита
+formPercents.money.addEventListener('input', function() {
+	perecentsDiagram_before.innerHTML = this.value
+	if (this.value < 0 || !this.value) {
+		this.value = 0
+		perecentsDiagram_before.innerHTML = 0
+	}
+	getMoneyWithPercents()
+})
+
+// станет с процентами (округляем до 2х знаков после запятой)
+function getMoneyWithPercents() {
+	let initial_money = formPercents.money.value
+	let years = formPercents.months.value / 12
+	let percents = formPercents.interest.value / 100
+
+	let final_money = initial_money * (1 + percents * years)
+
+	perecentsDiagram_after.innerHTML = Math.round( final_money * 100) / 100
+
+	perecentsHeight_after.style.height = `${final_money / formPercents.money.value * 100}px`
+}
+getMoneyWithPercents()
+
+// изменение срока депозита
+formPercents.months.addEventListener('change', getMoneyWithPercents)
+// изменение годовой процентной ставки
+formPercents.interest.addEventListener('input', getMoneyWithPercents)
