@@ -1046,3 +1046,84 @@ getMoneyWithPercents()
 formPercents.months.addEventListener('change', getMoneyWithPercents)
 // изменение годовой процентной ставки
 formPercents.interest.addEventListener('input', getMoneyWithPercents)
+
+
+
+/* 4.4  Отправка формы: событие и метод submit */
+
+let show_btn = document.querySelector('#show-button')
+let prompt_form_container = document.querySelector('#prompt-form-container')
+let prompt_form = document.querySelector('#prompt-form')
+let prompt_message = document.querySelector('#prompt-message')
+
+function showPrompt(html, callback) {
+	prompt_message.innerHTML = html
+	prompt_form_container.style.display = 'block'
+	prompt_form.text.focus()
+
+	function handleSubmit(e) {
+		e.preventDefault() // отменяем отправку формы
+		// и если поле ввода не пустое, то вызываем коллбэк (алерт), после чего закрываем
+		// модалку и удаляем обработчик с отправки формы (что б не было больше 1)
+		if (this.text.value) {
+			callback( this.text.value )
+			prompt_form_container.style.display = 'none'
+			prompt_form.removeEventListener('submit', handleSubmit)
+			// удаляем так же и обработчики кнопки отмена и Esc
+			prompt_form.cancel.removeEventListener('click', handleCancel)
+			document.removeEventListener('keydown', handleKeyEsc)
+		}
+	}
+	// вешаем обработчик на отправку
+	prompt_form.addEventListener('submit', handleSubmit)
+
+	function handleCancel() {
+		callback(null)
+		prompt_form_container.style.display = 'none'
+		prompt_form.cancel.removeEventListener('click', handleCancel)
+		// удаляем так же и обработчик отправки формы и Esc
+		prompt_form.removeEventListener('submit', handleSubmit)
+		document.removeEventListener('keydown', handleKeyEsc)
+	}
+	// вешаем обработчик на кнопку отмена
+	prompt_form.cancel.addEventListener('click', handleCancel)
+
+	function handleKeyEsc(e) {
+		if (e.code == 'Escape') {
+			callback(null)
+			prompt_form_container.style.display = 'none'
+			document.removeEventListener('keydown', handleKeyEsc)
+			// удаляем так же и обработчики отправки формы и кнопки отмена
+			prompt_form.removeEventListener('submit', handleSubmit)
+			prompt_form.cancel.removeEventListener('click', handleCancel)
+		}
+	}
+	// вешаем обработчик на кнопку Esc
+	document.addEventListener('keydown', handleKeyEsc)
+
+	// Клавиши Tab/Shift+Tab переключают фокус между полями формы, 
+	// не позволяя ему переходить к другим элементам страницы
+	prompt_form.cancel.addEventListener('keydown', function(e) {
+		if (e.key == 'Tab' && !e.shiftKey) {
+			e.preventDefault()
+			prompt_form.text.focus()
+		}
+	})
+	prompt_form.text.addEventListener('keydown', function(e) {
+		if (e.key == 'Tab' && e.shiftKey) {
+			e.preventDefault()
+			prompt_form.cancel.focus()
+		}
+	})
+}
+
+// по клику на кнопку вызова модалки вызываем showPrompt
+show_btn.addEventListener('click', function() {
+	showPrompt(
+		"Введите что-нибудь<br>...умное :)", 
+		function(value) {
+			alert(value)
+		}
+	)
+})
+
