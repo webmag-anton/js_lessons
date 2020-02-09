@@ -1127,3 +1127,40 @@ show_btn.addEventListener('click', function() {
 	)
 })
 
+
+
+/* 6.1  MutationObserver: наблюдатель за изменениями */
+
+function randomInteger(min, max) {
+  // случайное число от min до (max+1)
+  let rand = min + Math.random() * (max + 1 - min);
+  return Math.floor(rand);
+}
+let listOfWords = ['рыба', 'мясо акулы', 'трава', 'планета', 'космос']
+
+let mutated_elem = document.getElementById('mutated_elem');
+let observedInterval = setInterval( function() {
+	mutated_elem.textContent = listOfWords[randomInteger(0, listOfWords.length - 1)]
+}, 2000)
+
+let observer = new MutationObserver( mutations => {
+	for (let mutation of mutations) {
+		
+		for ( let removedNode of mutation.removedNodes) {
+			console.log( `Удалено в mutated_elem: ${removedNode.data}`)
+		}
+		for ( let addedNode of mutation.addedNodes) {
+			console.log( `Добавлено в mutated_elem: ${addedNode.data}`)
+		}
+
+	}
+})
+
+observer.observe(mutated_elem, {
+	childList: true
+})
+
+setTimeout( function() {
+	observer.disconnect()
+	console.log('MutationObserver удален')
+}, 10000) 
