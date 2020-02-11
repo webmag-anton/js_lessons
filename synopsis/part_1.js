@@ -483,9 +483,14 @@ finally {
 // завершения выполнения синхронного кода и в порядке очереди.
 
 // Также асинхронными являются слушатели событий (т.к. это web api, например scroll, click...),
-// работа с сервером. Если во время выполнения "тяжелой" ф-ии происходит клик на ссылку (или 
-// кнопку), то он обработается (переход по ссылке) только после основного потока. Пример: 
-// http://latentflip.com/loupe/?code=c2V0VGltZW91dChmdW5jdGlvbiB0aW1lb3V0KCkgewogICAgY29uc29sZS5sb2coInNldFRpbWVvdXQgOCIpOwp9LCA4MDAwKTsKCmNvbnNvbGUubG9nKCJIaSEiKTsKY29uc29sZS5sb2coIkhpISIpOwpjb25zb2xlLmxvZygiSGkhIik7CgokLm9uKCdidXR0b24nLCAnY2xpY2snLCBmdW5jdGlvbigpIHsKICAgIGNvbnNvbGUubG9nKCdZb3UgY2xpY2tlZCB0aGUgYnV0dG9uIScpOyAgICAKfSk7Cgpjb25zb2xlLmxvZygiSGkhIik7CmNvbnNvbGUubG9nKCJIaSEiKTsKCnNldFRpbWVvdXQoZnVuY3Rpb24gdGltZW91dCgpIHsKICAgIGNvbnNvbGUubG9nKCJzZXRUaW1lb3V0IDQiKTsKfSwgNDAwMCk7Cgpjb25zb2xlLmxvZygiSGkhIik7CmNvbnNvbGUubG9nKCJIaSEiKTsKY29uc29sZS5sb2coIkhpISIpOw%3D%3D!!!PGJ1dHRvbj5DbGljayBtZSE8L2J1dHRvbj4%3D
+// работа с сервером.
+
+// Даже если addEventListener идет после тяжелой ф-ии, которая может выполняться например 8 секунд,
+// событие все равно слушается (с помощью web api) хоть и поток интерпритатора пока не дошел до
+// addEventListener. Т.е. во время выполнения тяжелой ф-ии мы можем например кликать. Но обработка 
+// события произойдет после тяжелой ф-ии (и остального кода) из очереди событий.
+// Обработчики событий в очереди (Callback Queue) приорететней чем setTimeout - то есть, даже 
+// если позже попали в очередь, все равно выполняться (попадут в стек) раньше!
 
 // Пусть даже JavaScript и однопоточный, мы можем достичь согласованности действий 
 // через асинхронное исполнение задач.
