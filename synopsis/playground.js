@@ -149,7 +149,7 @@ setTimeout( function() { console.log('it is setTimeout') }, 100)
   for (let i = 0; i < 4e9; i++) {}
 })()
 
-alert('after heavyweight function and after this alert - backgroundColor')
+alert('this alert after heavyweight function, then after this alert - backgroundColor')
 
 document.body.style.backgroundColor = 'lightBlue'
 
@@ -157,7 +157,7 @@ document.body.style.backgroundColor = 'lightBlue'
 // если позже попали в очередь, все равно выполняться (попадут в стек) раньше!
 document.querySelector('a').addEventListener('click', function(e) {
 	e.preventDefault()
-	console.log('click to link')
+	console.log('clicks to link, always before setTimeout')
 })
 
 console.log('first log')
