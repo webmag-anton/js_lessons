@@ -134,10 +134,34 @@
 
 
 
-													// заметка 4
+								// заметка 4
 
 // console.log(this === window.console) - почему то this из метода log ссылается не на 
 // 																				объект console, а на window
+
+
+
+								// заметка 5 - приоритетность обработчиков событий в очереди (Callback Queue)
+
+setTimeout( function() { console.log('it is setTimeout') }, 100)
+
+;(function () { // запускаем тяжёлую функцию IIFE
+  for (let i = 0; i < 4e9; i++) {}
+})()
+
+alert('after heavyweight function and after this alert - backgroundColor')
+
+document.body.style.backgroundColor = 'lightBlue'
+
+// обработчики событий в очереди (Callback Queue) приорететней чем setTimeout - то есть, даже 
+// если позже попали в очередь, все равно выполняться (попадут в стек) раньше!
+document.querySelector('a').addEventListener('click', function(e) {
+	e.preventDefault()
+	console.log('click to link')
+})
+
+console.log('first log')
+
 
 
 				/***** intresting moments END *****/
@@ -239,7 +263,6 @@
 
 
 
-
 			/* setTimeout */
 
 // var i;
@@ -249,7 +272,7 @@
 
 // setTimeout(function() { // через 50 мс - отмена setInterval
 //   clearInterval(timer);
-//   alert( i ); // (*)
+//   alert( i );
 // }, 50);
 
 // // и запускаем тяжёлую функцию

@@ -140,7 +140,7 @@ parseFloat('str') - возвращает дробное число из стро
 
 		/* Строки: */
 
-str.indexOf(start [, pos]) - <number or -1> - поиск подстроки
+str.indexOf(substr [, pos]) - <number or -1> - поиск подстроки
 str.includes(substr [, pos]) - <boolean>
 str.slice(start [, end]) - получение подстроки без вырезания
 str.codePointAt(pos) - возвращает код символа на позиции pos
@@ -476,11 +476,16 @@ finally {
 // что строка 2 не может запуститься до тех пор, пока строка 1 не закончит своё выполнение.
 // JS однопоточный, что означает то, что только один блок кода может запускаться за раз.
 
-// Пример асинхронности - функция setTimeout. Когда поток выполнения доходит до нее, то он 
-// видит отсрочку и переходит к выполнению следующего кода. Если несколько setTimeout, то
-// они после прошедшего времени отсрочки попадают в очередь в порядке отсрочки (чем меньше
-// время отсрочки, тем первей в очереди). Функции из очереди выполняются только после 
+// Пример асинхронности - функция setTimeout (это web api). Когда поток выполнения доходит до нее,
+//  то он видит отсрочку и переходит к выполнению следующего кода. Если несколько setTimeout, то
+// они после прошедшего времени отсрочки попадают в очередь в порядке отсрочки 
+// (чем меньше время отсрочки, тем первей в очереди). Функции из очереди выполняются только после 
 // завершения выполнения синхронного кода и в порядке очереди.
+
+// Также асинхронными являются слушатели событий (т.к. это web api, например scroll, click...),
+// работа с сервером. Если во время выполнения "тяжелой" ф-ии происходит клик на ссылку (или 
+// кнопку), то он обработается (переход по ссылке) только после основного потока. Пример: 
+// http://latentflip.com/loupe/?code=c2V0VGltZW91dChmdW5jdGlvbiB0aW1lb3V0KCkgewogICAgY29uc29sZS5sb2coInNldFRpbWVvdXQgOCIpOwp9LCA4MDAwKTsKCmNvbnNvbGUubG9nKCJIaSEiKTsKY29uc29sZS5sb2coIkhpISIpOwpjb25zb2xlLmxvZygiSGkhIik7CgokLm9uKCdidXR0b24nLCAnY2xpY2snLCBmdW5jdGlvbigpIHsKICAgIGNvbnNvbGUubG9nKCdZb3UgY2xpY2tlZCB0aGUgYnV0dG9uIScpOyAgICAKfSk7Cgpjb25zb2xlLmxvZygiSGkhIik7CmNvbnNvbGUubG9nKCJIaSEiKTsKCnNldFRpbWVvdXQoZnVuY3Rpb24gdGltZW91dCgpIHsKICAgIGNvbnNvbGUubG9nKCJzZXRUaW1lb3V0IDQiKTsKfSwgNDAwMCk7Cgpjb25zb2xlLmxvZygiSGkhIik7CmNvbnNvbGUubG9nKCJIaSEiKTsKY29uc29sZS5sb2coIkhpISIpOw%3D%3D!!!PGJ1dHRvbj5DbGljayBtZSE8L2J1dHRvbj4%3D
 
 // Пусть даже JavaScript и однопоточный, мы можем достичь согласованности действий 
 // через асинхронное исполнение задач.
