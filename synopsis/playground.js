@@ -136,8 +136,18 @@
 
 								// заметка 4
 
-// console.log(this === window.console) - почему то this из метода log ссылается не на 
-// 																				объект console, а на window
+// // this ссылается на объект только при создании метода в его теле, а не при его вызове
+// console.log(this == window.console)  // false, здесь this ссылается на window
+
+// let user = {
+//   age: 30,
+//   say(par) {
+//     console.log(par)
+//   }
+// };
+// document.querySelector('.button').addEventListener('click', function() {
+// 	user.say(this) // button, внутри обработчика события this всегда ссылается на объект с событием
+// })
 
 
 
