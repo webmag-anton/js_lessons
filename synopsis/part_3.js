@@ -310,7 +310,6 @@ formData.set(name, blob, fileName)
 // Это ReadableStream («поток для чтения») – особый объект, который предоставляет тело ответа 
 // по частям, по мере поступления; пример:
 
-
 const reader = response.body.getReader()
 while(true) {
   // done становится true в последнем фрагменте
@@ -321,3 +320,69 @@ while(true) {
   }
   console.log(`Получено ${value.length} байт`)
 }
+
+
+
+		// Fetch: прерывание запроса (и любых других асинхронных операций) //
+
+// метод fetch возвращает промис. А в JavaScript в целом нет понятия «отмены» промиса;
+// для прерывания запросы fetch (и для любых других асинхронных операций) существует 
+// специальный встроенный объект: AbortController
+
+// 1. Создаем контроллер
+let controller = new AbortController();
+controller имеет единственный метод abort() и единственное свойство signal. При вызове abort():
+- генерируется событие с именем abort на объекте controller.signal
+- свойство controller.signal.aborted становится равным true
+Все, кто хочет узнать о вызове abort(), ставят обработчики на controller.signal, чтобы отслеживать его
+
+// 2. Передаем свойство signal опцией в метод fetch:
+fetch(url, {
+  signal: controller.signal
+})
+// метод fetch умеет работать с AbortController, он слушает событие abort на signal
+
+// 3. чтобы прервать выполнение fetch, вызываем abort()
+controller.abort() // когда fetch отменяется, его промис завершается с ошибкой AbortError
+
+// AbortController – масштабируемый, он позволяет отменить несколько вызовов fetch одновременно:
+let urls = [...]
+let controller = new AbortController()
+
+let ourJob = new Promise((resolve, reject) => { // наша задача
+  ...
+  controller.signal.addEventListener('abort', reject)
+})
+
+let fetchJobs = urls.map(url => fetch(url, { // запросы fetch
+  signal: controller.signal
+}))
+
+// ожидать выполнения нашей задачи и всех запросов
+let results = await Promise.all([...fetchJobs, ourJob])
+
+controller.abort() // прервёт все вызовы fetch и наши задачи
+
+
+
+		// Объекты URL //
+
+// Встроенный класс URL предоставляет удобный интерфейс для создания и разбора URL-адресов.
+// Нет сетевых методов, которые требуют именно объект URL, обычные строки вполне подходят. 
+// Так что, технически, мы не обязаны использовать URL. Но иногда он может быть весьма удобным.
+let url = new URL(url, [base])
+url – полный URL-адрес или только путь, если указан второй параметр
+base – необязательный «базовый» URL
+// пример:
+let url1 = new URL('https://javascript.info/profile/admin')
+let url2 = new URL('/profile/admin', 'https://javascript.info')
+
+// Объект URL даёт доступ к компонентам URL, поэтому это отличный способ «разобрать» URL-адрес, например:
+let url = new URL('https://javascript.info:8080/path/page?p1=v1&p2=v2#hash');
+alert(url.protocol) // https:
+alert(url.host)     // javascript.info:8080
+alert(url.hostname) // javascript.info
+alert(url.port)     // 8080
+alert(url.pathname) // /path/page
+alert(url.search) 	// ?p1=v1&p2=v2
+alert(url.hash) 		// #hash
