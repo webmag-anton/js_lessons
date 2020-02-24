@@ -380,9 +380,84 @@ let url2 = new URL('/profile/admin', 'https://javascript.info')
 // Объект URL даёт доступ к компонентам URL, поэтому это отличный способ «разобрать» URL-адрес, например:
 let url = new URL('https://javascript.info:8080/path/page?p1=v1&p2=v2#hash');
 alert(url.protocol) // https:
-alert(url.host)     // javascript.info:8080
+alert(url.host)     // javascript.info:8080 (hostname + port)
 alert(url.hostname) // javascript.info
 alert(url.port)     // 8080
 alert(url.pathname) // /path/page
 alert(url.search) 	// ?p1=v1&p2=v2
 alert(url.hash) 		// #hash
+
+
+
+		// WebSocket //
+
+// Протокол WebSocket обеспечивает возможность обмена данными между браузером и сервером через постоянное 
+// соединение. Данные передаются по нему в обоих направлениях в виде «пакетов», без разрыва соединения и 
+// дополнительных HTTP-запросов. Нет ограничений, связанных с кросс-доменными запросами.
+
+// Чтобы открыть веб-сокет-соединение, нам нужно создать объект new WebSocket, указав в url-адресе 
+// специальный протокол ws (также существует протокол wss://, использующий шифрование TLS для безопасности):
+let socket = new WebSocket("wss://javascript.info/article/websocket/demo/hello")
+
+// Как только объект WebSocket создан, мы должны слушать его события. Их всего 4:
+// open – соединение установлено
+// message – получены данные
+// error – ошибка
+// close – соединение закрыто
+
+// А если мы хотим отправить что-нибудь, то вызов socket.send(data) сделает это.
+socket.onopen = function(e) {
+  alert("[open] Соединение установлено");
+  alert("Отправляем данные на сервер");
+  socket.send("Меня зовут Джон");
+}
+socket.onmessage = function(event) {
+  alert(`[message] Данные получены с сервера: ${event.data}`);
+}
+socket.onclose = function(event) {
+  if (event.wasClean) {
+    alert(`[close] Соединение закрыто чисто, код=${event.code} причина=${event.reason}`);
+  } else {
+    // например, сервер убил процесс или сеть недоступна
+    // обычно в этом случае event.code 1006
+    alert('[close] Соединение прервано');
+  }
+}
+socket.onerror = function(error) {
+  alert(`[error] ${error.message}`);
+}
+
+// Метод WebSocket .send() может отправлять и текстовые и бинарные данные.
+// Вызов socket.send(body) принимает body в виде строки или любом бинарном формате включая Blob, 
+// ArrayBuffer и другие. Дополнительных настроек не требуется, просто отправляем в любом формате.
+socket.send(body)
+
+// При получении данных, текст всегда поступает в виде строки. А для бинарных данных мы можем 
+// выбрать один из двух форматов: Blob или ArrayBuffer. Это задаётся свойством socket.bufferType, 
+// по умолчанию оно равно "blob", так что бинарные данные поступают в виде Blob-объектов.
+socket.bufferType = "arraybuffer"
+socket.onmessage = (event) => {
+  // event.data является строкой (если текст) или arraybuffer (если двоичные данные)
+}
+
+// Обычно, когда сторона хочет закрыть соединение (браузер и сервер имеют равные права), они отправляют 
+// «фрейм закрытия соединения» с кодом закрытия и указывают причину в виде текста. Метод для этого:
+socket.close([code], [reason])
+// code – специальный WebSocket-код закрытия (не обязателен)
+// reason – строка с описанием причины закрытия (не обязательна)
+// Затем противоположная сторона в обработчике события close получит и код code и причину reason, например:
+
+// закрывающая сторона:
+socket.close(1000, "работа закончена");
+// другая сторона:
+socket.onclose = event => {
+  // event.code === 1000
+  // event.reason === "работа закончена"
+  // event.wasClean === true (закрыто чисто)
+}
+
+// Чтобы получить состояние соединения, существует дополнительное свойство socket.readyState со значениями:
+// 0 – «CONNECTING»: соединение ещё не установлено,
+// 1 – «OPEN»: обмен данными,
+// 2 – «CLOSING»: соединение закрывается,
+// 3 – «CLOSED»: соединение закрыто.
