@@ -88,7 +88,9 @@ if (window == top) { // текущий window == window.top?
 		/*--- Сетевые запросы ---*/	
 
 
-// browsersync, liveServer (json-server: https://www.npmjs.com/package/json-server) - локальные серверы.
+// Простые локальные серверы (GET запросы): browsersync или liveServer (vsc) + для запуска серверной  
+// части, что бы файл с БД (db.json) отдавал данные - json-server (https://www.npmjs.com/package/json-server).
+// OpenServer, MAMP - полноценные локальные серверы, поддерживающие все запросы, не только GET.
 // https://jsonplaceholder.typicode.com - сервис для тестирования запросов всех видов
 
 // JavaScript может отправлять сетевые запросы на сервер и подгружать новую информацию по мере необходимости.
