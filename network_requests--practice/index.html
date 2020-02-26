@@ -8,11 +8,23 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-		<div class="app">
-			<button class="jsonBtn">click (AJAX, no reload)</button>
-		</div>
+    <h3>GET method</h3>
+	<div class="app">
+		<button class="jsonBtn_GET">click (AJAX, no reload)</button>
+	</div>
 
-    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
-    <script src="js/script.js"></script>
+    <hr>
+    
+    <h3>POST method</h3>
+    <form class="form_POST">
+        <input type="text" name="name" placeholder="your name">
+        <input type="text" name="surname" placeholder="your surname">
+        <input type="text" name="age" placeholder="your age">
+        <input type="text" name="photo" placeholder="photo url">
+        <button>submit</button>
+    </form>
+
+    <script src="js/method_GET.js"></script>
+    <script src="js/method_POST.js"></script>
 </body>
 </html>

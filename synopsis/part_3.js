@@ -88,7 +88,7 @@ if (window == top) { // текущий window == window.top?
 		/*--- Сетевые запросы ---*/	
 
 
-// Простые локальные серверы (GET запросы): browsersync или liveServer (vsc) + для запуска серверной  
+// Простые локальные серверы (ограничен функционал): browsersync или liveServer (vsc) + для запуска серверной  
 // части, что бы файл с БД (db.json) отдавал данные - json-server (https://www.npmjs.com/package/json-server).
 // OpenServer, MAMP - полноценные локальные серверы, поддерживающие все запросы, не только GET.
 // https://jsonplaceholder.typicode.com - сервис для тестирования запросов всех видов
