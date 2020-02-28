@@ -229,7 +229,7 @@ arr.reduce(function(previousValue, item, index, array) {}, [initial])
 не для глубокого клон-я {без вложенных объектов}
 Object.assign(dest, [src1, src2, src3...]) 
 
-Object.keys(obj) – возвращает массив ключей
+Object.keys(obj) – возвращает массив из собственных {не унаследованных} ключей
 Object.values(obj) – возвращает массив значений
 Object.entries(obj) – возвращает массив пар [ключ, значение]
 Object.fromEntries(iterable) - преобразует массив пар [ключ, значение] в объект
