@@ -193,3 +193,81 @@
 
 // let usersObject = getUsers(['webmag-anton', 'some-does-not-exist', 'qwerty'])
 // console.log(usersObject)
+
+
+
+
+
+		/* Хранение данных в браузере */
+
+const textarea = document.querySelector('.textarea__localStorage')
+
+textarea.addEventListener('input', function() {
+	localStorage.setItem('textarea', `${this.value}`)
+})
+
+textarea.value = localStorage.getItem('textarea')
+
+
+
+
+
+		/* Анимация */
+
+digit.onclick = function() {
+	stripe.classList.add('animate')
+}
+
+
+// Событие transitionend
+boat.onclick = function() {
+  //...
+  let times = 1
+
+  function go() {
+    if (times % 2) {
+      // плыть вправо (если times не четное число)
+      boat.classList.remove('back');
+      boat.style.marginLeft = 100 * times + 200 + 'px'
+    } else {
+      // плыть влево
+      boat.classList.add('back');
+      boat.style.marginLeft = 100 * times - 200 + 'px'
+    }
+
+  }
+
+  go()
+
+  boat.addEventListener('transitionend', function() {
+    times++;
+    go()
+  })
+}
+
+
+// Анимированный круг
+
+let circle = document.createElement('div')
+document.body.append(circle)
+circle.style.cssText = `
+	position: fixed;
+	transform: translate(-50%, -50%);
+	width: 0;
+	height: 0;
+	border-radius: 50%;
+	background-color: red;
+	transition: 2s ease;
+`
+
+function showCircle(cx, cy, radius) {
+	circle.style.left = `${cx}px`
+	circle.style.top = `${cy}px`
+	circle.style.width = `${radius * 2}px`
+	circle.style.height = `${radius * 2}px`
+}
+
+let circle_btn = document.querySelector('.circle_btn')
+circle_btn.addEventListener('click', function() {
+	showCircle(200, 200, 110)
+})

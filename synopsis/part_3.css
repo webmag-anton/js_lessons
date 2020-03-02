@@ -1,0 +1,24 @@
+#digit {
+	border: 1px solid red;
+	width: 1.2em;
+	overflow: hidden;
+	cursor: pointer;
+}
+#stripe {
+	display: inline-block;
+	font: 32px monospace;
+}
+/*Всего будет 9 шагов, один шаг для каждой цифры:*/
+#stripe.animate  {
+	transform: translate(-90%);
+	transition: transform 9s steps(9, start);
+}
+
+#boat {
+	margin-left: 0;
+	cursor: pointer;
+	transition: margin-left 3s ease-in-out;
+}
+#boat.back {
+	transform: scaleX(-1);
+}

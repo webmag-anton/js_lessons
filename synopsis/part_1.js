@@ -288,7 +288,19 @@ Object.setPrototypeOf(obj, proto)
 // Мы можем создать "простейший" объект без прототипов, т.е без наследования встроенных методов
 Object.create(null)
 // точная копия obj c тем же прототипом - «продвинутое» клонирование объекта 
-let clone = Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj));
+let clone = Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj))
+
+// Быстрый способ клонировать объект с помощью оператора spread (глубокое клонирование):
+let obj1 = {
+  age: 16,
+  school: {
+    street: 'Donskogo',
+    color: 'yellow'
+  }
+}
+let obj2 = {...obj1}
+console.log(obj2, obj1 == obj2)
+
 
 
 
