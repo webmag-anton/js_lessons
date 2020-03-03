@@ -227,14 +227,13 @@ boat.onclick = function() {
   function go() {
     if (times % 2) {
       // плыть вправо (если times не четное число)
-      boat.classList.remove('back');
+      boat.classList.remove('back')
       boat.style.marginLeft = 100 * times + 200 + 'px'
     } else {
       // плыть влево
-      boat.classList.add('back');
+      boat.classList.add('back')
       boat.style.marginLeft = 100 * times - 200 + 'px'
     }
-
   }
 
   go()
@@ -270,4 +269,19 @@ function showCircle(cx, cy, radius) {
 let circle_btn = document.querySelector('.circle_btn')
 circle_btn.addEventListener('click', function() {
 	showCircle(200, 200, 110)
+})
+
+
+
+
+
+
+let prev = performance.now();
+let times = 0;
+
+requestAnimationFrame(function measure(time) { // time = performance.now()
+	document.querySelector('.jsAnimation').insertAdjacentHTML("afterEnd", Math.floor(time - prev) + " ");
+	prev = time;
+
+	if (times++ < 10) requestAnimationFrame(measure);
 })

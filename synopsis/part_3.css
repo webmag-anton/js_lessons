@@ -22,3 +22,7 @@
 #boat.back {
 	transform: scaleX(-1);
 }
+
+.circle_btn{
+	display: block;
+}
