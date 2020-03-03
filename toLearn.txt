@@ -1,0 +1,9 @@
+ООП
+switch
+canvas
+SPA
+nodeJs
+webpack
+react
+redux 
+typeScript
