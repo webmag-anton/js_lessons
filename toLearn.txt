@@ -1,5 +1,6 @@
-ООП
-switch
+ООП              +
+switch					 +
+Map, Set
 canvas
 SPA
 nodeJs

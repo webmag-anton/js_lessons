@@ -26,7 +26,7 @@ console - объект глобального объекта window ( console.lo
 
 // значения разных типов при сравнении приводятся к числу!
 
-'', 0, null, undefined, NaN, false // - ложные значения при приведении типов (falsy values) 
+'', 0, null, undefined, NaN, false // - ложные значения при приведении типов (falthy values) 
 // "0" и строки с одними пробелами " " при логическом преоб-ии true
 // undefined при численном преоб-ии становится NaN, не 0; a пустой массив преобразуется к 0
 
@@ -34,7 +34,7 @@ console - объект глобального объекта window ( console.lo
 // alert(null == undefined);  //true
 
 console.log(false == []) // true  - пустой массив преобразуется к 0
-console.log(false == {}) // false - пустой объект преобразуется к 1
+console.log(false == {}) // false - любой объект преобразуется к NaN
 console.log(0 == null) // false - null равно или undefined или само себе
 console.log(0 == undefined) // false - undefined равно или null или само себе
 
@@ -155,7 +155,7 @@ String.fromCodePoint(code) - создаёт символ по его коду co
 самый простой способ очистить массив – это arr.length = 0;
 
 позволяет запускать функцию для каждого элемента массива
-arr.forEach((item, index, array) => {});
+arr.forEach((item, index, array) => {})
 
 Array.isArray(value) - <boolean>
 Array.from() - принимает итерируемый объект или псевдомассив и делает из него «настоящий»
@@ -202,7 +202,7 @@ arr.filter(function(item, index, array) {
 
 arr.map(function(item, index, array) {
   возвращается новое значение вместо элемента, например return item.length
-});
+})
 
 По умолчанию элементы сортируются как строки
 arr.sort() - сортирует массив на месте, меняя в нём порядок элементов
