@@ -168,14 +168,11 @@ pop() - удаляет элемент в конце массива и возвр
 shift() - удаляет элемент в начале массива и возвращает его
 unshift(...items) - добавляет items в начало массива
 
-
 arr.slice(start, end) - возвращает подмассив, без вырезания
 arr.concat(arg1, arg2...) - создаёт новый массив, в который копирует данные из других
 
-начиная с позиции index, удаляет deleteCount элементов и 
-вставляет elem1, ..., elemN на их место; 
-Возвращает массив из удалённых элементов
-arr.splice(index[, deleteCount, elem1, ..., elemN]) 
+начиная с позиции index, удаляет deleteCount элементов и вставляет elem1, ..., elemN на их место; 
+arr.splice(index[, deleteCount, elem1, ..., elemN]) - возвращает массив из удалённых элементов
 
                 //  Поиск в массиве
 
@@ -242,8 +239,13 @@ Object.defineProperty(obj, propertyName, descriptor) - чтобы изменит
 если св-ва нет то оно создается с указанными флагами; если какой-либо флаг не 
 указан явно, ему присваивается значение false 
 пример деск-ра { "value": 1, "writable": false, "enumerable": false, "configurable": false }
+writable – если true, свойство можно изменить, иначе оно только для чтения
+enumerable – если true, свойство перечисляется в циклах, иначе циклы его игнорируют
+configurable – если true, свойство можно удалить, а флаги можно изменять
+
 Object.getOwnPropertyDescriptors(obj) - получить все дескрипторы свойств сразу
 Object.defineProperties(obj, { prop1: descriptor1, prop2: descriptor2 })
+
 //клонирование объекта вместе с его флагами
 let clone = Object.defineProperties({}, Object.getOwnPropertyDescriptors(obj));
 
@@ -272,6 +274,7 @@ let obj = {
 прототип если это обычное свойство, а не сеттер; Сеттер из прототипа используется для записи;
 Если мы вызываем метод obj.method(), взятый из прототипа, то this в нем ссылается на obj
 
+Конструктор только создает новый объект, без наследования; для наследования указывается prototype;
 Свойство функции-конструктора F.prototype устанавливает [[Prototype]] для новых экземпляров 
 при вызове new F(); По умолчанию все функции имеют F.prototype = { constructor: F };
 
