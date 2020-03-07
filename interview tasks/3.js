@@ -124,7 +124,7 @@ function sortByRewievs(arr) {
 		item.ratingRevievs = +item.ratingRevievs.replace(/\D/g, '')
 	})
 
-	// сортируем по рейтингу
+	// сортируем по рейтингу (от меньшего к большему)
 	clone.sort((a,b) => {
 		return a.ratingRevievs > b.ratingRevievs ? 1 : -1
 	})
@@ -153,7 +153,7 @@ function sortByPrice(arr) {
 		}
 	})
 
-	// сортируем по цене
+	// сортируем по цене (от меньшего к большему)
 	clone.sort((a,b) => {
 		return a.price > b.price ? 1 : -1
 	})

@@ -1,0 +1,25 @@
+body{
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	justify-content: center;
+	-ms-align-items: center;
+	align-items: center;	
+	height: 100vh;
+	background-color: #ccc;
+}
+
+.time{
+	margin-bottom: 50px;
+	font-size: 50px;
+	font-weight: bold;
+	color: #fff;
+}
+
+.hexColor{
+	text-align: center;
+	font-size: 22px;
+	color: #fff;
+}
