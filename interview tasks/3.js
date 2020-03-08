@@ -266,3 +266,75 @@ roles.forEach( role => {
 })
 
 console.log(resultGroups)
+
+
+
+
+			// Задача 5
+
+// Заполнить двумерный массив (массив массивов, матрица) змейкой. 
+// На вход, в виде prompt приходят высота и ширина матрицы. Начало с 1. Например:
+
+// 1   2   3   4   5   6   7
+// 22  23  24  25  26  27  8
+// 21  36  37  38  39  28  9
+// 20  35  42  41  40  29  10
+// 19  34  33  32  31  30  11
+// 18  17  16  15  14  13  12
+
+
+// Суть решения этой задачи сводится к посторению алгоритма. Движение спиралью по периметру обозначает, что
+// после прохождении первой горизонтальной гране (1-7) мы как бы убираем ее из оборота путем увеличения первого
+// ряда (startRow++). Затем проходимся счетчиком по первой вертикальной гране (8-12) и после этого убираем ее из
+// оборота путем уменьшения последней колонки (endCol--) и т.д. пока выполняеся условие:
+// (endCol >= startCol && endRow >= startCol)
+
+const w = +prompt('ширина матрицы?')
+const h = +prompt('высота матрицы?')
+
+function matrix (w,h) {
+	// new Array(number) создаёт массив с заданной длиной, но без элементов
+	// метод fill(val) заполняет все элементы массива одним значением val и возвращает измененный массив;
+	// но если не передать аргумент в fill() - он заполнит все элементы массива значениями undefined
+	// затем методом map() меняем каждый undefined на массив из w элементов, каждый из которых заполняем ''
+	let result = new Array(h).fill().map(() => new Array(w).fill(''))
+
+	// endCol = w - 1, т.к. индекс начинается с 0
+	let counter = 1
+	let startCol = 0
+	let endCol = w - 1
+	let startRow = 0
+	let endRow = h - 1
+
+	while (endCol >= startCol && endRow >= startCol) {
+
+		for (let i = startCol; i <= endCol; i++) {
+			result[startRow][i] = counter
+			counter++
+		}
+		startRow++
+
+		for (let j = startRow; j <= endRow; j++) {
+			result[j][endCol] = counter
+			counter++
+		}
+		endCol--
+
+		for (let i = endCol; i >= startCol; i--) {
+			result[endRow][i] = counter
+			counter++
+		}
+		endRow--
+
+		for (let j = endRow; j >= startRow; j--) {
+			result[j][startCol] = counter
+			counter++
+		}
+		startCol++
+
+	}
+
+	return result
+} 
+
+console.log(matrix(w,h))
