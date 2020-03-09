@@ -292,10 +292,10 @@ console.log(resultGroups)
 const w = +prompt('ширина матрицы?')
 const h = +prompt('высота матрицы?')
 
-function matrix (w,h) {
+function matrix (w, h) {
 	// new Array(number) создаёт массив с заданной длиной, но без элементов
 	// метод fill(val) заполняет все элементы массива одним значением val и возвращает измененный массив;
-	// но если не передать аргумент в fill() - он заполнит все элементы массива значениями undefined
+	// но если не передать аргумент в fill() - он заполнит все элементы массива значениями undefined;
 	// затем методом map() меняем каждый undefined на массив из w элементов, каждый из которых заполняем ''
 	let result = new Array(h).fill().map(() => new Array(w).fill(''))
 
@@ -337,4 +337,4 @@ function matrix (w,h) {
 	return result
 } 
 
-console.log(matrix(w,h))
+console.log(matrix(w, h))
