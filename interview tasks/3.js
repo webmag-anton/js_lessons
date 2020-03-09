@@ -289,8 +289,8 @@ console.log(resultGroups)
 // оборота путем уменьшения последней колонки (endCol--) и т.д. пока выполняеся условие:
 // (endCol >= startCol && endRow >= startCol)
 
-const w = +prompt('ширина матрицы?')
-const h = +prompt('высота матрицы?')
+const w = +prompt('ширина матрицы?', '6')
+const h = +prompt('высота матрицы?', '7')
 
 function matrix (w, h) {
 	// new Array(number) создаёт массив с заданной длиной, но без элементов
