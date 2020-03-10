@@ -316,16 +316,31 @@ let clone = JSON.parse(JSON.stringify(obj/arr))
 		/* Классы */
 
 Класс - продвинутый способ создания обектов, вместо обычного конструктора;
-Методы класса попадают в прототип содаваемых объектов, после методов запятая не ставится;
+Методы класса попадают в его свойство prototype, откуда наследуются; 
+После свойств и методов вне constructor запятая не ставится;
 
 class MyClass {
-  prop = value; // присваивается создаваемому объекту, с фиксированным value
-  constructor(name) { // конструктор
-    this.name = name;
+  constructor(name, surname) { // конструктор; свойства и методы присваиваются создаваемому экземпляру
+    this._name = name;
+    this._surname = surname;
+    this.func = function() {}
   }
-  method(...) {} // метод
-  get something(...) {} // геттер
-  set something(...) {} // сеттер
+
+  // свойство не из constructor() присваивается создаваемому экземпляру; с фиксированным value
+  prop = value 
+
+  method(...) {} // методы не из constructor() попадают в MyClass.prototype (в т.ч геттеры/сеттеры)
+  get fullName() {
+    return `${this._name} ${this._surname}`   // геттер, срабатывает при чтении свойства obj.fullName
+  }
+  set fullName(value) {
+    [this._name, this._surname] = value.split(" ")   // сеттер, срабатывает при записи свойства obj.propName = value
+  }
+
+  // не присваивается создаваемому экземпляру, эквивалентен MyClass.propStatic = value
+  static propStatic = value
+  // не присваивается создаваемому экземпляру, эквивалентен MyClass.methodStatic = function() {}
+  static methodStatic() {} 
 }
 
 Наследование классов имеет синтаксис class Child extends Parent; 
@@ -341,7 +356,7 @@ class MyClass {
 Для этого перед свойством или методом ставится слово static; Такие методы  называются 
 статическими; Эти свойства или методы не будут иметь отношения к создаваемым объектам;
 Статические свойства и методы наследуются между классами при class Child extends Parent, так как 
-Child.prototype.__proto__ === Parent.prototype  и  Child.__proto__ === Parent (двойное наследование)
+Child.prototype.__proto__ == Parent.prototype  и  Child.__proto__ == Parent (двойное наследование)
 
 class Parent{
 	constructor(name) {
