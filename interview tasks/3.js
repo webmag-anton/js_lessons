@@ -133,7 +133,7 @@ function sortByRewievs(arr) {
 	document.querySelector('.sort_result').innerHTML = ''
 
 	// выводим результат
-	clone.forEach((item) => {
+	clone.forEach(item => {
 		document.querySelector('.sort_result').innerHTML += `
 			<p>отзывов: ${item.ratingRevievs}</p>
 			<hr />
@@ -162,7 +162,7 @@ function sortByPrice(arr) {
 	document.querySelector('.sort_result').innerHTML = ''
 
 	// выводим результат
-	clone.forEach((item) => {
+	clone.forEach(item => {
 		document.querySelector('.sort_result').innerHTML += `
 			<p>цена: ${item.price}</p>
 			<p>отзывов: ${item.ratingRevievs}</p>
@@ -270,7 +270,7 @@ console.log(resultGroups)
 
 
 
-			// Задача 5
+			// Задача 6
 
 // Заполнить двумерный массив (массив массивов, матрица) змейкой. 
 // На вход, в виде prompt приходят высота и ширина матрицы. Начало с 1. Например:
