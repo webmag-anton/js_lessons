@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>HTML5 Canvas</title>
+	<style>
+		#canvas{
+			display: block;
+			border: 2px solid brown;
+		}
+	</style>
+</head>
+<body style='margin: 0'>
+	<!-- 
+		Canvas (холст) — API для двумерного рисования. Canvas позволяет рисовать всё, 
+		что вы хотите прямо в браузере без использования плагинов, вроде Flash или Java. 
+		Canvas является частью спецификации HTML5.
+		Важно понимать, что Canvas предназначен для рисования пикселями. В нём нет фигур или векторов. Нет объектов 
+		для связывания с обработчиками событий. Это просто рисунки пикселями на экране. 
+		При работе с сanvas в первую очередь необходимо учитывать то, что мы работаем с растровым изображением.
+		При масштабировании в Canvas заметны пиксели.
+	 -->
+
+	 <canvas id='canvas'> Your browser is not supported. U mad bro </canvas>
+
+
+	 <script>
+
+	 		let canv = document.getElementById('canvas'),
+	 				// эта переменная хранит контекст загруженного canvas (обычно 2d, WebGL для 3d)
+	 				ctx	= canv.getContext('2d')	
+
+	 		// делаем размер холста на половину ширины окна браузера и всю высоту окна браузера (-4px что б влез border)
+	 		canv.width = window.innerWidth / 2
+	 		canv.height = window.innerHeight - 4
+
+
+	 					// rectangle
+
+	 		// 1) св-во fillStyle указывает цвет заполнения
+	 		ctx.fillStyle = 'lightblue'
+	 		// 2) метод fillRect(x, y, width, height) создает прямоугольник с заполнением; (x/y - координаты начала)
+	 		// 3) можно анимировать этот прямоугольник с помощью setInterval, но лучше использовать requestAnimationFrame
+	 		let x = 50
+	 		ctx.fillRect(x, 50, 200, 150)
+	 		// setInterval(() => {
+	 		// 	ctx.fillStyle = 'white'
+	 		// 	ctx.fillRect(0, 0, canv.width, canv.height)
+	 		// 	ctx.fillStyle = 'lightblue'
+	 		// 	ctx.fillRect(x++, 50, 200, 150)
+	 		// }, 10)
+
+	 		// function animRect() {
+	 		// 	if (x < 700) {
+	 		// 		// сначала закрашиваем весь холст белым прямоугольником размером с сам холст, и на этот слой добавляем
+	 		// 		// уже смещенный на 1px прямоугольник и т.д. пока прямоугольник не будет на координате x равной 700px
+		 	// 		ctx.fillStyle = 'white'
+		 	// 		ctx.fillRect(0, 0, canv.width, canv.height)
+
+		 	// 		ctx.fillStyle = 'lightblue'
+		 	// 		// если в requestAnimationFrame указать только ctx.fillRect(x++, 50, 200, 150), то через каждый интервал на 
+		 	// 		// холст метод fillRect будет добавлять новый прямоугольник, не удаляя (закрашивая) остальные (будет каскад)
+		 	// 		ctx.fillRect(x++, 50, 200, 150)
+		 	// 		requestAnimationFrame(animRect)
+	 		// 	}
+	 		// }
+	 		// requestAnimationFrame(animRect)
+
+	 		// 4) св-во strokeStyle (stroke - обводка) указывает цвет обводки
+	 		ctx.strokeStyle = 'red'
+	 		// 5) св-во lineWidth указывает толщину обводки
+	 		ctx.lineWidth = 5
+	 		// 6) метод strokeRect(x, y, width, height) создает прямоугольник с обводкой
+	 		ctx.strokeRect(50, 250, 250, 160)
+
+
+	 					// arc
+			
+			// 7) метод rotate поворачивает текущий чертеж (в радианах, Math.PI = 180deg)
+			ctx.rotate(8 * Math.PI/180) 
+
+	 		ctx.fillStyle = 'green'
+	 		// 8) метод arc(x, y, radius, startAngle, endAngle, anticlockwise) создает дугу (круг); 
+	 		// x/y - координаты центра,    startAngle - угол начала дуги (в радианах, Math.PI = 180deg)
+	 		// anticlockwise - true: против часовой, false: по часовой (необязательный, default - false)
+	 		ctx.arc(200, 570, 70, 0, Math.PI )
+	 		// 9) метод fill заполняет текущий чертеж (путь), в данном случае круг
+	 		ctx.fill()
+
+
+	 					// any shape (triangle, curve...)
+
+	 		ctx.strokeStyle = 'purple'
+	 		ctx.lineWidth = 3
+	 		// 10) метод beginPath начинает путь или переустанавливает текущий путь
+	 		ctx.beginPath()
+	 		// 11) метод moveTo перемещает путь к указанной точке на холсте, не создавая линию
+	 		ctx.moveTo(325, 50)
+	 		// 12) метод lineTo добавляет новую точку и создает линию к этой точке от последней указанной точки на холсте
+	 		ctx.lineTo(300, 100)
+	 		ctx.lineTo(350, 100)
+	 		// 13) метод closePath создает путь от текущей точки до начальной точки
+	 		ctx.closePath()
+	 		// 14) метод stroke рисует путь, который мы определили
+	 		ctx.stroke()
+
+	 		ctx.strokeStyle = 'orange'
+	 		ctx.beginPath()
+	 		ctx.moveTo(300, 75)
+	 		ctx.lineTo(350, 75)
+	 		ctx.stroke()
+
+
+	 					// text
+
+	 		// что бы текст был без текущей угла поворота, нужно убрать установленные ранее 8 градусов
+	 		ctx.rotate(-8 * Math.PI/180);
+	 		ctx.fillStyle = 'black'
+	 		// 15) св-во font устанавливает или возвращает текущие свойства шрифта для текстового содержимого
+	 		ctx.font = '20px Georgia'
+	 		// 15) метод fillText рисует «заполненный» текст на холсте
+	 		ctx.fillText('Examples with rectangle, arc, curve, text =)', 80, 480)
+
+
+
+	 </script>
+</body>
+</html>
