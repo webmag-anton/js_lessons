@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>live search users github (AJAX)</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+	<div id="app"></div>
+	
+	<!-- ставим type='module' чтобы работал import/export; 
+
+			 Подгрузка скриптов-модулей (type='module') из файловой системы блокируется в целях безопасности. Для инициации 
+			 Cross-origin запроса браузер клиента добавляет в HTTP запрос Origin (домен сайта, с которого происходит запрос).
+			 В случае локальной файловой системы - это null. Доступ с такого адреса запрещен политикой CORS. поэтому запускаем
+			 локальный сервер  http://localhost:3000  ->  в папке проекта запустить в консоли:  browser-sync start --server 
+	-->
+	<script src="main.js" type='module'></script>
+</body>
+</html>

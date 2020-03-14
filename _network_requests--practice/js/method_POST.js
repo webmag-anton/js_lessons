@@ -1,7 +1,9 @@
 // запускаем сервер: json-server db.json (для запуска серверной  части, что бы файл с БД (db.json) отдавал данные)
 // что бы у json-server путь отличался от browser-sync нужно установить порт не 3000: json-server db.json -p 4000
 // затем устанавливаем plugin browser-sync и запускаем: browser-sync -> start file (в консоле ctrl + c для остановки)
-// итого: 1) json-server db.json -p 4000    2) browser-sync -> start file ( default: http://localhost:3000 ) 
+// итого: 1) json-server db.json -p 4000    
+// 				2) browser-sync -> start file ( default: http://localhost:3000 ) 
+// 					 или в папке с проектом через консоль: browser-sync start --server 
 
 document.addEventListener('DOMContentLoaded', () => {
 
