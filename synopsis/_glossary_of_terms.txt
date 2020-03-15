@@ -20,6 +20,7 @@ timestamp - отметка времени
 fps - frames per second (кадров в секунду)
 +, -, *, / - sum, sub, mult, div
 shortcut - сочетание клавиш
+crutch - костыль (обход)
 
 
 command prompt - командная строка

@@ -4,13 +4,23 @@
 	<meta charset="UTF-8">
 	<title>HTML5 Canvas</title>
 	<style>
+		body{
+			display: flex;
+			margin: 0;
+		}
 		#canvas{
 			display: block;
-			border: 2px solid brown;
+			border: 2px solid gray;
+		}
+		#canvas_paint{
+			display: block;
+			margin-left: 5px;
+			border: 2px solid tomato;
 		}
 	</style>
 </head>
-<body style='margin: 0'>
+
+<body>
 	<!-- 
 		Canvas (холст) — API для двумерного рисования. Canvas позволяет рисовать всё, 
 		что вы хотите прямо в браузере без использования плагинов, вроде Flash или Java. 
@@ -22,6 +32,7 @@
 	 -->
 
 	 <canvas id='canvas'> Your browser is not supported. U mad bro </canvas>
+	 <canvas id='canvas_paint'> Your browser is not supported. U mad bro </canvas>
 
 
 	 <script>
@@ -30,8 +41,8 @@
 	 				// эта переменная хранит контекст загруженного canvas (обычно 2d, WebGL для 3d)
 	 				ctx	= canv.getContext('2d')	
 
-	 		// делаем размер холста на половину ширины окна браузера и всю высоту окна браузера (-4px что б влез border)
-	 		canv.width = window.innerWidth / 2
+	 		// делаем размер холста на 35% ширины окна браузера и всю высоту окна браузера (-4px что б влез border)
+	 		canv.width = window.innerWidth * .35 - 7
 	 		canv.height = window.innerHeight - 4
 
 
@@ -83,7 +94,7 @@
 	 		// 8) метод arc(x, y, radius, startAngle, endAngle, anticlockwise) создает дугу (круг); 
 	 		// x/y - координаты центра,    startAngle - угол начала дуги (в радианах, Math.PI = 180deg)
 	 		// anticlockwise - true: против часовой, false: по часовой (необязательный, default - false)
-	 		ctx.arc(200, 570, 70, 0, Math.PI )
+	 		ctx.arc(200, 570, 70, 0, Math.PI)
 	 		// 9) метод fill заполняет текущий чертеж (путь), в данном случае круг
 	 		ctx.fill()
 
@@ -101,7 +112,7 @@
 	 		ctx.lineTo(350, 100)
 	 		// 13) метод closePath создает путь от текущей точки до начальной точки
 	 		ctx.closePath()
-	 		// 14) метод stroke рисует путь, который мы определили
+	 		// 14) метод stroke рисует путь (обводку), который мы определили
 	 		ctx.stroke()
 
 	 		ctx.strokeStyle = 'orange'
@@ -113,7 +124,7 @@
 
 	 					// text
 
-	 		// что бы текст был без текущей угла поворота, нужно убрать установленные ранее 8 градусов
+	 		// чтобы текст был без текущего угла поворота, нужно убрать установленные ранее 8 градусов
 	 		ctx.rotate(-8 * Math.PI/180);
 	 		ctx.fillStyle = 'black'
 	 		// 15) св-во font устанавливает или возвращает текущие свойства шрифта для текстового содержимого
@@ -122,6 +133,127 @@
 	 		ctx.fillText('Examples with rectangle, arc, curve, text =)', 80, 480)
 
 
+
+	 											// PAINT extension
+
+	 		let canv_p = document.getElementById('canvas_paint'),
+	 				ctx_p	= canv_p.getContext('2d')	
+
+	 		canv_p.width = window.innerWidth * .65 - 5
+	 		canv_p.height = window.innerHeight - 4
+
+
+	 		ctx_p.lineWidth = 10
+
+	 		// создаем массив для координат, из него будем рисовать
+	 		let coords = []
+
+	 		// в JS нет события, отслеживающего движение мыши с зажатой кнопкой, но можно сделать crutch (костыль)
+	 		let isMouseDowm = false
+	 		canv_p.addEventListener('mousedown', () => isMouseDowm = true)
+	 		canv_p.addEventListener('mouseup', () => {
+	 			isMouseDowm = false
+	 			ctx_p.beginPath() // когда мышь поднимается сбрасываем путь, что б не дорисовывать к координате нового нажатия
+	 			// запоминаем в координатах то, когда мышь была отпущена; просто пушим строку, в ф-ии replay она не отрисуется
+	 			coords.push('mouse up') 
+	 		})
+
+	 		canv_p.addEventListener('mousemove', e => {
+	 			if (isMouseDowm) {
+	 				// координаты на экране - координаты канваса относительно окна браузера (с учетом border)
+		 			let x = e.clientX - canv_p.getBoundingClientRect().left - 2,
+		 					y = e.clientY - canv_p.getBoundingClientRect().top - 2
+
+		 			// добавляем координаты в массив
+		 			coords.push([e.clientX, e.clientY])
+
+	 				ctx_p.lineTo(x, y) // добавляет новую точку и создает линию к этой точке от последней указанной точки на холсте
+	 				ctx_p.stroke() // рисует путь (обводку), который мы определили
+
+	 				// если рисовать только широкими линиями (например lineWidth = 50), то линия будет ломаная, поэтому в canvas 
+	 				// есть такой crutch: так же рисовать круги вдоль линии с радиусом, позволяющим заполнить пустоту в ломаной линии
+		 			ctx_p.beginPath() // переустанавливает текущий путь, что б начинался с места нажатия
+		 			ctx_p.arc(x, y, 5, 0, Math.PI * 2) // рисуем круг
+		 			ctx_p.fill() // заполняет текущий чертеж - круг
+
+		 			ctx_p.beginPath()
+		 			ctx_p.moveTo(x, y) // перемещает путь к указанной точке на холсте, не создавая линию
+	 			}
+	 		})
+
+
+	 		// функция сохранения (перезаписывания) координат в localStorage
+	 		function save() {
+	 			localStorage.setItem('coords', JSON.stringify(coords))
+	 		}
+
+	 		// функция воспроизведения
+	 		function replay() {
+
+	 			let timer = setInterval(() => {
+	 				// если нет координат (отрисовка закончилась), то очищаем таймер, очищаем путь и выходим из функции
+	 				if (!coords.length) {
+	 					clearInterval(timer)
+	 					ctx_p.beginPath()
+	 					return;
+	 				}
+
+	 				// a если есть координаты то
+	 				// ... вырезаем первую координату (массив), которую отрисовываем
+	 				let crd = coords.shift(), // метод pop() сделает обратное воспроизведение
+	 						e = {
+	 							clientX: crd[0],
+	 							clientY: crd[1],
+	 						},
+	 						x = e.clientX - canv_p.getBoundingClientRect().left - 2,  // 'm' - number = NaN (если подняли кнопку мыши)
+		 					y = e.clientY - canv_p.getBoundingClientRect().top - 2
+
+	 				// ... и вставляем уже готовый кусок кода, отвечающий за отрисовку
+	 				ctx_p.lineTo(x, y)
+	 				ctx_p.stroke()
+
+		 			ctx_p.beginPath()
+		 			ctx_p.arc(x, y, 5, 0, Math.PI * 2)
+		 			ctx_p.fill()
+
+		 			ctx_p.beginPath()
+		 			ctx_p.moveTo(x, y)
+
+	 			}, 30) // скорость воспроизведения каждые 30 секунд
+	 		}
+
+	 		// функция очистки канваса со сбросом пути
+	 		function clear() {
+	 			ctx_p.fillStyle = 'white'
+	 			ctx_p.fillRect(0, 0, canv_p.width, canv_p.height)
+
+	 			ctx_p.beginPath()
+	 			ctx_p.fillStyle = 'black'
+	 		}
+
+	 		// сохранение (клавиша S), воспроизведение (клавиша R) и очистка (клавиша C) нарисованного
+	 		document.addEventListener('keydown', e => {
+
+	 			if (e.code == 'KeyS') { // save
+	 				save() // сохраняем (перезаписываем) координаты в localStorage
+	 				console.log('saved')
+	 			}
+
+	 			if (e.code == 'KeyR') { // replay (воспроизводится только после сохранения)
+	 				// берем сохраненные координаты из localStorage (работает даже после перезапуска страницы или браузера) 
+	 				coords = JSON.parse(localStorage.getItem('coords'))
+	 				clear() // очищаем холст
+	 				replay() // и воспроизводим рисунок
+	 				console.log('replaying...')
+	 			}
+
+	 			if (e.code == 'KeyC') { // clear
+	 				clear() // очищаем холст
+	 				console.log('cleared')
+	 			}
+
+	 		})
+	 			
 
 	 </script>
 </body>

@@ -517,7 +517,7 @@ document.cookie = encodeURIComponent(name) + '=' + encodeURIComponent(value);
 
 Объекты веб-хранилища localStorage и sessionStorage позволяют хранить пары ключ/значение в браузере.
 
-- key и value должны быть строками
+- key и value должны быть строками {если value объект/массив..., то JSON.stringify(value)}
 - Лимит 2 Мб+, зависит от браузера
 - Данные не имеют «времени истечения»
 - Данные привязаны к источнику {домен/протокол/порт}
@@ -581,24 +581,30 @@ event.elapsedTime - // время (в секундах), которое заня
 // низкое количество кадров в секунду. Вот здесь на помощь приходит встроенный в HTML5 API requestAnimationFrame.
 
 // Анимация реализуется через последовательность кадров, каждый из которых немного меняет HTML/CSS-свойства.
+// requestAnimationFrame выполняет передаваемый в нее callback примерно каждые 16,7ms - 60fps ( 1000ms / 60frames = 16.7ms )
+// Если мы хотим замедлить анимацию, что бы было меньше 60fps, можно сделать так:
+let framesPerSecond = 10
+function animate() {
+  setTimeout(function() {
+    requestAnimationFrame(animate)
+    // animating/drawing code goes here
+  }, 1000 / framesPerSecond)
+}
+
+
 // Можно использовать для анимации setInterval, например:
-
-let start = Date.now(); // запомнить время начала
-
-let timer = setInterval(function() {
+let start = Date.now() // запомнить время начала
+let timer = setInterval( function() {
   // сколько времени прошло с начала анимации?
   let timePassed = Date.now() - start
-
   if (timePassed >= 2000) {
     clearInterval(timer) // закончить анимацию через 2 секунды
-    return;
+    return
   }
 
   // отрисовать анимацию на момент timePassed, прошедший с начала анимации
   draw(timePassed)
-
 }, 20)
-
 // в то время как timePassed идёт от 0 до 2000
 // left изменяет значение от 0px до 400px
 function draw(timePassed) {
@@ -606,11 +612,10 @@ function draw(timePassed) {
 }
 
 
-// Однако если одновременно запущено несколько анимаций, то это может сильно нагрузить сроцессор.
+// Однако если одновременно запущено несколько анимаций, то это может сильно нагрузить процессор.
 // Поэтому для оптимизации лучше использовать встроенную ф-ию requestAnimationFrame(callback)
 let requestId = requestAnimationFrame(callback) // выполнить callback при первой возможности, а не с заданным интервалом
-// Функция callback имеет один аргумент – время прошедшее с момента начала загрузки 
-// страницы в миллисекундах (timestamp), по сути то же что и performance.now()
+// Функция callback имеет один аргумент – время прошедшее с момента начала загрузки страницы в миллисекундах (timestamp)
 // Такой вызов планирует запуск функции callback на ближайшее время, когда браузер сочтёт возможным осуществить анимацию.
 
 // Если в callback происходит изменение элемента, тогда оно будет сгруппировано с другими requestAnimationFrame и 
