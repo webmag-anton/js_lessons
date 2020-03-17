@@ -1,7 +1,7 @@
 ООП              +
 switch					 +
 Map, Set				 +
-canvas
+canvas					 +
 SPA							 +
 nodeJs
 webpack
