@@ -390,6 +390,7 @@ class Topology {
 			}
 		}
 
+		Topology.isOrderSaved = false
 		// если выстрел является частью корабля, то добавляем выстрел в массив ранений,
 		// и удаляем его из массива выстрелов (что б не было точки на месте попадания)
 		for (const check of this.checks) {
@@ -398,6 +399,8 @@ class Topology {
 
 				const index = this.checks.indexOf(check)
 				this.checks.splice(index, 1)
+
+				Topology.isOrderSaved = true  // если попали, то сохраняем ход
 			}
 		}
 
@@ -469,7 +472,6 @@ class Topology {
 			}
 
 		}
-		
 
 	}  // update end
 

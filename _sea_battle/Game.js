@@ -6,14 +6,14 @@
 
 class Game {
 	constructor() {
-		this.state = 'play'   // если 'play', то игра начнется с этой стадии миную расстановку кораблей ( нужно вызвать randoming )
+		this.state = 'preparation'   // если 'play', то игра начнется с этой стадии миную расстановку кораблей ( нужно вызвать randoming )
 		this.isPlayerOrder = true  	 // первый ход игрока или бота
 
 		this.player = new Topology({  // создаем объект поля боя игрока
 			offsetX: 45,
 			offsetY: 90
 		})
-		this.player.randoming()
+		// this.player.randoming()
 
 		this.computer = new Topology({  // создаем объект поля боя бота
 			offsetX: 600,
@@ -21,17 +21,6 @@ class Game {
 			secretField: true
 		})
 		this.computer.randoming()	 // рандомно расставляем корабли бота
-
-
-		// this.player	// заполняем поле кораблями и выстрелами
-		// 	.addSheeps(
-		// 		{x: 0, y: 0, direct: 0, size: 3},   // direct: 0 - горизонтальный корабль
-		// 		{x: 0, y: 2, direct: 1, size: 4}		// direct: 1 - вертикальный корабль
-		// 	)
-		// 	.addChecks(
-		// 		{x: 5, y: 5},
-		// 		{x: 5, y: 4}
-		// 	)
 
 		// x - это автоматически передаваемый timestamp в callback, который мы и выведем в методе tick
 		this.requestId = requestAnimationFrame(x => this.tick(x)) 
@@ -41,8 +30,8 @@ class Game {
 		clearCanvas() // примерно 60 раз в секунду очищаем канвас 
 		drawGrid ()  // рисуем разлиновку тетради в клетку
 
-		this.player.draw(ctx) // и заново отрисовываем корабли и выстрелы игрока
-		this.computer.draw(ctx) // и заново отрисовываем корабли, но если поле secretField равно true не показываем их 
+		this.player.draw(ctx) // и заново отрисовываем корабли, выстрелы, ранения и убийства игрока
+		this.computer.draw(ctx) // и заново отрисовываем корабли, выстрелы, ранения и убийства; если secretField == true не показываем корабли 
 
 		if (this.state == 'preparation') {
 			this.tickPreparation(timestamp)
@@ -119,7 +108,10 @@ class Game {
 					alert('GAME OVER! you WIN!!!')
 				}
 
-				this.isPlayerOrder = false  // передаем ход боту после выстрела
+				if ( !Topology.isOrderSaved ) {  // если не попали
+					this.isPlayerOrder = false  // то передаем ход боту после выстрела
+				}
+				
 			}
 		} 
 
@@ -138,7 +130,9 @@ class Game {
 				alert('GAME OVER! computer WIN!!!')
 			}
 
-			this.isPlayerOrder = true
+			if ( !Topology.isOrderSaved ) {
+				this.isPlayerOrder = true
+			}
 		}
 	}
 
