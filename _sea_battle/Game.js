@@ -1,13 +1,13 @@
 
 /*	
 	класс Game отвечает за этапы игры, отслеживание кликов по вражескому полю...
-	хранит логику и алгоритм обработки действий пользователя		
+	хранит логику и алгоритм обработки действий пользователя и бота
 */
 
 class Game {
 	constructor() {
-		this.state = 'play'
-		this.isPlayerOrder = true  // ход игрока или бота
+		this.state = 'play'   // если 'play', то игра начнется с этой стадии миную расстановку кораблей ( нужно вызвать randoming )
+		this.isPlayerOrder = true  	 // первый ход игрока или бота
 
 		this.player = new Topology({  // создаем объект поля боя игрока
 			offsetX: 45,
@@ -20,7 +20,7 @@ class Game {
 			offsetY: 100,
 			secretField: true
 		})
-		this.computer.randoming()	 // рандомно расставляем корабли
+		this.computer.randoming()	 // рандомно расставляем корабли бота
 
 
 		// this.player	// заполняем поле кораблями и выстрелами
@@ -34,7 +34,7 @@ class Game {
 		// 	)
 
 		// x - это автоматически передаваемый timestamp в callback, который мы и выведем в методе tick
-		requestAnimationFrame(x => this.tick(x)) 
+		this.requestId = requestAnimationFrame(x => this.tick(x)) 
 	}
 
 	tick (timestamp) {  
@@ -59,16 +59,16 @@ class Game {
 
 	// выполняется пока не выставим все корабли на своем поле
 	tickPreparation(timestamp) {
-		if (!this.player.isMouseUnder(mouse)) {  // если не над полем боя, то выходим
+		if (!this.player.isMouseUnder(mouse)) {  // если не над своим полем боя, то выходим
 			return
 		}
 
 		const sheepSizes = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1]
-		// т.к. 0 кораблей в текущем пользователе, то мы берем 0 элемент - четырехпалубный;
-		// после установки четырехпалубного this.player.sheeps.length == 1, поэтому следующий трехпалубный
+		// т.к. 0 кораблей изначально выставлено у текущего пользователя, то мы берем 0 элемент - четырехпалубный;
+		// после установки четырехпалубного this.player.sheeps.length == 1, поэтому следующий трехпалубный и тд
 		const sheepsize = sheepSizes[this.player.sheeps.length]
 
-		// получаем координаты и на их основании создаем корабль
+		// получаем координаты и на их основании создаем корабль с текущим размером
 		const coordinates = this.player.getCoordinates(mouse)
 		const sheep = {
 			x: coordinates.x,
@@ -81,21 +81,22 @@ class Game {
 		if (!this.player.canStand(sheep)) {
 			return
 		}
-
-		// если не вылазит, то отрисовываем его
+		// если не вылазит, то отрисовываем его, а точнее пока просто показываем на поле; с каждым обновлением экрана сначала очищаем канвас 
+		// в методе tick, а затем сразу показываем корабль на координатах мыши - для понимания, что он может быть установлен на этом месте
 		this.player.drawSheeps(ctx, sheep)
 
 		if (mouse.leftBtn && !mouse.previouseLeftBtn) {  // если в этой итерации левая кнопка была нажата
-			this.player.addSheeps(sheep)
+			this.player.addSheeps(sheep)  // то добавляем корабль в наш массив, откуда он потом выставится на поле
 
-			// если поставили последний 10й корабль, то меняем стадию игры
+			// если поставили последний 10й корабль, то меняем стадию игры на следующию - play
 			if (this.player.sheeps.length == 10) {
-				this.state == 'play'
+				console.log('стадия игры меняется, расстановка закончена, ведем бой')
+				this.state = 'play'
 			}
 		}
 	}
 
-
+	// выполняется пока кто то не победит
 	tickPlay(timestamp) {
 
 		// если ход игрока
@@ -108,23 +109,35 @@ class Game {
 			const point = this.computer.getCoordinates(mouse)
 			// и если мышь была нажата
 			if (mouse.leftBtn && !mouse.previouseLeftBtn) {
-				this.computer.addChecks(point) // то добавляем выстрел в массив
-				// проверяет что не продублировались чекнутые поля (не стрелять в одну точку несколько раз); если чекнутые 
+				this.computer.addChecks(point) // то добавляем выстрел в массив выстрелов
+				// update проверяет что не продублировались чекнутые поля (не стрелять в одну точку несколько раз); если чекнутые 
 				// поля оказались ранениями, то они добавляются в ранения; если сумма ранений равна длине корабля, то корабль убит
 				this.computer.update()
-				this.isPlayerOrder = false  // передаем ход боту послк выстрела
+
+				if ( this.computer.kills.length == 10 ) {
+					cancelAnimationFrame(this.requestId)
+					alert('GAME OVER! you WIN!!!')
+				}
+
+				this.isPlayerOrder = false  // передаем ход боту после выстрела
 			}
 		} 
 
 		// если ход бота
 		else {
-			const point = {
+			const point = {  // случайная координата без каких либо проверок на соседние с кораблем точки, на выстрелы в ту же точку и тд
 				x: Math.floor(Math.random() * 10),
 				y: Math.floor(Math.random() * 10)
 			}
 
 			this.player.addChecks(point)
 			this.player.update(point)
+
+			if ( this.player.kills.length == 10 ) {
+				cancelAnimationFrame(this.requestId)
+				alert('GAME OVER! computer WIN!!!')
+			}
+
 			this.isPlayerOrder = true
 		}
 	}

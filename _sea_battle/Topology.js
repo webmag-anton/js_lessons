@@ -1,5 +1,5 @@
 
-/*		класс Topology отвечает за отрисовку поля боя		*/
+/*		класс Topology отвечает за отрисовку поля боя, кораблей, попаданий...		*/
 
 class Topology {
 	constructor(param) {
@@ -141,6 +141,70 @@ class Topology {
 
 		return this
 	}
+
+	drawKill (context, kill) {
+		this.drawSheeps(context, kill)
+		
+		context.strokeStyle = 'red'
+		context.lineWidth = 1.5
+
+		if (kill.direct == 0) {
+
+			for (let i = kill.x; i < kill.x + kill.size; i++) {
+				context.beginPath()
+				context.moveTo(
+					this.offsetX + i * FIELD_SIZE + FIELD_SIZE,
+					this.offsetY + kill.y * FIELD_SIZE + FIELD_SIZE
+				)
+				context.lineTo(
+					this.offsetX + i * FIELD_SIZE + FIELD_SIZE * 2,
+					this.offsetY + kill.y * FIELD_SIZE + FIELD_SIZE * 2
+				)
+				context.stroke()
+
+				context.beginPath()
+				context.moveTo(
+					this.offsetX + i * FIELD_SIZE + FIELD_SIZE * 2,
+					this.offsetY + kill.y * FIELD_SIZE + FIELD_SIZE
+				)
+				context.lineTo(
+					this.offsetX + i * FIELD_SIZE + FIELD_SIZE,
+					this.offsetY + kill.y * FIELD_SIZE + FIELD_SIZE * 2
+				)
+				context.stroke()
+			}
+
+		}
+
+		else {
+
+			for (let i = kill.y; i < kill.y + kill.size; i++) {
+				context.beginPath()
+				context.moveTo(
+					this.offsetX + kill.x * FIELD_SIZE + FIELD_SIZE,
+					this.offsetY + i * FIELD_SIZE + FIELD_SIZE
+				)
+				context.lineTo(
+					this.offsetX + kill.x * FIELD_SIZE + FIELD_SIZE * 2,
+					this.offsetY + i * FIELD_SIZE + FIELD_SIZE * 2
+				)
+				context.stroke()
+
+				context.beginPath()
+				context.moveTo(
+					this.offsetX + kill.x * FIELD_SIZE + FIELD_SIZE * 2,
+					this.offsetY + i * FIELD_SIZE + FIELD_SIZE
+				)
+				context.lineTo(
+					this.offsetX + kill.x * FIELD_SIZE + FIELD_SIZE,
+					this.offsetY + i * FIELD_SIZE + FIELD_SIZE * 2
+				)
+				context.stroke()
+			}
+		}
+
+		return this
+	}
 	
 	draw(context) {  // рисуем поле боя, затем пробегаемся по всем кораблям и произведенным выстрелам и отрисовываем их
 		this.drawFields(context)  // рисуем поле боя 
@@ -157,6 +221,10 @@ class Topology {
 
 		for (const injury of this.injuries) {
 			this.drawInjury(context, injury)
+		}
+
+		for (const kill of this.kills) {
+			this.drawKill(context, kill)
 		}
 
 		return this
@@ -283,8 +351,9 @@ class Topology {
 		}
 	}
 
-	update() {
-		// повторяющиеся выстрелы отфильтровываем
+	// обновляем массивы выстрелов, попаданий и убийств после выстрела
+	update() { 
+		// повторяющиеся в то же место выстрелы отфильтровываем
 		this.checks = this.checks
 			.map(check => JSON.stringify(check))
 			.filter((check, ind, arr) => arr.lastIndexOf(check) === ind)   // ['1', '2', '1', '3'].lastIndexOf('1') == 2     ( ['2', '1', '3'] )
@@ -302,7 +371,8 @@ class Topology {
 			[false, false, false, false, false, false, false, false, false, false],
 			[false, false, false, false, false, false, false, false, false, false]
 		]
-		// делаем карту кораблей ( координате с кораблем присваиваем true , соседние координаты не в счет )
+		// делаем карту своих кораблей для проверки injuries (координате с кораблем 
+		// присваиваем true; соседние координаты не в счет - по ним можно стрелять)
 		for (const sheep of this.sheeps) {
 			if (sheep.direct == 0) {
 				for (let x = sheep.x; x < sheep.x + sheep.size; x++) { 
@@ -320,7 +390,8 @@ class Topology {
 			}
 		}
 
-		// если выстрел является частью корабля, то добавляем выстрел в массив попаданий, и удаляем его из массива выстрелов
+		// если выстрел является частью корабля, то добавляем выстрел в массив ранений,
+		// и удаляем его из массива выстрелов (что б не было точки на месте попадания)
 		for (const check of this.checks) {
 			if (map[check.y][check.x]) {
 				this.injuries.push(check)
@@ -329,6 +400,77 @@ class Topology {
 				this.checks.splice(index, 1)
 			}
 		}
-	}
 
-}
+
+		// проверяем на предмет убийства
+		for (const sheep of this.sheeps) {
+
+			if (sheep.size == 1) {  // если однопалубный
+				for (const inj of this.injuries) {  // перебмраем все ранения
+					// и если есть совпадение с координатами корабля
+					if (sheep.x == inj.x && sheep.y == inj.y) {
+						this.kills.push(sheep)
+
+						const index = this.injuries.indexOf(inj)
+						this.injuries.splice(index, 1)
+					}
+				}
+			}
+
+			else if (sheep.direct == 0) {  // если корабль не однопалубный и горизонтальный
+
+				let count = 0
+				// то для каждой его палубы 
+				for (let i = sheep.x; i < sheep.x + sheep.size; i++) {
+					// проходимся по всем ранениям и ищем совпадения с координатами палубы
+					for (const inj of this.injuries) {
+						if (inj.x == i && inj.y == sheep.y)  count++   //  если есть совпадение, инкрементируем счетчик
+					}
+				}
+
+				if (sheep.size == count) {	// если счетчик равен количеству палуб значит корабль убит
+					this.kills.push(sheep)
+					// для каждой палубы ищем совпадение в injuries и удаляем из injuries соответствующую координату
+					for (let i = sheep.x; i < sheep.x + sheep.size; i++) {
+						for (const inj of this.injuries) {
+							if (inj.x == i && inj.y == sheep.y) {
+								const index = this.injuries.indexOf(inj)
+								this.injuries.splice(index, 1)
+							} 
+						}
+					}
+				}
+
+			} 
+
+			else {	// если корабль не однопалубный и вертикальный
+
+				let count = 0
+
+				for (let i = sheep.y; i < sheep.y + sheep.size; i++) {
+					for (const inj of this.injuries) {
+						if (inj.x == sheep.x && inj.y == i)  count++
+					}
+				}
+
+				if (sheep.size == count) {
+					this.kills.push(sheep)
+
+					for (let i = sheep.y; i < sheep.y + sheep.size; i++) {
+						for (const inj of this.injuries) {
+							if (inj.x == sheep.x && inj.y == i) {
+								const index = this.injuries.indexOf(inj)
+								this.injuries.splice(index, 1)
+							} 
+						}
+					}
+				}
+
+			}
+
+		}
+		
+
+	}  // update end
+
+} // class Topology end
