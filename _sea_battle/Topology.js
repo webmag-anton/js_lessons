@@ -6,8 +6,12 @@ class Topology {
 		this.offsetX = param.offsetX  // отступы от угла тетради
 		this.offsetY = param.offsetY
 
+		this.secretField = param.secretField || false
+
 		this.sheeps = []	// массив кораблей
-		this.checks = [] 	// массив произведенных промахов (чекнутых точек)
+		this.checks = [] 	// массив произведенных выстрелов (чекнутых точек)
+		this.injuries = [] 	// массив ранений
+		this.kills = [] 	// массив потопленных кораблей
 	}
 
 	addSheeps(...sheeps) {
@@ -86,10 +90,10 @@ class Topology {
 		context.fillStyle = 'rgba(0,0,0,.75)'
 		context.beginPath()
 		context.rect(
-			this.offsetX + FIELD_SIZE + sheep.x * FIELD_SIZE + 2,
-			this.offsetY + FIELD_SIZE + sheep.y * FIELD_SIZE + 2,
-			(sheep.direct === 0 ? sheep.size : 1) * FIELD_SIZE - 4,
-			(sheep.direct === 1 ? sheep.size : 1) * FIELD_SIZE - 4,
+			this.offsetX + FIELD_SIZE + sheep.x * FIELD_SIZE + 1,
+			this.offsetY + FIELD_SIZE + sheep.y * FIELD_SIZE + 1,
+			(sheep.direct === 0 ? sheep.size : 1) * FIELD_SIZE - 2,
+			(sheep.direct === 1 ? sheep.size : 1) * FIELD_SIZE - 2,
 		)
 		context.fill()
 		return this
@@ -99,8 +103,8 @@ class Topology {
 		context.fillStyle = 'black'
 		context.beginPath()
 		context.arc(
-			this.offsetX + FIELD_SIZE + check.x * FIELD_SIZE - FIELD_SIZE / 2,
-			this.offsetY + FIELD_SIZE + check.y * FIELD_SIZE - FIELD_SIZE / 2,
+			this.offsetX + check.x * FIELD_SIZE + FIELD_SIZE * 1.5,
+			this.offsetY + check.y * FIELD_SIZE + FIELD_SIZE * 1.5,
 			2.5,
 			0,
 			Math.PI * 2
@@ -108,17 +112,53 @@ class Topology {
 		context.fill()
 		return this
 	}
+
+	drawInjury (context, injury) {
+		context.strokeStyle = 'red'
+		context.lineWidth = 1.5
+
+		context.beginPath()
+		context.moveTo(
+			this.offsetX + injury.x * FIELD_SIZE + FIELD_SIZE,
+			this.offsetY + injury.y * FIELD_SIZE + FIELD_SIZE
+		)
+		context.lineTo(
+			this.offsetX + injury.x * FIELD_SIZE + FIELD_SIZE * 2,
+			this.offsetY + injury.y * FIELD_SIZE + FIELD_SIZE * 2
+		)
+		context.stroke()
+
+		context.beginPath()
+		context.moveTo(
+			this.offsetX + injury.x * FIELD_SIZE + FIELD_SIZE * 2,
+			this.offsetY + injury.y * FIELD_SIZE + FIELD_SIZE
+		)
+		context.lineTo(
+			this.offsetX + injury.x * FIELD_SIZE + FIELD_SIZE,
+			this.offsetY + injury.y * FIELD_SIZE + FIELD_SIZE * 2
+		)
+		context.stroke()
+
+		return this
+	}
 	
-	draw(context) {  // рисуем поле боя, затем пробегаемся по всем кораблям и произведенным промахам и отрисовываем их
+	draw(context) {  // рисуем поле боя, затем пробегаемся по всем кораблям и произведенным выстрелам и отрисовываем их
 		this.drawFields(context)  // рисуем поле боя 
 
-		for (const sheep of this.sheeps) {
-			this.drawSheeps(context, sheep)
+		if (this.secretField == false) {  // если расположение кораблей не является секретным, то отрисовываем их
+			for (const sheep of this.sheeps) {
+				this.drawSheeps(context, sheep)
+			}
 		}
-
+		
 		for (const check of this.checks) {
 			this.drawChecks(context, check)
 		}
+
+		for (const injury of this.injuries) {
+			this.drawInjury(context, injury)
+		}
+
 		return this
 	}
 
@@ -138,9 +178,12 @@ class Topology {
 		// если не над полем боя, то false
 		if (!this.isMouseUnder(point)) return false
 
+		const x = Math.floor((point.x - this.offsetX - FIELD_SIZE) / FIELD_SIZE)
+		const y = Math.floor((point.y - this.offsetY - FIELD_SIZE) / FIELD_SIZE)
+
 		return {
-			x: Math.floor((point.x - this.offsetX - FIELD_SIZE) / FIELD_SIZE),
-			y: Math.floor((point.y - this.offsetY - FIELD_SIZE) / FIELD_SIZE)
+			x: Math.max(0, Math.min(9, x)),  // дополнительная проверка из за неточностях при округлении
+			y: Math.max(0, Math.min(9, y))
 		}
 	}
 	
@@ -236,6 +279,54 @@ class Topology {
 					}
 				}
 
+			}
+		}
+	}
+
+	update() {
+		// повторяющиеся выстрелы отфильтровываем
+		this.checks = this.checks
+			.map(check => JSON.stringify(check))
+			.filter((check, ind, arr) => arr.lastIndexOf(check) === ind)   // ['1', '2', '1', '3'].lastIndexOf('1') == 2     ( ['2', '1', '3'] )
+			.map(check => JSON.parse(check))
+
+		const map = [
+			[false, false, false, false, false, false, false, false, false, false],
+			[false, false, false, false, false, false, false, false, false, false],
+			[false, false, false, false, false, false, false, false, false, false],
+			[false, false, false, false, false, false, false, false, false, false],
+			[false, false, false, false, false, false, false, false, false, false],
+			[false, false, false, false, false, false, false, false, false, false],
+			[false, false, false, false, false, false, false, false, false, false],
+			[false, false, false, false, false, false, false, false, false, false],
+			[false, false, false, false, false, false, false, false, false, false],
+			[false, false, false, false, false, false, false, false, false, false]
+		]
+		// делаем карту кораблей ( координате с кораблем присваиваем true , соседние координаты не в счет )
+		for (const sheep of this.sheeps) {
+			if (sheep.direct == 0) {
+				for (let x = sheep.x; x < sheep.x + sheep.size; x++) { 
+					if (map[sheep.y] && !map[sheep.y][x]) {	
+						map[sheep.y][x] = true
+					}
+				}
+			} 
+			else { 
+				for (let y = sheep.y; y < sheep.y + sheep.size; y++) {
+					if (map[y] && !map[y][sheep.x]) { 
+						map[y][sheep.x] = true
+					}
+				}
+			}
+		}
+
+		// если выстрел является частью корабля, то добавляем выстрел в массив попаданий, и удаляем его из массива выстрелов
+		for (const check of this.checks) {
+			if (map[check.y][check.x]) {
+				this.injuries.push(check)
+
+				const index = this.checks.indexOf(check)
+				this.checks.splice(index, 1)
 			}
 		}
 	}

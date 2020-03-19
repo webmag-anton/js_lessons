@@ -28,6 +28,26 @@ canvas.height = 500
 // 	}
 // }
 
+// drawRect({
+// 	x: 10,
+// 	y: 10,
+// 	width: 100,
+// 	height: 100,
+	
+// 	lineWidth: 5,  						// ширина контура
+
+// 	strokeStyle: 'red',				// цвет контура
+// 	stroke: true,							// контур
+	
+// 	fillStyle: 'green',				// цвет заполнения
+// 	fill: true, 							// заполнение
+// })
+
+
+function clearCanvas() {
+	canvas.width |= 0  // очищаем канвас таким образом
+}
+
 function drawGrid() { 	// разлиновка тетради в клетку
 	ctx.strokeStyle = 'blue'
 	ctx.lineWidth = 0.5
@@ -57,24 +77,6 @@ function drawGrid() { 	// разлиновка тетради в клетку
 }
 
 
-// drawRect({
-// 	x: 10,
-// 	y: 10,
-// 	width: 100,
-// 	height: 100,
-	
-// 	lineWidth: 5,  						// ширина контура
-
-// 	strokeStyle: 'red',				// цвет контура
-// 	stroke: true,							// контур
-	
-// 	fillStyle: 'green',				// цвет заполнения
-// 	fill: true, 							// заполнение
-// })
-
-
-
-
 
 const mouse = getMouse(canvas)  // координаты движения мыши, получаемые из mouse.js
 
@@ -85,8 +87,6 @@ const mouse = getMouse(canvas)  // координаты движения мыш�
 // }, 300)
 
 
+
 const game = new Game()
 
-function clearCanvas() {
-	canvas.width |= 0  // очищаем канвас таким образом
-}
