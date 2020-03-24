@@ -102,7 +102,7 @@ function doNothing() {};   alert( doNothing() ); // undefined
 то obj.toString()
 
 В отсутствие Symbol.toPrimitive и valueOf, toString обработает все случаи 
-преобразований к примитивам методы должны возвращать примитив, а не объект
+преобразований к примитивам; методы должны возвращать примитив, а не объект
 
 
 
@@ -523,7 +523,7 @@ Date.parse(str) - <timestamp or NaN>
 		/* Методы	формата JSON (JavaScript Object Notation): */
 
 // JSON поддерживает объекты, массивы, строки, числа, true/false и null
-// Если объект имеет метод toJSON(), то он вызывается через JSON.stringify
+// Если объект имеет метод toJSON(), то он вызывается при вызове JSON.stringify для этого объекта
 JSON.stringify() - для преобразования {сериализации} объектов в JSON
 JSON.parse() - для преобразования {декодирования} JSON обратно в объект
 
