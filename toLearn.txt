@@ -4,7 +4,7 @@ Map, Set				 +
 canvas					 +
 SPA							 +
 nodeJs					 +
-webpack
+webpack					 +
 react
 JSX
 redux 
