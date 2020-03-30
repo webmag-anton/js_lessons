@@ -697,8 +697,8 @@ class HelloButton extends HTMLButtonElement {
 customElements.define('hello-button', HelloButton, {extends: 'button'});
 // Наша новая кнопка расширяет встроенную. Так что она сохраняет те же 
 // стили и стандартные возможности, наподобие атрибута disabled
-<button is="hello-button">Нажми на меня<button>
-<button is="hello-button" disabled>Отключена<button>
+<button is="hello-button">Нажми на меня</button>
+<button is="hello-button" disabled>Отключена</button>
 
 
 
