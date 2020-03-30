@@ -348,7 +348,7 @@ class MyClass {
   static methodStatic() {} 
 }
 
-Наследование классов имеет синтаксис class Child extends Parent; 
+Наследование классов имеет синтаксис 'class Child extends Parent'; 
 При этом Child.prototype.__proto__ будет равен Parent.prototype;
 Если у Child не указан конструктор, то он унаследуется от Parent; 
 Если необходимо переопределить конструктор у Child, то обязателен вызов конструктора 
@@ -360,7 +360,7 @@ class MyClass {
 Мы также можем присвоить свойство или метод самой функции-классу, а не её prototype; 
 Для этого перед свойством или методом ставится слово static; Такие методы  называются 
 статическими; Эти свойства или методы не будут иметь отношения к создаваемым объектам;
-Статические свойства и методы наследуются между классами при class Child extends Parent, так как 
+Статические свойства и методы наследуются между классами при 'class Child extends Parent', так как 
 Child.prototype.__proto__ == Parent.prototype  и  Child.__proto__ == Parent (двойное наследование)
 
 class Parent{
@@ -731,11 +731,11 @@ Promise.reject(error)
 // браузеров указывать атрибут <script type="module">
 
 // можно использовать атрибут src="./path/some.js"
+// импотируемая переменная/функция/класс внутри {} через запятую
 <script type="module">
-	// импотируемая переменная/функция/класс внутри {} через запятую
   import {sayHi} from './say.js';
   document.body.innerHTML = sayHi('John');
-<script>
+</script>
 
 // Экспорт:
 
