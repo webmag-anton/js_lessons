@@ -31,7 +31,7 @@ import Post from './Post'                             (.js не обязател
 import './styles/styles.css'
 import json from './assets/json'                      (.json не обязательно)
 import webpackLogo from './assets/logo.png'
-import * as $ from 'jquery'                           (путь к /node_modules не пишется)
+import * as $ from 'jquery'                           (путь к /node_modules не пишется, обычно скрипт берется из /dist)
 import './styles/scss.scss'
 import './babel'	                                    (подключить модуль, но не присваивать его переменной)
 
