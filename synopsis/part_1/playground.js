@@ -1,7 +1,7 @@
 'use strict';
 
 
-				/***** intresting moments *****/
+            /***** intresting moments *****/
 
 
 // // при встроенном объявлении переменной var видна снаружи, а let нет
@@ -72,7 +72,7 @@
 
 
 
-								// заметка 1
+                        // заметка 1
 
 // // Функция навсегда запоминает ссылку на лексическое окружение, где она была создана
 // function Counter() {
@@ -86,7 +86,7 @@
 
 
 
-								// заметка 2 - Замыкание (closure)
+                        // заметка 2 - Замыкание (closure)
 
 // // ф-я closure замыкает в себе переменную a
 // function closure(a) {
@@ -104,37 +104,52 @@
 
 
 
-								// заметка 3 - у стрелочных функций нет своего контекста (значения this)
+                        // заметка 3
 
-// // значение this внутри стрелочной функции берётся из внешней «нормальной» функции
+// function handleInput() {
+//    console.log(this)
+// }
+// const obj = {}
+// // obj.handleInput()    // такой вызов не сработает, т.к. у obj нет метода handleInput
+// handleInput.call(obj)   // а так можно
+
+
+
+                        // заметка 3 - у стрелочных функций нет своего контекста (значения this)
+
+// handleInput = () => {
+//    console.log(this)
+// }
+// const obj = {}
+// handleInput.call(obj)    // window, а не {}
+
+// значение this внутри стрелочной функции берётся из внешней «нормальной» функции
 // let group = {
-//   title: "Our Group",
-//   students: ["John", "Pete", "Alice"],
-//   showList() {
-//     this.students.forEach(
-//       student => alert(this.title + ': ' + student) // в node.js нет alert
-
-//       // обычная ф-я не сработает, т.к. this указывает на window, у которого вызывается 
-//       // метод alert ( alert это сокращение от window.alert() ), а для глобального
-//       // объекта мы не объявляли св-во title и не создавали var title в глобальной области
-//       // function(student) { alert(this.title + ': ' + student) } 
-//     );
-//   }
-// };
-// group.showList();
+//    title: "Our Group",
+//    students: ["John", "Pete", "Alice"],
+//    showList() {
+//       this.students.forEach(
+//          student => console.log(this.title + ': ' + student)
+         
+//          // // обычная ф-я не сработает, т.к. у нее потерян контекст
+//          // function(student) { console.log(this.title + ': ' + student) } 
+//       )
+//    }
+// }
+// group.showList()
 
 
 // arr.forEach( function() { console.log(this) } )  // undefined, в callback this не определен
 // arr.forEach( () => { console.log(this) } )  // значение this родительской ф-ии (в глобальной 
-// 																						// области видимости - window) 
+// 														  // области видимости - window) 
 // elem.addEventListener('click', function() { console.log(this) } ) // внутри обработчика события 
-// 																																	// this всегда ссылается на elem
+// 																						// this всегда ссылается на elem
 // elem.addEventListener('click', e => { console.log(this) } )  // значение this родительской ф-ии (в 
-// 																														 // глобальной области - window)
+// 																				 // глобальной области - window)
 
 
 
-								// заметка 4
+                        // заметка 4
 
 // // this ссылается на объект только при создании метода в его теле, а не при его вызове
 // console.log(this == window.console)  // false, здесь this ссылается на window
@@ -151,12 +166,12 @@
 
 
 
-								// заметка 5 - приоритетность обработчиков событий в очереди (Callback Queue)
+                        // заметка 5 - приоритетность обработчиков событий в очереди (Callback Queue)
 
 setTimeout( function() { console.log('it is setTimeout') }, 100)
 
 ;(function () { // запускаем тяжёлую функцию IIFE
-  for (let i = 0; i < 4e9; i++) {}
+   for (let i = 0; i < 4e9; i++) {}
 })()
 
 alert('this alert after heavyweight function, then after this alert - backgroundColor')
@@ -166,15 +181,15 @@ document.body.style.backgroundColor = 'lightBlue'
 // обработчики событий в очереди (Callback Queue) приорететней чем setTimeout - то есть, даже 
 // если позже попали в очередь, все равно выполняться (попадут в стек) раньше!
 document.querySelector('a').addEventListener('click', function(e) {
-	e.preventDefault()
-	console.log('clicks to link, always before setTimeout')
+   e.preventDefault()
+   console.log('clicks to link, always before setTimeout')
 })
 
 console.log('first log')
 
 
 
-				/***** intresting moments END *****/
+            /***** intresting moments END *****/
 
 
 
@@ -204,7 +219,7 @@ console.log('first log')
 
 
 // function sumSalaries(obj) {
-	
+   
 // 	let sum = 0;
 
 // 	for (let salary of Object.values(obj)){
@@ -219,7 +234,7 @@ console.log('first log')
 
 
 
-		// Деструктуризация в цикле for of
+      // Деструктуризация в цикле for of
 
 // let salaries = {
 //   "John": 100,
@@ -246,34 +261,34 @@ console.log('first log')
 
 
 
-		/* функция стрелок */
+      /* функция стрелок */
 
-// function makeArmy() {
-//   let shooters = [];
+/* function makeArmy() {
+   let shooters = []
+ 
+   let i = 0
+   while (i < 10) {
+      let y = i
+      let shooter = function() { // функция shooter
+        alert( y ) // должна выводить порядковый номер
+      }
+      shooters.push(shooter)
+      i++;
+   }
+ 
+   return shooters
+}
 
-//   let i = 0;
-//   while (i < 10) {
-//   	let y = i
-//     let shooter = function() { // функция shooter
-//       alert( y ); // должна выводить порядковый номер
-//     };
-//     shooters.push(shooter);
-//     i++;
-//   }
+let army = makeArmy();
 
-//   return shooters;
-// }
-
-// let army = makeArmy();
-
-// army[0]();
-// army[5](); 
-
-
+army[0]();
+army[5]();  */
 
 
 
-			/* setTimeout */
+
+
+         /* setTimeout */
 
 // var i;
 // var timer = setInterval(function() { // планируем setInterval каждые 10 мс
@@ -305,7 +320,7 @@ console.log('first log')
 
 
 
-			/* Декоратор шпион */
+         /* Декоратор шпион */
 
 // function work(a, b) {
 //   alert( a + b ); // произвольная функция или метод
@@ -388,7 +403,7 @@ console.log('first log')
 
 
 
-			/* 9.1 */
+         /* 9.1 */
 
 // class Clock{
 
@@ -435,7 +450,7 @@ console.log('first log')
 
 
 
-			/* 9.2 */
+         /* 9.2 */
 
 // class Clock{
 
@@ -495,7 +510,7 @@ console.log('first log')
 
 
 
-			/* обработка ошибок */
+         /* обработка ошибок */
 
 // function func() {
 //   try {
@@ -521,7 +536,7 @@ console.log('first log')
 
 
 
-			/* 11.2  промисы */
+         /* 11.2  промисы */
 
 
 // function delay(ms) {
@@ -634,7 +649,7 @@ console.log('first log')
 
 
 
-			/* 11.8  async/await */
+         /* 11.8  async/await */
 
 
 // // Сначала  выполнится синхронный код, потом асинхронный
@@ -727,7 +742,7 @@ console.log('first log')
 
 
 
-			/* 11.8  Генераторы */
+         /* 11.8  Генераторы */
 
 
 // function* gen() {
@@ -801,7 +816,7 @@ console.log('first log')
 
 
 
-			/* 14.1  Proxy */
+         /* 14.1  Proxy */
 
 
 // let user = {

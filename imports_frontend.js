@@ -21,7 +21,7 @@
 </script>
 
 
-   Webpack (React) CSS:
+   Webpack (React) CSS/SCSS:
 @import '~normalize.css';  или  @import '~normalize.css/normalize.css';           (из /node_modules)
 @import "~materialize-css/dist/css/materialize.min.css";
 @import 'fonts.css';
@@ -30,7 +30,7 @@
 import Post from './Post'                             (.js не обязательно)
 import './styles/styles.css'
 import json from './assets/json'                      (.json не обязательно)
-import webpackLogo from './assets/logo.png'
+import webpackLogo from './assets/logo.png'           (путь к картинке; например, /static/media/list.6c39adac.png)
 import * as $ from 'jquery'                           (путь к /node_modules не пишется, обычно скрипт берется из /dist)
 import './styles/scss.scss'
 import './babel'	                                    (подключить модуль, но не присваивать его переменной)
