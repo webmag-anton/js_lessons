@@ -328,27 +328,27 @@ let clone = JSON.parse(JSON.stringify(obj/arr))
 После свойств и методов запятая не ставится;
 
 class MyClass {
-  constructor(name, surname) { // конструктор; свойства и методы присваиваются создаваемому экземпляру
-    this._name = name;
-    this._surname = surname;
-    this.func = function() {}
-  }
+   constructor(name, surname) { // конструктор; свойства и методы присваиваются создаваемому экземпляру
+      this._name = name;
+      this._surname = surname;
+      this.func = function() {}
+   }
 
-  // свойство не из constructor() присваивается создаваемому экземпляру; с фиксированным value
-  prop = value 
+   // свойство не из constructor() присваивается создаваемому экземпляру; с фиксированным value
+   prop = value 
 
-  method(...) {} // методы не из constructor() попадают в MyClass.prototype (в т.ч геттеры/сеттеры)
-  get fullName() {
-    return `${this._name} ${this._surname}`   // геттер, срабатывает при чтении свойства obj.fullName
-  }
-  set fullName(value) {
-    [this._name, this._surname] = value.split(" ")   // сеттер, срабатывает при записи свойства obj.propName = value
-  }
+   method(...) {} // методы не из constructor() попадают в MyClass.prototype (в т.ч геттеры/сеттеры)
+   get fullName() {
+      return `${this._name} ${this._surname}`   // геттер, срабатывает при чтении свойства obj.fullName
+   }
+   set fullName(value) {
+      [this._name, this._surname] = value.split(" ")   // сеттер, срабатывает при записи свойства obj.propName = value
+   }
 
-  // не присваивается создаваемому экземпляру, эквивалентен MyClass.propStatic = value
-  static propStatic = value
-  // не присваивается создаваемому экземпляру, эквивалентен MyClass.methodStatic = function() {}
-  static methodStatic() {} 
+   // не присваивается создаваемому экземпляру, эквивалентен MyClass.propStatic = value
+   static propStatic = value
+   // не присваивается создаваемому экземпляру, эквивалентен MyClass.methodStatic = function() {}
+   static methodStatic() {} 
 }
 
 Наследование классов имеет синтаксис 'class Child extends Parent'; 
@@ -515,12 +515,28 @@ setSeconds(sec, [ms])
 setMilliseconds(ms)
 setTime(ms) - установить таймстамп - количество миллисекунд, прошедших с 1 января 1970 года UTC+0
 
+// Автоисправление – это очень полезная особенность объектов Date. Можно устанавливать 
+// компоненты даты вне обычного диапазона значений, а объект сам себя исправит:  
+// let date = new Date(2013, 0, 32)  // 1st Feb 2013
 
-Date.now() - если нужно просто измерить время - бенчмаркинг
+// создать объект Date с временем, равным количеству миллисекунд, прошедших с 1 января 1970 года UTC+0:
+new Date(milliseconds)
+// создать объект Date с временем из строки. Формат строки может быть любой, например:
+// '2020-04-28T13:43:20.000Z'   или   'Tue Apr 28 2020 16:43:20 GMT+0300 (Восточная Европа, летнее время)'  
+new Date(dateString)
 
-// считывает дату из строки. Формат строки должен быть следующим: YYYY-MM-DDTHH:mm:ss.sssZ
+// Если объект Date преобразовать в число, то получим таймстамп по аналогии с date.getTime(). 
+// Важный побочный эффект - даты можно вычитать, в результате получаем разность в миллисекундах:
+new Date() - new Date('2020-04-28T13:43:20.000Z')
+
+// Date.now() эквивалентен new Date().getTime()
+Date.now() - получить таймстамп; если нужно измерить время - бенчмаркинг
+
+// считывает дату из строки, возвращает timestamp. Формат строки может быть любой
 Date.parse(str) - <timestamp or NaN>
 
+// в браузерах есть метод performance.now()
+performance.now() - возвращает количество миллисекунд с начала загрузки страницы с точностью до микросекунд
 
 
 
