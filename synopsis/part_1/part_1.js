@@ -13,11 +13,13 @@ console - объект глобального объекта window ( console.lo
 
 
 
-// null - значение неизвестно;   
+// null - значение неизвестно
 // undefined - значение не присвоено
 
 // typeof null возвращает "object" - ошибка языка
 // typeof function() {} возвращает "function"
+
+// 8 % 3 == 2         4 % 1 == 0         3.5 % 1 == 0.5         3 % 4 == 3       - остаток от деления 
 
 
 
@@ -368,23 +370,23 @@ Child.prototype.__proto__ == Parent.prototype  и  Child.__proto__ == Parent (д
 
 class Parent{
 	constructor(name) {
-    this.name = name;
-  }
-  hello() {
-  	alert(`hello ${this.name}`)
-  }
-  static run() {}
+      this.name = name;
+   }
+   hello() {
+   	alert(`hello ${this.name}`)
+   }
+   static run() {}
 }
 
 class Child extends Parent{
 	constructor(name, age) {
 		super(name);
-    this.age = age;
-  }
-  say(arg) {
-  	super.hello();
-  	this.age += arg;
-  }
+      this.age = age;
+   }
+   say(arg) {
+   	super.hello();
+   	this.age += arg;
+   }
 }
 
 У встроенных классов есть собственные статические методы, например Object.keys, Array.isArray;

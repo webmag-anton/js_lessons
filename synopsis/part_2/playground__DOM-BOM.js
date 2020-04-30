@@ -794,8 +794,8 @@ runOnKeys( () => alert('welcome'), 'KeyZ', 'KeyX' )
 // 		let currentDate = new Date();
 
 // 		scrollTime.innerHTML = `${currentDate.getHours()} : 
-// 														${currentDate.getMinutes()} : 
-// 														${currentDate.getSeconds()}`
+// 										${currentDate.getMinutes()} : 
+// 										${currentDate.getSeconds()}`
 // 	}
 // })
 

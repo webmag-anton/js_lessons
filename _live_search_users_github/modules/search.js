@@ -1,18 +1,18 @@
 // Класс, отвечающий за поиск
 export class Search {
+   // принимаем в конмтруктор экземпляр класса View, у которого св-ва и методы отвечают за отображение приложения
 	constructor(view) {
-		this.view = view
-
+		this.view = view // свойству view присваиваем экземпляр класса View, получая доступ к UI, который мы будем менять при поиске
 		this._USERS_PER_PAGE = 10
 		this.currentPage = 1
-
-		// если не привязать контекст, то this внутри searchUsers не будет знать к кому обращаться
-		this.view.searchInput.addEventListener('keyup', this.debounce( this.searchUsers.bind(this), 500 )) 
-		
-		this.view.loadMoreBtn.addEventListener('click', this.loadUsers.bind(this))
+      // вызов debounce возвращает отдекорированную функцию searchUsers, которая будет вызываться при отпускании клавиши;
+      // т.к. searchUsers стрелочная ф-я, то у нее нет своего this, то есть при вызове будет браться внешний this (метода constructor) 
+		this.view.searchInput.addEventListener('keyup', this.debounce( this.searchUsers, 500 )) 
+		this.view.loadMoreBtn.addEventListener('click', this.loadUsers)
 	}
 
-	async searchUsers() {
+   // стрелочная ф-я что бы не было потери контекста
+	searchUsers = async () => {
 		const searchValue = this.view.searchInput.value
 
 		// если что то ввели, т.е. поле инпут не пустое, то выполняем запрос
@@ -23,11 +23,10 @@ export class Search {
 			this.currentPage = 1
 			// в url GET запроса после ? следуют параметры запроса, разделенные между собой &
 			let response = await fetch(`https://api.github.com/search/users
-																	?q=${searchValue}&per_page=${this._USERS_PER_PAGE}&page=${this.currentPage}
-																`)
+												 ?q=${searchValue}&per_page=${this._USERS_PER_PAGE}&page=${this.currentPage}
+												`)
 			if (response.ok) {
 				let json = await response.json()  // получаем тело ответа (await возвращает результат промиса; json() возвращает промис)
-
 				// показ кнопки если аргумент возвращает true
 				this.view.toggleLoadMoreBtn( json.total_count > this._USERS_PER_PAGE  &&  json.items * this.currentPage !== json.total_count )
 				// если нет совпадений
@@ -41,16 +40,15 @@ export class Search {
 		} else { // иначе очищаем вывод пользователей
 			this.clearUsers()
 		}
-
 	}
 
-	async loadUsers() {
+	loadUsers = async () => {
 		this.currentPage++  // увеличиваем страницу вывода на 1 - следующие 10 ( _USERS_PER_PAGE ) пользователей
 		// ... и выполняем запрос
 		const searchValue = this.view.searchInput.value
 		let response = await fetch(`https://api.github.com/search/users
-																?q=${searchValue}&per_page=${this._USERS_PER_PAGE}&page=${this.currentPage}
-															`)
+										    ?q=${searchValue}&per_page=${this._USERS_PER_PAGE}&page=${this.currentPage}
+											`)
 		if (response.ok) {
 			let json = await response.json()
 
@@ -61,7 +59,6 @@ export class Search {
 		} else {
 			console.error(`Ошибка: статус ${response.status}. Возможно сервер не может так быстро отвечать, стоят ограничения`)
 		}
-
 	}
 
 	clearUsers() {
@@ -88,7 +85,7 @@ export class Search {
 	// }
 
 	// Задержка ввода данных для отправки запроса 
-	// (этот вариант с задержкой при изначальном вводе + отрабатывает при быстрой очистке поиска )
+	// (этот вариант с задержкой при изначальном вводе + отрабатывает при быстрой очистке поиска)
 	debounce(func, wait, immediate) {
 		let timeout;
 		return function() {

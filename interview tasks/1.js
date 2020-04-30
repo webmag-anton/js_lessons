@@ -257,9 +257,7 @@
 //     this.students.forEach(
 //       student => alert(this.title + ': ' + student)
 
-//       // не сработает, т.к. this указывает на window, у которого вызывается 
-//       // метод alert ( alert это сокращение от window.alert() ), а для глобального
-//       // объекта мы не объявляли св-во title и не создавали var title в глобальной области
+//       // обычная ф-я не сработает, т.к. у нее потерян контекст
 //       // function(student) { alert(this.title + ': ' + student) } 
 //     );
 //   }

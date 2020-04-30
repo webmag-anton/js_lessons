@@ -24,7 +24,7 @@ parentElement, children, firstElementChild, lastElementChild,
 previousElementSibling, nextElementSibling
 
 // Коллекция childNodes содержит список всех детей, включая текстовые узлы. 
-// childNodes похож на массив. На самом деле это не массив, а коллекция.
+// childNodes похож на массив. На самом деле это не массив, а коллекция NodeList.
 // Коллекция – особый перебираемый объект-псевдомассив ( можно перебрать 
 // в for..of, есть forEach() );  
 // Можно использовать Array.from() для создания массива из коллекции; или spread: [...nodes]

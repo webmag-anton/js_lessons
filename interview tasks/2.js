@@ -2,9 +2,9 @@
 // 2) что выведет в консоль
 
 // for (var i = 0; i < 3; i++) {
-// setTimeout(function () {
-// console.log(i);
-// }, 0);
+//    setTimeout(function () {
+//       console.log(i)
+//    }, 0)
 // }
 
 // как это поправить?
