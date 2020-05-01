@@ -7,8 +7,8 @@
 <script src="js/main.js"></script>
 
    CSS:
-@import "style/main.css"
-@import url("https://webref.ru/style.css")
+@import "style/main.css";
+@import url("https://webref.ru/style.css");
 
    SCSS:
 @import media.scss";
