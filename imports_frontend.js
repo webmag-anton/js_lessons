@@ -22,9 +22,10 @@
 
 
    Webpack (React) CSS/SCSS:
-@import '~normalize.css';  или  @import '~normalize.css/normalize.css';           (из /node_modules)
+@import '~normalize.css';  или  @import '~normalize.css/normalize.css';        (из /node_modules)
 @import "~materialize-css/dist/css/materialize.min.css";
 @import 'fonts.css';
+@import '~bootstrap/scss/bootstrap';                                           (в scss файле .css/.scss можно не писать)
 
    Webpack (React) JS:
 import Post from './Post'                             (.js не обязательно)
