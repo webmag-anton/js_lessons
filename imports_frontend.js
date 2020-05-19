@@ -12,12 +12,12 @@
 
    SCSS:
 @import media.scss";
-@import media";       (media.scss / _media.scss или media.css)
+@import media";         (media.scss / _media.scss или media.css)
 
    JS:
 <script type="module">
-  import {sayHi} from './say.js';
-  document.body.innerHTML = sayHi('John');
+   import {sayHi} from './say.js'
+   document.body.innerHTML = sayHi('John')
 </script>
 
 
