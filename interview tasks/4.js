@@ -158,3 +158,29 @@ console.log( sum(1)(3)(6) == 10 )
 // console.log(pedro.getName())
 // // ошибка, на момент создания не было метода getName в прототипе
 // console.log(juan.getName())  
+
+
+
+/* ---------------------------------------------------------- */
+
+
+
+// const numbers = []
+
+// for (let i = 1; i <= 100; i++) {
+//    if (i % 3 == 0 && i % 5 != 0) {
+//       numbers.push('three')
+//    } else if (i % 5 == 0 && i % 3 != 0) {
+//       numbers.push('five')
+//    } else if (i % 5 == 0 && i % 3 == 0) {
+//       numbers.push('three-five')
+//    } else {
+//       numbers.push(i)
+//    }
+// }
+
+// console.log(numbers)
+
+
+
+/* ---------------------------------------------------------- */
