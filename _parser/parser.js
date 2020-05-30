@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	recursy(body)
 	// отсылаем на сервер наши данные (метод POST), полученные от парсера и выводим в консоль ответ от сервера;
-	// это фейковый API и он на самом деле не записывает те данные, что мы послали
+	// это фейковый REST API и он на самом деле не записывает те данные, что мы послали
 	fetch('https://jsonplaceholder.typicode.com/posts', {
 		method: 'POST',
 		headers: {
