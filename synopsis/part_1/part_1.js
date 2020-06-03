@@ -169,7 +169,7 @@ str.trim() — убирает пробелы в начале и конце ст�
 str.codePointAt(pos) - возвращает код символа на позиции pos
 String.fromCodePoint(code) - создаёт символ по его коду code
 str.match(regexp) - <arrayOfMatches or null>
-str.replace(regexp|substr, newSubStr|function) - 
+str.replace(regexp|substr, newSubStr) - первый аргумент регулярка, а второй - строка, заменяющая регулярку  
 
 
 
