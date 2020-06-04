@@ -59,7 +59,7 @@ export class Question {
    }
 
    static listToHTML(questions) {
-      // если массив пустой, то предупреждаем что контента пока нет и нужно добавить вопросы
+      // если массив пустой, то предупреждаем что вопросов пока не задали
       return questions.length
          ?  `<ol>${questions.map(q => `<li>${q.text}</li>`).join('')}</ol>`
          :  '<p>вопросов пока нет</p>'
