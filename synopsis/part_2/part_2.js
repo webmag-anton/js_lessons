@@ -189,7 +189,7 @@ document.body.style.display = "" - для удаления стиля присв
 // Свойство style.cssText соответствует всему атрибуту "style", полной строке стилей;
 // Для задания нескольких стилей в одной строке используется свойство style.cssText:
 div.style.cssText = `color: red !important;
-                             width: 100px;`
+                     width: 100px;`
 
 // Для чтения окончательных стилей из css и атрибута style (после применения  
 // всех CSS-правил и CSS-наследования) используется метод (возвращает строку('5px')):
@@ -205,7 +205,7 @@ let computedObj = getComputedStyle(elem, [pseudo]).marginTop - только дл
 // Возвращают number
 offsetParent – ближайший CSS-позиционированный родитель или ближайший td, th, table, body
 offsetLeft/offsetTop – позиция в пикселях верхнего левого угла относительно offsetParent
-offsetWidth/offsetHeight – «внешняя» ширина/высота элемента; <clientWidth + border>
+offsetWidth/offsetHeight – «внешняя» ширина/высота элемента; <clientWidth + scrollBar + border>
 clientLeft/clientTop – расстояние от верхнего левого внешнего угла до 
                        внутренного; <offsetWidth - clientWidth = border>
 clientWidth/clientHeight – ширина/высота видимого содержимого вместе с внутренними отступами  
