@@ -75,7 +75,7 @@ function authFormHandler(e) {
 
 function renderModalAfterAuth(content) {
    if (typeof content === 'string') {
-      createModal('Ошибка', content)
+      createModal('Ошибка', content)  // Ошибка, У Вас нет токена
    } else {
       createModal('Список вопросов', Question.listToHTML(content))
    }

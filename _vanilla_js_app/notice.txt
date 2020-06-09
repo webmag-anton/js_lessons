@@ -17,7 +17,7 @@
 - npm i -D style-loader css-loader
 
 2.    
-- подключаем html разметку макета Blog из MUI framework и css этого layout (чтобы 
+- подключаем html разметку макета Blog из MUI framework и css, js этого layout (чтобы 
   webpack понимал css подключаем css-loader (npm i -D style-loader css-loader))
 - немного модифицирую макет, добаляю поле для задания вопросов и т.д.
 - валидирую поле и кнопку; валидацию импортирую из файла utils.js
