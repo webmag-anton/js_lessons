@@ -30,8 +30,8 @@
    Webpack (React) JS:
 import Post from './Post'                             (.js не обязательно)
 import './styles/styles.css'
-import json from './assets/json'                      (.json не обязательно, в React'е json импортруется уже распарщеный)
-import webpackLogo from './assets/logo.png'           (путь к картинке; например, /static/media/list.6c39adac.png)
+import json from './assets/json'                      (.json не обязательно, в React'е json импортруется уже распарсеный)
+import webpackLogo from './assets/logo.png'           (путь к картинке; например, <img src={webpackLogo}/>)
 import * as $ from 'jquery'                           (путь к /node_modules не пишется, обычно скрипт берется из /dist)
 import './styles/scss.scss'
 import './babel'	                                    (подключить модуль, но не присваивать его переменной)
