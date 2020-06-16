@@ -3,19 +3,19 @@
 
    HTML:
 
-<link rel="stylesheet" href="css/style.css">
-<script src="js/main.js"></script>
+<link rel='stylesheet' href='css/style.css'>
+<script src='js/main.js'></script>
 
    CSS:
-@import "style/main.css";
-@import url("https://webref.ru/style.css");
+@import 'style/main.css';
+@import url('https://webref.ru/style.css');
 
    SCSS:
-@import media.scss";
-@import media";         (media.scss / _media.scss или media.css)
+@import 'media.scss';
+@import 'media';         (media.scss / _media.scss или media.css)
 
    JS:
-<script type="module">
+<script type='module'>
    import {sayHi} from './say.js'
    document.body.innerHTML = sayHi('John')
 </script>
@@ -23,7 +23,7 @@
 
    Webpack (React) CSS/SCSS:
 @import '~normalize.css';  или  @import '~normalize.css/normalize.css';        (из /node_modules)
-@import "~materialize-css/dist/css/materialize.min.css";
+@import '~materialize-css/dist/css/materialize.min.css';
 @import 'fonts.css';
 @import '~bootstrap/scss/bootstrap';                                           (в scss файле .css/.scss можно не писать)
 
