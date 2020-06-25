@@ -32,33 +32,33 @@
    rle(inputStr)  // 'A4B3C2XYZD4E3F3A6B28'
 */
 
-const inputStr = 'AAAABBBCCXYZDDDDEEEFFFAAAAAABBBBBBBBBBBBBBBBBBBBBBBBBBBB'
+// const inputStr = 'AAAABBBCCXYZDDDDEEEFFFAAAAAABBBBBBBBBBBBBBBBBBBBBBBBBBBB'
 
-function rle(str) {
+// function rle(str) {
 
-   let prevSign = '',
-       currentAmount = 1,
-       finalStr = ''
+//    let prevSign = '',
+//        currentAmount = 1,
+//        finalStr = ''
 
-   for (let sign of str) {
-      if (sign == prevSign) {
-         currentAmount++
-      }
-      else{
-         // если один раз - не повторяется
-         finalStr += prevSign + (currentAmount > 1 ? currentAmount : '')
-         prevSign = sign
-         currentAmount = 1
-      }
-   }
-   // склеиваем последнюю часть
-   finalStr += prevSign + (currentAmount > 1 ? currentAmount : '')
+//    for (let sign of str) {
+//       if (sign == prevSign) {
+//          currentAmount++
+//       }
+//       else{
+//          // если один раз - не повторяется
+//          finalStr += prevSign + (currentAmount > 1 ? currentAmount : '')
+//          prevSign = sign
+//          currentAmount = 1
+//       }
+//    }
+//    // склеиваем последнюю часть
+//    finalStr += prevSign + (currentAmount > 1 ? currentAmount : '')
 
-   console.log(finalStr)
-   return finalStr
-}
+//    console.log(finalStr)
+//    return finalStr
+// }
 
-rle(inputStr)
+// rle(inputStr)
 
 
 
@@ -72,23 +72,23 @@ rle(inputStr)
    sum(1)(3)(6) == 10
 */
 
-function sum(a) {
+// function sum(a) {
 
-   let currentSum = a
+//    let currentSum = a
 
-   function f(b) {
-      currentSum += b
-      return f
-   }
+//    function f(b) {
+//       currentSum += b
+//       return f
+//    }
 
-   f.toString = function() {
-      return currentSum
-   }
+//    f.toString = function() {
+//       return currentSum
+//    }
 
-   return f
-}
-// преобразование к примитиву
-console.log( sum(1)(3)(6) == 10 )   
+//    return f
+// }
+// // преобразование к примитиву
+// console.log( sum(1)(3)(6) == 10 )   
 
 
 
@@ -158,6 +158,62 @@ console.log( sum(1)(3)(6) == 10 )
 // console.log(pedro.getName())
 // // ошибка, на момент создания не было метода getName в прототипе
 // console.log(juan.getName())  
+
+
+
+/* ---------------------------------------------------------- */
+
+
+
+/* 
+   sum(2,3) == sum(2)(3) == 5
+*/
+
+
+// function sum (a, b) {
+
+//    if (b) {
+//       return a + b
+//    }
+   
+//    return function (b) {
+//       return a + b
+//    }
+// }
+
+// console.log( sum(2,3) )
+// console.log( sum(2)(3) )
+
+
+
+/* ---------------------------------------------------------- */
+
+
+
+/* 
+   реализуйте bind2 - полный аналог функции bind в js
+
+   const sum = (x, y) => x + y
+   const plusTen = sum.bind2(undefined, 10)
+   plusTen(1) // 11
+   plusTen(10) // 20
+*/
+
+
+Function.prototype.bind2 = function(context, ...args) {
+
+   return (...args2) => {
+      // т.к. стрелочная ф-я, то this указывает на функцию, к которой вызовем bind2
+      return this.apply(context, args.concat(args2))
+   }
+}
+
+
+const sum = (x, y) => x + y
+const plusTen = sum.bind2(undefined, 10)
+
+console.log(plusTen(1))
+console.log(plusTen(10))
 
 
 
