@@ -10,7 +10,7 @@
 - создаю webpack.config.js
 - в package.json создаю script start для запуска webpack-dev-server в режиме 
   developmemt (--mode development) и с флагом --open (чтобы сервер автоматом 
-  открывал в браузере);
+  открывал в браузере); скрипты с webpack-dev-server можно запускть без run;
   и скрипт build для того, чтобы webpack собирал проект в режиме 
   production (--mode production), должна появиться папка public
 - npm i -D html-webpack-plugin clean-webpack-plugin

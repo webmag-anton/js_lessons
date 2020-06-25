@@ -23,7 +23,9 @@ function submitFormHandler(e) {
    if (isValid($input.value)) {
       const question = {
          text: $input.value.trim(),
-         date: new Date().toJSON()
+         // можно не приводить к строке вложенный объект даты (new Date().toJSON()), 
+         // т.к. в JSON вложенные объекты сериализуются автоматически.
+         date: new Date()
       }
 
       $submitBtn.disabled = true // блокируем кнопку пока идет запрос 
