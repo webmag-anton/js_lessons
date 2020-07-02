@@ -8,7 +8,7 @@ webpack           +
 react             +
 JSX               +
 redux             +
-typeScript
+typeScript        +
 patterns
 
 
