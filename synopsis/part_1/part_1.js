@@ -341,11 +341,43 @@ let clone = JSON.parse(JSON.stringify(obj/arr))
 
 
 
-      /* Классы */
+      /* Конструкторы и Классы */
 
-Класс - продвинутый способ создания обектов, вместо обычного конструктора;
-Методы класса попадают в его свойство prototype, откуда наследуются; 
-После свойств и методов запятая не ставится;
+// в ES5 не было классов, объекты создавались конструкторами - обычными функциями, чье имя принято
+// называть с большой буквы. Сама функция и есть конструктор (как метод constructor в классах), а
+// this внутри конструктора - контекст, указывающий на создаваемый Конструктором экземпляр (объект).
+const Animal = function(options) {
+   this.name = options.name
+   this.color = options.color
+   // лучше задавать методы через прототип, т.к. мы можем изменить метод в прототипе далее 
+   // в коде, а если мы задаем внутри конструктора, то больше мы не имеем доступа к методу
+   this.voice = function() {
+      console.log('gav from:', this.name)
+   }
+}
+Animal.prototype.voice_2 = function() {
+   console.log('gav from:', this.name)
+}
+// создание экземпляра
+const dog = new Animal({name: 'Rex', color: '#fff'})
+
+// наследование (Cat от Animal) в Прототипах реализовывалось так:
+const Cat = function(options) {
+   // вызываем конструктор родительского класса
+   Animal.apply(this, arguments)
+   this.hasTail = options.hasTail
+   this.size = 'big'
+}
+// указываем вручную (в отличае от классов) наследование прототипов:
+Cat.prototype = Object.create(Animal.prototype)
+Cat.prototype.constructor = Cat
+
+const cat = new Cat({name: 'Murzik', color: '#000', hasTail: true})
+
+
+
+Класс - продвинутый способ создания обектов, вместо обычного конструктора; методы класса 
+попадают в его свойство prototype, откуда наследуются; после свойств и методов запятая не ставится;
 
 class MyClass {
    constructor(name, surname) { // конструктор; свойства и методы присваиваются создаваемому экземпляру
