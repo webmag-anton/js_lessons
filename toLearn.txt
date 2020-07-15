@@ -12,7 +12,12 @@ typeScript        +
 
 patterns
 выучить подробней документацию React
-выучить библиотеки immer(иммутабельность объектов), Reselect, Recompose
+   
+   выучить библиотеки: 
+immer (иммутабельность объектов) 
+Reselect 
+Recompose 
+redux-saga
 
 
 
