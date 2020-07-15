@@ -14,7 +14,7 @@ console - объект глобального объекта window ( console.lo
 
 //          8 основных типов данных:
 // - number для любых чисел: целочисленных или чисел с плавающей точкой, 
-//   целочисленные значения ограничены диапазоном ±253.
+//   целочисленные значения ограничены диапазоном ±2^53.
 // - bigint для целых чисел произвольной длины.
 // - string 
 // - boolean 
@@ -35,7 +35,7 @@ console - объект глобального объекта window ( console.lo
 
 
 
-// Приведение типов 
+// Приведение типов:
 
 
 // значения разных типов при сравнении приводятся к числу!
@@ -100,7 +100,7 @@ confirm() - <boolean>
 
 
 
-// функции с пустым return или без него возвращает undefined
+// функция с пустым return или без него возвращает undefined
 function doNothing() {};   alert( doNothing() ); // undefined
 
 
@@ -279,12 +279,12 @@ let clone = Object.defineProperties( {}, Object.getOwnPropertyDescriptors(obj) )
 Помимо обычных свойств-данных у объектов есть свойства-аксессоры; 
 Они представлены методами «геттер» и «сеттер»
 let obj = {
-  get propName() {
-    // геттер, срабатывает при чтении obj.propName
-  },
-  set propName(value) {
-    // сеттер, срабатывает при записи obj.propName = value
-  }
+   get propName() {
+      // геттер, срабатывает при чтении obj.propName
+   },
+   set propName(value) {
+      // сеттер, срабатывает при записи obj.propName = value
+   }
 }
 
 свойство __proto__ ссылается на прототип объекта; оно является геттером/сеттером для
@@ -322,11 +322,11 @@ let clone = Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescr
 
 // Быстрый способ клонировать объект с помощью оператора spread (не для глубокого клонирования):
 let obj1 = {
-  age: 16,
-  school: {
-    street: 'Donskogo',
-    color: 'yellow'
-  }
+   age: 16,
+   school: {
+      street: 'Donskogo',
+      color: 'yellow'
+   }
 }
 let obj2 = {...obj1}
 obj1.school.color = 'red'
