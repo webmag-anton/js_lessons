@@ -351,11 +351,11 @@ const Animal = function(options) {
    this.color = options.color
    // лучше задавать методы через прототип, т.к. мы можем изменить метод в прототипе далее 
    // в коде, а если мы задаем внутри конструктора, то больше мы не имеем доступа к методу
-   this.voice = function() {
-      console.log('gav from:', this.name)
+   this.eat = function() {
+      console.log('dog eat meat, name:', this.name)
    }
 }
-Animal.prototype.voice_2 = function() {
+Animal.prototype.voice = function() {
    console.log('gav from:', this.name)
 }
 // создание экземпляра
@@ -371,6 +371,16 @@ const Cat = function(options) {
 // указываем вручную (в отличае от классов) наследование прототипов:
 Cat.prototype = Object.create(Animal.prototype)
 Cat.prototype.constructor = Cat
+
+// переопределяем метод в прототипе
+Animal.prototype.voice = function() {
+   console.log('this sound goes from:', this.name)
+}
+// расширяем метод voice у Cat родительским методом voice
+Cat.prototype.voice = function(params) {
+   Animal.prototype.voice.apply(this, arguments)
+   console.log(this.name + ' says miay')
+}
 
 const cat = new Cat({name: 'Murzik', color: '#000', hasTail: true})
 
