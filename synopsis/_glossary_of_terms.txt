@@ -1,5 +1,12 @@
 check in / sign up - зарегистрироваться
 log in / sign in - авторизоваться (войти в систему) 
+feature - особенность
+undo - отменить
+issue - задача (проблема)
+occur - случаться
+toolkit - набор инструментов
+evaluate - оценивать
+miscellaneous - разные (misc)
 request, responce - запрос, ответ
 maintaince - поддержание (проекта)
 encode / decode - кодировать / раскодировать
