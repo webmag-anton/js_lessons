@@ -255,7 +255,7 @@
 
 //   showList() {
 //     this.students.forEach(
-//       student => alert(this.title + ': ' + student)
+//       student => alert(this.title + ': ' + student)  // this берется из ближашей нестрелочной ф-ии (метода showList) 
 
 //       // обычная ф-я не сработает, т.к. у нее потерян контекст
 //       // function(student) { alert(this.title + ': ' + student) } 
