@@ -10,7 +10,7 @@ module.exports = {
       // глобальный путь до текущей дирректории (__dirname), складываем в public
       path: path.resolve(__dirname, 'public')
    },
-   // ------- ^ базовая настройка (без [chunkhash]), достаточная для бандлинга с помощью ES6 imports
+   // ------- ^ базовая настройка (без [chunkhash]), достаточная для бандлинга с помощью ES6 imports (модули)
    devServer: {
       port: 3000
    },

@@ -5,6 +5,7 @@ draft - черновик
 feature - особенность
 undo - отменить
 issue - задача (проблема)
+implementation - реализация
 occur - случаться
 toolkit - набор инструментов
 evaluate - оценивать

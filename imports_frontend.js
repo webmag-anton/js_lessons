@@ -34,7 +34,8 @@ import json from './assets/json'                      (.json не обязате
 import webpackLogo from './assets/logo.png'           (путь к картинке; например, <img src={webpackLogo}/>)
 import * as $ from 'jquery'                           (путь к /node_modules не пишется, обычно скрипт берется из /dist)
 import './styles/scss.scss'
-import './babel'	                                    (подключить модуль, но не присваивать его переменной)
+import './babel'	                                    (подключить модуль, но не присваивать его переменной; подключаемый 
+                                                      модуль может ничего не экспортировать)
 
 
 */
