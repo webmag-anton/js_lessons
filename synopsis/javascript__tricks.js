@@ -55,3 +55,26 @@ const usersObject = {...users}  // { '0':1, '1':2, '2':3, '3':4, '4':5 }
       значение null или undefined, а в противном случае возвращает его левый операнд; в отличае от ||, 
       возвращает его правый операнд не при любых ложных значениях, а только при null или undefined;
       удобно использовать как значение по умолчанию, если приемлимо получить параметры '' или 0
+
+
+?. -  оператор optional chaining {опциональные цепочки} для исключения ошибок при обращению к 
+      несуществующему свойству объекта; пример
+const data = {
+  user: {}
+}
+console.log(data.user.address.street) // Uncaught TypeError: Cannot read property 'street' of undefined
+  // Чтобы не выкинуло ошибку, нужна проверка; можно ее сделать обычным способом:
+const street = data && data.user && data.user.address && data.user.address.street;
+console.log(street); // undefined
+  // но лучше с помощью optional chaining - короче и понятней
+console.log(data.user?.address?.street); // undefined
+
+
+function getStatusColor (status) { // пример lookup maps - карты поиска
+  return {
+    success: 'green',
+    warning: 'yellow',
+    info: 'blue',
+    error: 'red'
+  }[status]
+}

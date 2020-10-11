@@ -6,6 +6,7 @@ feature - особенность
 undo - отменить
 issue - задача (проблема)
 implementation - реализация
+contributors - авторы
 occur - случаться
 toolkit - набор инструментов
 evaluate - оценивать
