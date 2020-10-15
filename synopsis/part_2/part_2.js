@@ -114,7 +114,7 @@ node/elem.nodeName/tagName - только для чтения
 elem.innerHTML - внутреннее HTML-содержимое узла-элемента;
 elem.outerHTML - внешнее HTML-содержимое узла-элемента - включая elem;
 node.data - cодержимое узла-неэлемента: текста, комментария;
-elem.textContent - читает тест без учета тегов; записывает «как текст», даже если есть теги
+elem.textContent - читает текст без учета тегов; записывает «как текст», даже если есть теги
 elem.hidden - если значение true, делает то же самое, что и CSS display:none
 
 
@@ -211,8 +211,8 @@ clientLeft/clientTop – расстояние от верхнего левого
 clientWidth/clientHeight – ширина/высота видимого содержимого вместе с внутренними отступами  
                            padding, но без scrollbar; <content + padding - scrollBar>
 scrollLeft/scrollTop – ширина/высота прокрученной части элемента от верхнего левого угла
-scrollWidth/scrollHeight – ширины/высота содержимого, аналогично clientWidth/Height, 
-                           но учитывают прокрученную, невидимую область элемента
+scrollWidth/scrollHeight – ширина/высота содержимого, аналогично clientWidth/Height, 
+                           но учитывает прокрученную, невидимую область элемента
 
 
 
@@ -552,6 +552,8 @@ DOMContentLoaded {document} – браузер полностью загрузи
 // DOMContentLoaded не ждет загрузки внешних стилей; но если после стилей у нас есть обычный
 // скрипт (не внутри события DOMContentLoaded), то этот скрипт должен дождаться загрузки
 // стилей, т.к. скрипту может понадобиться получить свойства элементов, зависящие от стилей
+
+// document.addEventListener("DOMContentLoaded", function(event) {}) = $(document).ready in jQuery
 
 
 load – браузер загрузил HTML и внешние ресурсы {картинки, стили и тд}
