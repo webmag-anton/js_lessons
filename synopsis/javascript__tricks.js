@@ -26,6 +26,9 @@ const uniqueArray = [...new Set(array)]  // [1, 2, 3, 5]
 const users = [1, 2, 3, 4, 5]
 const usersObject = {...users}  // { '0':1, '1':2, '2':3, '3':4, '4':5 }
 
+// function Boolean(val) return only truthly values 
+[1, 0, 2, null].filter(Boolean) // [1, 2]
+
 
 
       // Cloning

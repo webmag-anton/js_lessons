@@ -213,6 +213,9 @@ clientWidth/clientHeight – ширина/высота видимого соде
 scrollLeft/scrollTop – ширина/высота прокрученной части элемента от верхнего левого угла
 scrollWidth/scrollHeight – ширина/высота содержимого, аналогично clientWidth/Height, 
                            но учитывает прокрученную, невидимую область элемента
+// offset: content + padding + scrollBar + border
+// client: content + padding (только видимая в окне браузера область элемента)
+// scroll: content + padding (учитывает прокрученную, невидимую область элемента)
 
 
 
