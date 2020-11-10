@@ -94,7 +94,7 @@ td.cellIndex – номер ячейки в строке <tr>
 
       // Основные методы поиска элементов в DOM (elem.method - ищет внутри elem):
 
-elem.querySelector(css) - возвращает первый элемент, соответствующий данному CSS-селектору								
+elem.querySelector(css) - возвращает первый элемент, соответствующий данному CSS-селектору или null							
 elem.querySelectorAll(css) - возвращает все элементы, удовлетворяющие CSS-селектору						 
 document.getElementById(id) - возвращает элемент c id						
 elem.getElementsByClassName(class) - возвращает элементы, которые имеют данный CSS-класс	

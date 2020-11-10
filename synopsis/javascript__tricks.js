@@ -42,6 +42,7 @@ const usersObject = {...users}  // { '0':1, '1':2, '2':3, '3':4, '4':5 }
 
    // not-deep array
 
+- arr.slice()
 - arr.concat()
 - let arr2 = [...arr1]
 
@@ -61,7 +62,7 @@ const usersObject = {...users}  // { '0':1, '1':2, '2':3, '3':4, '4':5 }
 
 
 ?. -  оператор optional chaining {опциональные цепочки} для исключения ошибок при обращению к 
-      несуществующему свойству объекта; пример
+      несуществующему свойству объекта, т.е. вместо выброшеного исключения вернет undefined; пример
 const data = {
   user: {}
 }
@@ -74,7 +75,7 @@ console.log(data.user?.address?.street); // undefined
 
 
 function getStatusColor (status) { // пример lookup maps - карты поиска
-  return {
+  return { // Map
     success: 'green',
     warning: 'yellow',
     info: 'blue',
