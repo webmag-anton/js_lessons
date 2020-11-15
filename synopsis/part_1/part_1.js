@@ -176,7 +176,7 @@ str.trim() — убирает пробелы в начале и конце ст�
 str.codePointAt(pos) - возвращает код символа на позиции pos
 String.fromCodePoint(code) - создаёт символ по его коду code
 str.match(regexp) - <arrayOfMatches or null>
-str.replace(regexp|substr, newSubStr) - первый аргумент регулярка, а второй - строка, заменяющая регулярку  
+str.replace(regexp|substr, newSubStr/func) - первый аргумент регулярка, а второй - строка, заменяющая регулярку  
 
 
 
@@ -355,26 +355,26 @@ let clone = JSON.parse(JSON.stringify(obj/arr))
 // называть с большой буквы. Сама функция и есть конструктор (как метод constructor в классах), а
 // this внутри конструктора - контекст, указывающий на создаваемый Конструктором экземпляр (объект).
 const Animal = function(options) {
-   this.name = options.name
-   this.color = options.color
-   // лучше задавать методы через прототип, т.к. мы можем изменить метод в прототипе далее 
-   // в коде, а если мы задаем внутри конструктора, то больше мы не имеем доступа к методу
-   this.eat = function() {
-      console.log('dog eat meat, name:', this.name)
-   }
+  this.name = options.name
+  this.color = options.color
+  // лучше задавать методы через прототип, т.к. мы можем изменить метод в прототипе далее 
+  // в коде, а если мы задаем внутри конструктора, то больше мы не имеем доступа к методу
+  this.eat = function() {
+    console.log('dog eat meat, name:', this.name)
+  }
 }
 Animal.prototype.voice = function() {
-   console.log('gav from:', this.name)
+  console.log('gav from:', this.name)
 }
 // создание экземпляра
 const dog = new Animal({name: 'Rex', color: '#fff'})
 
 // наследование (Cat от Animal) в Прототипах реализовывалось так:
 const Cat = function(options) {
-   // вызываем конструктор родительского класса
-   Animal.apply(this, arguments)
-   this.hasTail = options.hasTail
-   this.size = 'big'
+  // вызываем конструктор родительского класса
+  Animal.apply(this, arguments)
+  this.hasTail = options.hasTail
+  this.size = 'big'
 }
 // указываем вручную (в отличае от классов) наследование прототипов:
 Cat.prototype = Object.create(Animal.prototype)
@@ -382,12 +382,12 @@ Cat.prototype.constructor = Cat
 
 // переопределяем метод в прототипе
 Animal.prototype.voice = function() {
-   console.log('this sound goes from:', this.name)
+  console.log('this sound goes from:', this.name)
 }
 // расширяем метод voice у Cat родительским методом voice
 Cat.prototype.voice = function(params) {
-   Animal.prototype.voice.apply(this, arguments)
-   console.log(this.name + ' says miay')
+  Animal.prototype.voice.apply(this, arguments)
+  console.log(this.name + ' says miay')
 }
 
 const cat = new Cat({name: 'Murzik', color: '#000', hasTail: true})
@@ -398,27 +398,27 @@ const cat = new Cat({name: 'Murzik', color: '#000', hasTail: true})
 попадают в его свойство prototype, откуда наследуются; после свойств и методов запятая не ставится;
 
 class MyClass {
-   constructor(name, surname) { // конструктор; свойства и методы присваиваются создаваемому экземпляру
-      this._name = name;
-      this._surname = surname;
-      this.func = function() {}
-   }
-
-   // свойство не из constructor() присваивается создаваемому экземпляру; с фиксированным value
-   prop = value 
-
-   method(...) {} // методы не из constructor() попадают в MyClass.prototype (в т.ч геттеры/сеттеры)
-   get fullName() {
-      return `${this._name} ${this._surname}`   // геттер, срабатывает при чтении свойства obj.fullName
-   }
-   set fullName(value) {
-      [this._name, this._surname] = value.split(" ")   // сеттер, срабатывает при записи свойства obj.propName = value
-   }
-
-   // не присваивается создаваемому экземпляру, эквивалентен MyClass.propStatic = value
-   static propStatic = value
-   // не присваивается создаваемому экземпляру, эквивалентен MyClass.methodStatic = function() {}
-   static methodStatic() {} 
+  constructor(name, surname) { // конструктор; свойства и методы присваиваются создаваемому экземпляру
+    this._name = name;
+    this._surname = surname;
+    this.func = function() {}
+  }
+  
+  // свойство не из constructor() присваивается создаваемому экземпляру; с фиксированным value
+  prop = value 
+  
+  method(...) {} // методы не из constructor() попадают в MyClass.prototype (в т.ч геттеры/сеттеры)
+  get fullName() {
+    return `${this._name} ${this._surname}`   // геттер, срабатывает при чтении свойства obj.fullName
+  }
+  set fullName(value) {
+    [this._name, this._surname] = value.split(" ")   // сеттер, срабатывает при записи свойства obj.propName = value
+  }
+  
+  // не присваивается создаваемому экземпляру, эквивалентен MyClass.propStatic = value
+  static propStatic = value
+  // не присваивается создаваемому экземпляру, эквивалентен MyClass.methodStatic = function() {}
+  static methodStatic() {} 
 }
 
 Наследование классов имеет синтаксис 'class Child extends Parent'; 
@@ -437,24 +437,24 @@ class MyClass {
 Child.prototype.__proto__ == Parent.prototype  и  Child.__proto__ == Parent (двойное наследование)
 
 class Parent{
-	constructor(name) {
-      this.name = name;
-   }
-   hello() {
-   	alert(`hello ${this.name}`)
-   }
-   static run() {}
+  constructor(name) {
+    this.name = name;
+  }
+  hello() {
+    alert(`hello ${this.name}`)
+  }
+  static run() {}
 }
 
 class Child extends Parent{
-	constructor(name, age) {
-		super(name);
-      this.age = age;
-   }
-   say(arg) {
-   	super.hello();
-   	this.age += arg;
-   }
+  constructor(name, age) {
+    super(name);
+    this.age = age;
+  }
+  say(arg) {
+    super.hello();
+    this.age += arg;
+  }
 }
 
 У встроенных классов есть собственные статические методы, например Object.keys, Array.isArray;
