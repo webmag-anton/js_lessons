@@ -276,7 +276,7 @@ elem.getBoundingClientRect().top + window.pageYOffset
 // позволяют повесить несколько обработчиков на одно событие;
 // для удаления нужно передать именно ту функцию-обработчик которая была назначена
 - методы: 				elem.addEventListener(event, handler[, options]) - для добавления, 
-                     elem.removeEventListener(event, handler[, options]) - для удаления 
+                  elem.removeEventListener(event, handler[, options]) - для удаления 
 
 
 // когда происходит событие, браузер создаёт объект события, записывает в него  
