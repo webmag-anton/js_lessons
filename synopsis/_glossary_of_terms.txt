@@ -9,6 +9,7 @@ contributors - авторы
 occur - случаться
 toolkit - набор инструментов
 evaluate - оценивать
+agregate - совокупность
 miscellaneous (misc) - разные 
 request, responce - запрос, ответ
 maintaince - поддержание (проекта)
@@ -26,11 +27,11 @@ scrollbar - полоса прокрутки (bar - панель)
 timestamp - отметка времени
 fps - frames per second (кадров в секунду)
 +, -, *, / - sum, sub, mult, div
-shortcut - сочетание клавиш
-snippet - фрагмент кода; удобно разворачивать табулированием специально созданной под snippet строки
+shortcut / keybinding - сочетание клавиш
+snippet - фрагмент кода, разворачиваемый табулированием специального prefix'а
 crutch - костыль (обход)
 compatibility - совместимость
-relese - выпуск, высвобождение
+relese - выпуск (новой версии)
 extract - извлекать
 hash - мешанина
 token - знак

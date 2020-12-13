@@ -8,14 +8,15 @@
 // Браузеры, например, дают средства для управления веб-страницами. Node.js делает доступными какие-то 
 // серверные возможности. На схеме в общих чертах показано, что доступно для JS в браузерном окружении:
 //                                    window
-//                  /                   |                 \
-//                DOM                  BOM                JavaScript
-//              document             navigator            Object
-//              ...                  screen               Array
-//                                   location             Function
-//                                   frames               ...
-//                                   history
-//                                 XMLHttpRequest
+//                  /                   |                  \
+//                DOM                  BOM               JavaScript
+
+//              document             navigator             Object
+//              ...                  screen                Array
+//                                   location              Function
+//                                   frames                ...
+//                                   history 
+//                                   XMLHttpRequest 
 
 
 
