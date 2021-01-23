@@ -156,13 +156,27 @@
 
 // function f(str) {
 //    //str = 'bye';
-
 //    console.log(str);
 // };
 
 // f(str);
-
 // console.log(str);
+
+
+
+
+// function func(param) {
+//   let some = param
+// }
+
+// if (true) {
+//   let some = 1
+
+//   func(2) // при вызове переменная some создается внутри функции => не будет ошибки (Identifier 'some' has already been declared)
+//   func(3) // при каждом новом вызове создается новая переменная some со своим lexical enviromenr, к которой нет доступа за пределами ф-ии
+
+//   console.log(some) // 1
+// }
 
 
 
