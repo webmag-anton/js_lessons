@@ -1,12 +1,17 @@
 check in / sign up - зарегистрироваться
-log in / sign in - авторизоваться (войти в систему) 
+log in / sign in - авторизоваться (войти в систему)
+validation - проверка
+verification - подтверждение
 reboot - перезагрузка
 draft - черновик
 feature - особенность
 undo - отменить
-issue - задача (проблема)
+issue - проблема (задача)
 contributors - авторы
 idle - неработающий, простаивающий
+sketch - эскиз
+wireframe - каркас
+mock up - макет
 utility - вспомогательный, полезный
 occur - случаться
 toolkit - набор инструментов
