@@ -4,6 +4,7 @@ validation - проверка
 verification - подтверждение
 reboot - перезагрузка
 draft - черновик
+cheatsheet - шпаргалка
 feature - особенность
 undo - отменить
 issue - проблема (задача)
@@ -12,6 +13,8 @@ idle - неработающий, простаивающий
 sketch - эскиз
 wireframe - каркас
 mock up - макет
+appearance - внешний вид
+e.g. - например
 utility - вспомогательный, полезный
 occur - случаться
 toolkit - набор инструментов
