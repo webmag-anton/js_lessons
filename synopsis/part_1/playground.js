@@ -140,18 +140,18 @@
 
 
 // arr.forEach( function() { console.log(this) } )  // undefined, в callback this не определен
-// arr.forEach( () => { console.log(this) } )  // значение this родительской ф-ии (в глобальной 
-// 														  // области видимости - window) 
-// elem.addEventListener('click', function() { console.log(this) } ) // внутри обработчика события 
-// 																						// this всегда ссылается на elem
-// elem.addEventListener('click', e => { console.log(this) } )  // значение this родительской ф-ии (в 
-// 																				 // глобальной области - window)
+// arr.forEach( () => { console.log(this) } )       // значение this родительской ф-ии (в глобальной 
+// 														                      // области видимости - window) 
+// elem.addEventListener('click', function() { console.log(this) } )  // внутри обработчика события 
+// 																						                        // this всегда ссылается на elem
+// elem.addEventListener('click', e => { console.log(this) } )    // значение this родительской ф-ии (в 
+// 																				                        // глобальной области - window)
 
 
 
                         // заметка 4
 
-// // this ссылается на объект только при создании метода в его теле, а не при его вызове
+// // this ссылается на объект только при создании метода в его теле, а не при его вызове!!!
 // console.log(this == window.console)  // false, здесь this ссылается на window
 
 // let user = {
