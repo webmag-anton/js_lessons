@@ -82,3 +82,7 @@ function getStatusColor (status) { // пример lookup maps - карты по
     error: 'red'
   }[status]
 }
+
+tasks.filter((task) => isPriorityTask(task)).map((task) => toTaskView(task))
+// в point-free стиле написано без аргументов:
+tasks.filter(isPriorityTask).map(toTaskView)
